@@ -1,0 +1,2 @@
+# BMSTU-OOP-CPP
+OOP course in BMSTU
