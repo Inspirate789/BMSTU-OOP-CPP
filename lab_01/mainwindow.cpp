@@ -35,7 +35,7 @@ error_t MainWindow::DrawScene(void)
 
     task_t cur_task;
     cur_task.action = DRAW;
-    cur_task.attribute.scene = scene;
+    cur_task.scene = scene;
 
     error_t error_code = HandleTask(cur_task);
 
@@ -46,7 +46,7 @@ void MainWindow::on_LoadFigureButton_clicked()
 {
     task_t cur_task;
     cur_task.action = LOAD;
-    cur_task.attribute.filename = INPUT_FILE;
+    cur_task.filename = INPUT_FILE;
 
     error_t error_code = HandleTask(cur_task);
 
@@ -71,7 +71,7 @@ void MainWindow::on_MoveButton_clicked()
 
     task_t cur_task;
     cur_task.action = MOVE;
-    cur_task.attribute.move_coefs = coefs;
+    cur_task.move_coefs = coefs;
 
     error_t error_code = HandleTask(cur_task);
 
@@ -89,6 +89,11 @@ void MainWindow::on_MoveButton_clicked()
 
 void MainWindow::on_ScaleButton_clicked()
 {
+    point_t center;
+    center.x = ui->CSxField->value();
+    center.y = ui->CSyField->value();
+    center.z = ui->CSzField->value();
+
     scale_t coefs;
     coefs.kx = ui->KxField->value();
     coefs.ky = ui->KyField->value();
@@ -96,7 +101,8 @@ void MainWindow::on_ScaleButton_clicked()
 
     task_t cur_task;
     cur_task.action = SCALE;
-    cur_task.attribute.scale_coefs = coefs;
+    cur_task.center = center;
+    cur_task.scale_coefs = coefs;
 
     error_t error_code = HandleTask(cur_task);
 
@@ -114,6 +120,11 @@ void MainWindow::on_ScaleButton_clicked()
 
 void MainWindow::on_RotateButton_clicked()
 {
+    point_t center;
+    center.x = ui->CRxField->value();
+    center.y = ui->CRyField->value();
+    center.z = ui->CRzField->value();
+
     rotate_t coefs;
     coefs.ax = ui->AxField->value();
     coefs.ay = ui->AyField->value();
@@ -121,7 +132,8 @@ void MainWindow::on_RotateButton_clicked()
 
     task_t cur_task;
     cur_task.action = ROTATE;
-    cur_task.attribute.rotate_coefs = coefs;
+    cur_task.center = center;
+    cur_task.rotate_coefs = coefs;
 
     error_t error_code = HandleTask(cur_task);
 

@@ -4,7 +4,6 @@
 #include <QGraphicsScene>
 
 #include "points.h"
-#include "linkages.h"
 #include "errors.h"
 
 typedef struct scene
@@ -14,6 +13,7 @@ typedef struct scene
     double height;
 } scene_t;
 
-error_t DrawLinkages(const scene_t &scene, const linkages_t &linkages, const points_t &points);
+void DrawLine(const scene_t &scene, const point_t &point_1, const point_t &point_2);
+void ClearScene(const scene_t &scene);
 
 #endif // DRAW_H
