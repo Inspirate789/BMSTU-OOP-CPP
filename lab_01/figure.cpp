@@ -26,24 +26,23 @@ static error_t LoadTempFigure(figure_t &temp_figure, FILE *f)
         return error_code;
     }
 
-    size_t points_count = GetPointsCount(temp_figure.points);
-    error_code = CheckLinkages(temp_figure.linkages, points_count);
+    return error_code;
+}
 
-    if (error_code != SUCCESS)
-    {
-        FreePoints(temp_figure.points);
-        FreeLinkages(temp_figure.linkages);
-    }
+error_t CheckFigure(figure_t &figure)
+{
+    size_t points_count = GetPointsCount(figure.points);
+    error_t error_code = CheckLinkages(figure.linkages, points_count);
 
     return error_code;
 }
 
-static void CopyFigure(figure_t &dst, const figure_t &src)
+void CopyFigure(figure_t &dst, const figure_t &src)
 {
     dst = src;
 }
 
-error_t LoadFigure(figure_t &figure, filename_t &filename)
+error_t LoadFigure(figure_t &figure, filename_ptr_t &filename)
 {
     figure_t temp_figure = InitFigure();
     FILE *f = fopen(filename, "r");
@@ -56,8 +55,15 @@ error_t LoadFigure(figure_t &figure, filename_t &filename)
 
     if (error_code == SUCCESS)
     {
-        FreeFigure(figure);
-        CopyFigure(figure, temp_figure);
+        error_code = CheckFigure(temp_figure);
+
+        if (error_code == SUCCESS)
+        {
+            FreeFigure(figure);
+            CopyFigure(figure, temp_figure);
+        }
+        else
+            FreeFigure(temp_figure);
     }
 
     return error_code;

@@ -41,6 +41,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimum">
+            <double>-10000.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>10000.000000000000000</double>
+           </property>
           </widget>
          </item>
          <item row="2" column="2">
@@ -51,6 +57,12 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimum">
+            <double>-10000.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>10000.000000000000000</double>
+           </property>
           </widget>
          </item>
          <item row="1" column="2">
@@ -60,6 +72,12 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimum">
+            <double>-10000.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>10000.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -203,6 +221,12 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
             </widget>
            </item>
            <item row="1" column="1">
@@ -213,6 +237,12 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
             </widget>
            </item>
            <item row="2" column="1">
@@ -222,6 +252,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -294,13 +330,34 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QDoubleSpinBox" name="CRxField"/>
+            <widget class="QDoubleSpinBox" name="CRxField">
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
+            </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="CRyField"/>
+            <widget class="QDoubleSpinBox" name="CRyField">
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
+            </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QDoubleSpinBox" name="CRzField"/>
+            <widget class="QDoubleSpinBox" name="CRzField">
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -419,13 +476,34 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QDoubleSpinBox" name="CSxField"/>
+            <widget class="QDoubleSpinBox" name="CSxField">
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
+            </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="CSyField"/>
+            <widget class="QDoubleSpinBox" name="CSyField">
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
+            </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QDoubleSpinBox" name="CSzField"/>
+            <widget class="QDoubleSpinBox" name="CSzField">
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -439,6 +517,12 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
             </widget>
            </item>
            <item row="0" column="1">
@@ -449,6 +533,12 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
+             </property>
             </widget>
            </item>
            <item row="1" column="1">
@@ -458,6 +548,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="minimum">
+              <double>-10000.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10000.000000000000000</double>
              </property>
             </widget>
            </item>

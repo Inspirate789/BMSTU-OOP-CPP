@@ -1,25 +1,25 @@
 #ifndef FIGURE_ACTIONS_H
 #define FIGURE_ACTIONS_H
 
-typedef struct move
+struct move_t
 {
     double dx;
     double dy;
     double dz;
-} move_t;
+};
 
-typedef struct scale
+struct scale_t
 {
     double kx;
     double ky;
     double kz;
-} scale_t;
+};
 
-typedef struct rotate
+struct rotate_t
 {
     double ax;
     double ay;
     double az;
-} rotate_t;
+};
 
 #endif // FIGURE_ACTIONS_H

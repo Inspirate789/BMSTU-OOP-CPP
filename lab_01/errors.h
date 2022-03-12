@@ -1,7 +1,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-typedef enum
+enum error_t
 {
     SUCCESS,
     FILE_OPEN_ERROR,
@@ -12,9 +12,8 @@ typedef enum
     INCORRECT_POINTS_COUNT,
     INCORRECT_LINKAGES_COUNT,
     INCORRECT_POINT_DATA,
-    INCORRECT_LINKAGE_DATA,
-    // ...
-} error_t;
+    INCORRECT_LINKAGE_DATA
+};
 
 void HandleError(const error_t &error);
 

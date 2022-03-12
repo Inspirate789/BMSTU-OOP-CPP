@@ -6,18 +6,18 @@
 #include "figure_actions.h"
 #include "errors.h"
 
-typedef struct
+struct point_t
 {
     double x;
     double y;
     double z;
-} point_t;
+};
 
-typedef struct points
+struct points_t
 {
     point_t *array;
     size_t count;
-} points_t;
+};
 
 void InitPoints(points_t &points);
 error_t InputPoints(points_t &points, FILE *f);

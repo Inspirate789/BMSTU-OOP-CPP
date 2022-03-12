@@ -64,29 +64,6 @@ static error_t InputLinkagesArray(linkages_t &linkages, FILE *f)
     return error_code;
 }
 
-//static error_t InputLinkagesArray(linkages_t &linkages, FILE *f)
-//{
-//    error_t error_code = SUCCESS;
-//    long int start_pos = ftell(f);
-//    linkage_t temp_linkage;
-
-//    for (size_t i = 0; i < linkages.count; ++i)
-//    {
-//        error_code = InputLinkage(temp_linkage, f);
-
-//        if (error_code != SUCCESS)
-//            break;
-//    }
-
-//    fseek(f, start_pos, SEEK_SET);
-
-//    if (error_code == SUCCESS)
-//        for (size_t i = 0; i < linkages.count; ++i)
-//            InputLinkage(linkages.array[i], f);
-
-//    return error_code;
-//}
-
 error_t InputLinkages(linkages_t &linkages, FILE *f)
 {
     if (linkages.array != nullptr || f == nullptr)

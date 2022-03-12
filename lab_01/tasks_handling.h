@@ -5,7 +5,7 @@
 #include "draw.h"
 #include "errors.h"
 
-typedef enum
+enum action_t
 {
     LOAD,
     MOVE,
@@ -13,21 +13,21 @@ typedef enum
     ROTATE,
     DRAW,
     DESTROY
-} action_t;
+};
 
-typedef struct task
+struct task_t
 {
     action_t action;
     point_t center;
     union
     {
-        filename_t filename; // for LOAD
-        move_t move_coefs; // for MOVE
-        scale_t scale_coefs; // for SCALE
-        rotate_t rotate_coefs; // for ROTATE
-        scene_t scene; // for DRAW
+        filename_ptr_t filename; // for LOAD
+        move_t move_coefs;       // for MOVE
+        scale_t scale_coefs;     // for SCALE
+        rotate_t rotate_coefs;   // for ROTATE
+        scene_t scene;           // for DRAW
     };
-} task_t;
+};
 
 error_t HandleTask(task_t &task);
 

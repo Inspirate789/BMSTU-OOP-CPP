@@ -7,17 +7,17 @@
 #include "draw.h"
 #include "errors.h"
 
-typedef struct linkage
+struct linkage_t
 {
     size_t point_1;
     size_t point_2;
-} linkage_t;
+};
 
-typedef struct linkages
+struct linkages_t
 {
     linkage_t *array;
     size_t count;
-} linkages_t;
+};
 
 void InitLinkages(linkages_t &linkages);
 error_t InputLinkages(linkages_t &linkages, FILE *f);

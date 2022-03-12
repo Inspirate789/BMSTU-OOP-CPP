@@ -63,28 +63,6 @@ static error_t InputPointsArray(points_t &points, FILE *f)
     return error_code;
 }
 
-//static error_t InputPointsArray(points_t &points, FILE *f)
-//{
-//    error_t error_code = SUCCESS;
-//    long int start_pos = ftell(f);
-//    double x, y, z;
-
-//    for (size_t i = 0; i < points.count; ++i)
-//        if (fscanf(f, "%lf %lf %lf", &x, &y, &z) != 3)
-//        {
-//            error_code = INCORRECT_POINT_DATA;
-//            break;
-//        }
-
-//    fseek(f, start_pos, SEEK_SET);
-
-//    if (error_code == SUCCESS)
-//        for (size_t i = 0; i < points.count; ++i)
-//            fscanf(f, "%lf %lf %lf", &points.array[i].x, &points.array[i].y, &points.array[i].z);
-
-//    return error_code;
-//}
-
 error_t InputPoints(points_t &points, FILE *f)
 {
     if (points.array != nullptr || f == nullptr)
@@ -178,44 +156,36 @@ static void MovePointToCenter(point_t &point, const point_t &center)
     MovePoint(point, move_to_center);
 }
 
-static void RotatePointX(point_t &point, const point_t &center, const double &angle)
+static void RotatePointX(point_t &point, const double &angle)
 {
-    MovePointToOrigin(point, center);
-
     double temp_y = point.y;
     point.y = point.y * cos(to_radians(angle)) - point.z * sin(to_radians(angle));
     point.z = temp_y * sin(to_radians(angle)) + point.z * cos(to_radians(angle));
-
-    MovePointToCenter(point, center);
 }
 
-static void RotatePointY(point_t &point, const point_t &center, const double &angle)
+static void RotatePointY(point_t &point, const double &angle)
 {
-    MovePointToOrigin(point, center);
-
     double temp_x = point.x;
     point.x = point.x * cos(to_radians(angle)) + point.z * sin(to_radians(angle));
     point.z = -temp_x * sin(to_radians(angle)) + point.z * cos(to_radians(angle));
-
-    MovePointToCenter(point, center);
 }
 
-static void RotatePointZ(point_t &point, const point_t &center, const double &angle)
+static void RotatePointZ(point_t &point, const double &angle)
 {
-    MovePointToOrigin(point, center);
-
     double temp_x = point.x;
     point.x = point.x * cos(to_radians(angle)) - point.y * sin(to_radians(angle));
     point.y = temp_x * sin(to_radians(angle)) + point.y * cos(to_radians(angle));
-
-    MovePointToCenter(point, center);
 }
 
 static void RotatePoint(point_t &point, const point_t &center, const rotate_t &coefs)
 {
-    RotatePointX(point, center, coefs.ax);
-    RotatePointY(point, center, coefs.ay);
-    RotatePointZ(point, center, coefs.az);
+    MovePointToOrigin(point, center);
+
+    RotatePointX(point, coefs.ax);
+    RotatePointY(point, coefs.ay);
+    RotatePointZ(point, coefs.az);
+
+    MovePointToCenter(point, center);
 }
 
 error_t RotatePoints(points_t &points, const point_t &center, const rotate_t &coefs)
