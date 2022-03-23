@@ -25,6 +25,6 @@ size_t GetPointsCount(const points_t &points);
 error_t MovePoints(points_t &points, const move_t &coefs);
 error_t ScalePoints(points_t &points, const point_t &center, const scale_t &coefs);
 error_t RotatePoints(points_t &points,const point_t &center,  const rotate_t &coefs);
-void FreePoints(points_t &points);
+void FreePoints(point_t *array);
 
 #endif // POINTS_H

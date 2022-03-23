@@ -15,15 +15,14 @@ static error_t LoadTempFigure(figure_t &temp_figure, FILE *f)
 {
     error_t error_code = InputPoints(temp_figure.points, f);
 
-    if (error_code != SUCCESS)
-        return error_code;
-
-    error_code = InputLinkages(temp_figure.linkages, f);
-
-    if (error_code != SUCCESS)
+    if (error_code == SUCCESS)
     {
-        FreePoints(temp_figure.points);
-        return error_code;
+        error_code = InputLinkages(temp_figure.linkages, f);
+
+        if (error_code != SUCCESS)
+        {
+            FreePoints(temp_figure.points.array);
+        }
     }
 
     return error_code;
@@ -44,11 +43,12 @@ void CopyFigure(figure_t &dst, const figure_t &src)
 
 error_t LoadFigure(figure_t &figure, filename_ptr_t &filename)
 {
-    figure_t temp_figure = InitFigure();
     FILE *f = fopen(filename, "r");
 
     if (f == nullptr)
         return FILE_OPEN_ERROR;
+
+    figure_t temp_figure = InitFigure();
 
     error_t error_code = LoadTempFigure(temp_figure, f);
     fclose(f);
@@ -98,8 +98,13 @@ error_t RotateFigure(figure_t &figure, const point_t &center, const rotate_t &co
     return error_code;
 }
 
+point_t GetPointsArray(const points_t &points)
+{
+    return *points.array;
+}
+
 void FreeFigure(figure_t &figure)
 {
-    FreePoints(figure.points);
-    FreeLinkages(figure.linkages);
+    FreePoints(figure.points.array);
+    FreeLinkages(figure.linkages.array);
 }

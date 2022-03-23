@@ -23,6 +23,6 @@ void InitLinkages(linkages_t &linkages);
 error_t InputLinkages(linkages_t &linkages, FILE *f);
 error_t CheckLinkages(linkages_t &linkages, size_t &points_count);
 error_t DrawLinkages(const scene_t &scene, const linkages_t &linkages, const points_t &points);
-void FreeLinkages(linkages_t &linkages);
+void FreeLinkages(linkage_t *array);
 
 #endif // LINKAGES_H

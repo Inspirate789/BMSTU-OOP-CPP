@@ -23,12 +23,12 @@ static error_t InputPointsCount(size_t &count, FILE *f)
     return error_code;
 }
 
-static error_t AllocatePointsArray(points_t &points)
+static error_t AllocatePointsArray(point_t *array, size_t count)
 {
     error_t error_code = SUCCESS;
-    points.array = (point_t *)malloc(points.count * sizeof(point_t));
+    array = (point_t *)malloc(count * sizeof(point_t));
 
-    if (points.array == nullptr)
+    if (array == nullptr)
         error_code = MEMORY_ALLOCATE_ERROR;
 
     return error_code;
@@ -44,50 +44,44 @@ static error_t InputPoint(point_t &point, FILE *f)
     return error_code;
 }
 
-static error_t InputPointsArray(points_t &points, FILE *f)
+static error_t InputPointsArray(point_t *array, size_t count, FILE *f)
 {
     error_t error_code = SUCCESS;
-    long int start_pos = ftell(f);
+    error_t tmp_error_code = SUCCESS;
 
-    for (size_t i = 0; i < points.count; ++i)
+    for (size_t i = 0; i < count; ++i)
     {
-        error_code = InputPoint(points.array[i], f);
+        tmp_error_code = InputPoint(array[i], f);
 
-        if (error_code != SUCCESS)
-            break;
+        if (tmp_error_code != SUCCESS)
+            error_code = tmp_error_code;
     }
-
-    if (error_code != SUCCESS)
-        fseek(f, start_pos, SEEK_SET);
 
     return error_code;
 }
 
 error_t InputPoints(points_t &points, FILE *f)
 {
-    if (points.array != nullptr || f == nullptr)
+    if (points.array != nullptr)
         return MEMORY_ERROR;
+
+    if (f == nullptr)
+        return FILE_OPEN_ERROR;
 
     error_t error_code = InputPointsCount(points.count, f);
 
-    if (error_code != SUCCESS)
+    if (error_code == SUCCESS)
     {
-        FreePoints(points);
-        return error_code;
+        error_code = AllocatePointsArray(points.array, points.count);
+
+        if (error_code == SUCCESS)
+        {
+            error_code = InputPointsArray(points.array, points.count, f);
+
+            if (error_code != SUCCESS)
+                FreePoints(points.array);
+        }
     }
-
-    error_code = AllocatePointsArray(points);
-
-    if (error_code != SUCCESS)
-    {
-        FreePoints(points);
-        return error_code;
-    }
-
-    error_code = InputPointsArray(points, f);
-
-    if (error_code != SUCCESS)
-        FreePoints(points);
 
     return error_code;
 }
@@ -199,11 +193,11 @@ error_t RotatePoints(points_t &points, const point_t &center, const rotate_t &co
     return SUCCESS;
 }
 
-void FreePoints(points_t &points)
+void FreePoints(point_t *array)
 {
-    if (points.array != nullptr)
+    if (array != nullptr)
     {
-        free(points.array);
-        points.array = nullptr;
+        free(array);
+        array = nullptr;
     }
 }

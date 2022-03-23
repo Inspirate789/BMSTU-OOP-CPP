@@ -21,12 +21,12 @@ static error_t InputLinkagesCount(size_t &count, FILE *f)
     return error_code;
 }
 
-static error_t AllocateLinkagesArray(linkages_t &linkages)
+static error_t AllocateLinkagesArray(linkage_t *array, size_t count)
 {
     error_t error_code = SUCCESS;
-    linkages.array = (linkage_t *)malloc(linkages.count * sizeof(linkage_t));
+    array = (linkage_t *)malloc(count * sizeof(linkage_t));
 
-    if (linkages.array == nullptr)
+    if (array == nullptr)
         error_code = MEMORY_ALLOCATE_ERROR;
 
     return error_code;
@@ -45,50 +45,45 @@ static error_t InputLinkage(linkage_t &linkage, FILE *f)
     return error_code;
 }
 
-static error_t InputLinkagesArray(linkages_t &linkages, FILE *f)
+static error_t InputLinkagesArray(linkage_t *array, size_t count, FILE *f)
 {
     error_t error_code = SUCCESS;
-    long int start_pos = ftell(f);
+    error_t tmp_error_code = SUCCESS;
 
-    for (size_t i = 0; i < linkages.count; ++i)
+    for (size_t i = 0; i < count; ++i)
     {
-        error_code = InputLinkage(linkages.array[i], f);
+        tmp_error_code = InputLinkage(array[i], f);
 
-        if (error_code != SUCCESS)
-            break;
+        if (tmp_error_code != SUCCESS)
+            error_code = tmp_error_code;
     }
-
-    if (error_code != SUCCESS)
-        fseek(f, start_pos, SEEK_SET);
 
     return error_code;
 }
 
 error_t InputLinkages(linkages_t &linkages, FILE *f)
 {
-    if (linkages.array != nullptr || f == nullptr)
+    if (linkages.array != nullptr)
         return MEMORY_ERROR;
+
+    if (f == nullptr)
+        return FILE_OPEN_ERROR;
 
     error_t error_code = InputLinkagesCount(linkages.count, f);
 
-    if (error_code != SUCCESS)
+    if (error_code == SUCCESS)
     {
-        FreeLinkages(linkages);
-        return error_code;
+        error_code = AllocateLinkagesArray(linkages.array, linkages.count);
+
+        if (error_code == SUCCESS)
+        {
+            error_code = InputLinkagesArray(linkages.array, linkages.count, f);
+
+            if (error_code != SUCCESS)
+                FreeLinkages(linkages.array);
+        }
+
     }
-
-    error_code = AllocateLinkagesArray(linkages);
-
-    if (error_code != SUCCESS)
-    {
-        FreeLinkages(linkages);
-        return error_code;
-    }
-
-    error_code = InputLinkagesArray(linkages, f);
-
-    if (error_code != SUCCESS)
-        FreeLinkages(linkages);
 
     return error_code;
 }
@@ -98,15 +93,17 @@ error_t CheckLinkages(linkages_t &linkages, size_t &points_count)
     if (linkages.array == nullptr)
         return MEMORY_ERROR;
 
+    error_t error_code = SUCCESS;
+
     for (size_t i = 0; i < linkages.count; ++i)
     {
         linkage_t cur_linkage = linkages.array[i];
 
         if (cur_linkage.point_1 >= points_count || cur_linkage.point_1 >= points_count)
-            return INCORRECT_LINKAGE_DATA;
+            error_code = INCORRECT_LINKAGE_DATA;
     }
 
-    return SUCCESS;
+    return error_code;
 }
 
 static void DrawLinkage(const scene_t &scene, const linkage_t &linkage, const points_t &points)
@@ -128,11 +125,11 @@ error_t DrawLinkages(const scene_t &scene, const linkages_t &linkages, const poi
     return SUCCESS;
 }
 
-void FreeLinkages(linkages_t &linkages)
+void FreeLinkages(linkage_t *array)
 {
-    if (linkages.array != nullptr)
+    if (array != nullptr)
     {
-        free(linkages.array);
-        linkages.array = nullptr;
+        free(array);
+        array = nullptr;
     }
 }
