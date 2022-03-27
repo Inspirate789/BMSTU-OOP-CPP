@@ -10,14 +10,14 @@ void InitPoints(points_t &points)
     points.count = 0;
 }
 
-static error_t InputPointsCount(size_t &count, FILE *f)
+static error_t InputPointsCount(points_t &points, FILE *f)
 {
     error_t error_code = SUCCESS;
 
-    if (fscanf(f, "%zu", &count) != 1)
+    if (fscanf(f, "%zu", &points.count) != 1)
         error_code = INCORRECT_NUMBER;
     else
-        if (count < 2 || count > SIZE_MAX / 2)
+        if (points.count < 2 || points.count > SIZE_MAX / 2)
             error_code = INCORRECT_POINTS_COUNT;
 
     return error_code;
@@ -68,7 +68,7 @@ error_t InputPoints(points_t &points, FILE *f)
     if (points.array != nullptr || f == nullptr)
         return MEMORY_ERROR;
 
-    error_t error_code = InputPointsCount(points.count, f);
+    error_t error_code = InputPointsCount(points, f);
 
     if (error_code != SUCCESS)
     {

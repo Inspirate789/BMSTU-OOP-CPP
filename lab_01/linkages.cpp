@@ -8,14 +8,14 @@ void InitLinkages(linkages_t &linkages)
     linkages.count = 0;
 }
 
-static error_t InputLinkagesCount(size_t &count, FILE *f)
+static error_t InputLinkagesCount(linkages_t &linkages, FILE *f)
 {
     error_t error_code = SUCCESS;
 
-    if (fscanf(f, "%zu", &count) != 1)
+    if (fscanf(f, "%zu", &linkages.count) != 1)
         error_code = INCORRECT_NUMBER;
     else
-        if (count == 0 || count > SIZE_MAX / 2)
+        if (linkages.count == 0 || linkages.count > SIZE_MAX / 2)
             error_code = INCORRECT_LINKAGES_COUNT;
 
     return error_code;
@@ -69,7 +69,7 @@ error_t InputLinkages(linkages_t &linkages, FILE *f)
     if (linkages.array != nullptr || f == nullptr)
         return MEMORY_ERROR;
 
-    error_t error_code = InputLinkagesCount(linkages.count, f);
+    error_t error_code = InputLinkagesCount(linkages, f);
 
     if (error_code != SUCCESS)
     {
