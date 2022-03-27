@@ -70,24 +70,18 @@ error_t InputPoints(points_t &points, FILE *f)
 
     error_t error_code = InputPointsCount(points, f);
 
-    if (error_code != SUCCESS)
+    if (error_code == SUCCESS)
     {
-        FreePoints(points);
-        return error_code;
+        error_code = AllocatePointsArray(points);
+
+        if (error_code == SUCCESS)
+        {
+            error_code = InputPointsArray(points, f);
+
+            if (error_code != SUCCESS)
+                FreePoints(points);
+        }
     }
-
-    error_code = AllocatePointsArray(points);
-
-    if (error_code != SUCCESS)
-    {
-        FreePoints(points);
-        return error_code;
-    }
-
-    error_code = InputPointsArray(points, f);
-
-    if (error_code != SUCCESS)
-        FreePoints(points);
 
     return error_code;
 }

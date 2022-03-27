@@ -71,24 +71,18 @@ error_t InputLinkages(linkages_t &linkages, FILE *f)
 
     error_t error_code = InputLinkagesCount(linkages, f);
 
-    if (error_code != SUCCESS)
+    if (error_code == SUCCESS)
     {
-        FreeLinkages(linkages);
-        return error_code;
+        error_code = AllocateLinkagesArray(linkages);
+
+        if (error_code == SUCCESS)
+        {
+            error_code = InputLinkagesArray(linkages, f);
+
+            if (error_code != SUCCESS)
+                FreeLinkages(linkages);
+        }
     }
-
-    error_code = AllocateLinkagesArray(linkages);
-
-    if (error_code != SUCCESS)
-    {
-        FreeLinkages(linkages);
-        return error_code;
-    }
-
-    error_code = InputLinkagesArray(linkages, f);
-
-    if (error_code != SUCCESS)
-        FreeLinkages(linkages);
 
     return error_code;
 }
@@ -98,15 +92,20 @@ error_t CheckLinkages(linkages_t &linkages, size_t &points_count)
     if (linkages.array == nullptr)
         return MEMORY_ERROR;
 
+    error_t error_code = SUCCESS;
+
     for (size_t i = 0; i < linkages.count; ++i)
     {
         linkage_t cur_linkage = linkages.array[i];
 
         if (cur_linkage.point_1 >= points_count || cur_linkage.point_2 >= points_count)
-            return INCORRECT_LINKAGE_DATA;
+        {
+            error_code = INCORRECT_LINKAGE_DATA;
+            break;
+        }
     }
 
-    return SUCCESS;
+    return error_code;
 }
 
 static void DrawLinkage(const scene_t &scene, const linkage_t &linkage, const points_t &points)
