@@ -102,7 +102,7 @@ error_t CheckLinkages(linkages_t &linkages, size_t &points_count)
     {
         linkage_t cur_linkage = linkages.array[i];
 
-        if (cur_linkage.point_1 >= points_count || cur_linkage.point_1 >= points_count)
+        if (cur_linkage.point_1 >= points_count || cur_linkage.point_2 >= points_count)
             return INCORRECT_LINKAGE_DATA;
     }
 
