@@ -14,7 +14,7 @@ Iterator<Type>::Iterator(const Vector<Type> &vector) noexcept
 }
 
 template <typename Type>
-Iterator<Type>::Iterator(const Iterator<Type> &iterator) noexcept
+Iterator<Type>::Iterator(const Iterator<Type> &iterator) noexcept: BaseIterator(iterator)
 {
     ptr = iterator.ptr;
     size = iterator.size;
