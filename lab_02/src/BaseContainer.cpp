@@ -1,11 +1,11 @@
 #include "BaseContainer.h"
 
-bool BaseContainer::is_empty() const
+bool BaseContainer::IsEmpty() const
 {
     return size == 0;
 }
 
-size_t BaseContainer::get_size() const
+size_t BaseContainer::GetSize() const
 {
     return size;
 }

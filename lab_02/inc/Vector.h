@@ -38,9 +38,7 @@ public: // Добавить pragma region?
     Vector<Type> &operator=(Vector<Type> &&vector) noexcept;
 
     bool operator==(const Vector<Type> &vector) const;
-    // bool isEqual(const Vector<Type> &vector) const;
     bool operator!=(const Vector<Type> &vector) const;
-    // bool isNotEqual(const Vector<Type> &vector) const;
 
     Type &operator[](const size_t index);
     const Type &operator[](const size_t index) const;

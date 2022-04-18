@@ -3,13 +3,13 @@
 BaseIterator::BaseIterator()
 {
     index = 0;
-    elems_count = 0;
+    size = 0;
 }
 
-BaseIterator::BaseIterator(BaseIterator &iterator)
+BaseIterator::BaseIterator(const BaseIterator &iterator)
 {
     index = iterator.index;
-    elems_count = iterator.elems_count;
+    size = iterator.size;
 }
 
 BaseIterator::~BaseIterator() = default;
