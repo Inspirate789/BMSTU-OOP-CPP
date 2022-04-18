@@ -1,5 +1,5 @@
 CC := g++
-CPPFLAGS := -std=c++20 -Wall -Wpedantic -Wextra -Wfloat-equal -Wfloat-conversion -Wvla
+CPPFLAGS := -std=c++20 -Werror -Wall -Wno-unknown-pragmas -Wpedantic -Wextra -Wfloat-equal -Wfloat-conversion -Wvla
 LINKFLAGS := -lgtest -lgtest_main -lpthread
 DEBUGFLAGS := -g3 --coverage
 INC_DIRS := inc imp tests
