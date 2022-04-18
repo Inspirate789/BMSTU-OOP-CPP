@@ -9,83 +9,6 @@
 #define EPS __DBL_EPSILON__
 #define DIMS_COUNT_OF_3D_VECTOR 3
 
-#pragma region Allocate
-template <typename Type>
-void Vector<Type>::allocate(size_t size_value)
-{
-    try
-    {
-        data.reset(new Type[size_value]);
-    }
-    catch (std::bad_alloc &error)
-    {
-        time_t cur_time = time(NULL);
-        throw MemoryException(ctime(&cur_time), __FILE__, __LINE__,
-                              typeid(*this).name(), __FUNCTION__);
-    }
-}
-#pragma endregion Allocate
-
-#pragma region Checks
-template <typename Type>
-void Vector<Type>::zeroSizeCheck(const size_t line)
-{
-    if (IsEmpty())
-    {
-        time_t cur_time = time(NULL);
-        throw EmptyVectorException(ctime(&cur_time), __FILE__, line,
-                                   typeid(*this).name(), __FUNCTION__);
-    }
-}
-
-template <typename Type>
-void Vector<Type>::indexCheck(const size_t index, const size_t line) const
-{
-    if (index >= GetSize())
-    {
-        time_t cur_time = time(NULL);
-        throw OutOfRangeException(ctime(&cur_time), __FILE__, line,
-                                  typeid(*this).name(), __FUNCTION__);
-    }
-}
-
-template <typename Type>
-template <typename OtherType>
-void Vector<Type>::sizesCheck(const Vector<OtherType> &vector, const size_t line) const
-{
-    if (GetSize() != vector.GetSize())
-    {
-        time_t cur_time = time(NULL);
-        throw NotEqualSizesException(ctime(&cur_time), __FILE__, line,
-                                     typeid(*this).name(), __FUNCTION__);
-    }
-}
-
-template <typename Type>
-template <typename OtherType>
-void Vector<Type>::vector3DSizesCheck(const Vector<OtherType> &vector, const size_t line) const
-{
-    if (GetSize() != DIMS_COUNT_OF_3D_VECTOR || vector.GetSize() != DIMS_COUNT_OF_3D_VECTOR)
-    {
-        time_t cur_time = time(NULL);
-        throw Not3DException(ctime(&cur_time), __FILE__, line,
-                             typeid(*this).name(), __FUNCTION__);
-    }
-}
-
-template <typename Type>
-template <typename OtherType>
-void Vector<Type>::divisionByZeroCheck(const OtherType &num, const size_t line) const
-{
-    if (abs(num) < EPS)
-    {
-        time_t cur_time = time(NULL);
-        throw DivisionByZeroException(ctime(&cur_time), __FILE__, line,
-                                      typeid(*this).name(), __FUNCTION__);
-    }
-}
-#pragma endregion Checks
-
 #pragma region Constructors
 template <typename Type>
 Vector<Type>::Vector(size_t size_value)
@@ -279,6 +202,7 @@ const Type & Vector<Type>::operator[](const size_t index) const
     return data[index];
 }
 #pragma endregion Indexations
+
 #pragma region ArithmeticalOperations
 template <typename Type>
 Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
@@ -387,10 +311,118 @@ Vector<Type> &Vector<Type>::operator+=(const OtherType &num)
 
     return *this;
 }
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator-(const Vector<Type> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
+    ConstIterator<Type> vec_iter = vector.cbegin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter -= *(vec_iter++);
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator-(const Type &num) const
+{
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter -= num;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator-(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<decltype((*this)[0] - vector[0])> res(size); // *this ??????
+    ConstIterator<OtherType> vec_iter = vector.cbegin();
+
+    size_t i = 0;
+    for (; vec_iter; ++vec_iter, ++i)
+        res[i] = (*this)[i] - *vec_iter;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator-(const OtherType &num) const
+{
+    Vector<decltype((*this)[0] - num)> res(size);
+
+    size_t i = 0;
+    for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
+        res[i] = *iter - num;
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator-=(const Vector<Type> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Iterator<Type> res_iter = begin();
+    ConstIterator<Type> vec_iter = vector.cbegin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter -= *(vec_iter++);
+
+    return *this;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator-=(const Type &num)
+{
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter -= num;
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator-=(const Vector<OtherType> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Iterator<Type> res_iter = begin();
+    ConstIterator<OtherType> vec_iter = vector.cbegin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter -= *(vec_iter++);
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator-=(const OtherType &num)
+{
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter -= num;
+
+    return *this;
+}
 #pragma endregion ArithmeticalOperations
 #pragma endregion Operators
 
-#pragma region OtherMethods
+#pragma region OtherPublicMethods
 template <typename Type>
 template <typename OutType>
 OutType Vector<Type>::length() const
@@ -421,5 +453,84 @@ Vector<OutType> Vector<Type>::getUnit() const
 
     return res;
 }
-#pragma endregion OtherMethods
+#pragma endregion OtherPublicMethods
+
+#pragma region ProtectedMethods
+#pragma region Allocate
+template <typename Type>
+void Vector<Type>::allocate(size_t size_value)
+{
+    try
+    {
+        data.reset(new Type[size_value]);
+    }
+    catch (std::bad_alloc &error)
+    {
+        time_t cur_time = time(NULL);
+        throw MemoryException(ctime(&cur_time), __FILE__, __LINE__,
+                              typeid(*this).name(), __FUNCTION__);
+    }
+}
+#pragma endregion Allocate
+
+#pragma region Checks
+template <typename Type>
+void Vector<Type>::zeroSizeCheck(const size_t line)
+{
+    if (IsEmpty())
+    {
+        time_t cur_time = time(NULL);
+        throw EmptyVectorException(ctime(&cur_time), __FILE__, line,
+                                   typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+template <typename Type>
+void Vector<Type>::indexCheck(const size_t index, const size_t line) const
+{
+    if (index >= GetSize())
+    {
+        time_t cur_time = time(NULL);
+        throw OutOfRangeException(ctime(&cur_time), __FILE__, line,
+                                  typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+template <typename Type>
+template <typename OtherType>
+void Vector<Type>::sizesCheck(const Vector<OtherType> &vector, const size_t line) const
+{
+    if (GetSize() != vector.GetSize())
+    {
+        time_t cur_time = time(NULL);
+        throw NotEqualSizesException(ctime(&cur_time), __FILE__, line,
+                                     typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+template <typename Type>
+template <typename OtherType>
+void Vector<Type>::vector3DSizesCheck(const Vector<OtherType> &vector, const size_t line) const
+{
+    if (GetSize() != DIMS_COUNT_OF_3D_VECTOR || vector.GetSize() != DIMS_COUNT_OF_3D_VECTOR)
+    {
+        time_t cur_time = time(NULL);
+        throw Not3DException(ctime(&cur_time), __FILE__, line,
+                             typeid(*this).name(), __FUNCTION__);
+    }
+}
+
+template <typename Type>
+template <typename OtherType>
+void Vector<Type>::divisionByZeroCheck(const OtherType &num, const size_t line) const
+{
+    if (abs(num) < EPS)
+    {
+        time_t cur_time = time(NULL);
+        throw DivisionByZeroException(ctime(&cur_time), __FILE__, line,
+                                      typeid(*this).name(), __FUNCTION__);
+    }
+}
+#pragma endregion Checks
+#pragma endregion ProtectedMethods
 #endif

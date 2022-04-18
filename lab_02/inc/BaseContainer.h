@@ -5,13 +5,13 @@
 
 class BaseContainer
 {
-protected:
-    size_t size = 0;
-
 public:
     virtual bool IsEmpty() const;
     virtual size_t GetSize() const;
     virtual ~BaseContainer() = 0;
+
+protected:
+    size_t size = 0;
 };
 
 #endif

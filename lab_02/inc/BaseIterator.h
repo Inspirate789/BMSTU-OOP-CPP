@@ -5,14 +5,14 @@
 
 class BaseIterator
 {
-protected:
-    int index = 0;       // size_t?
-    int elems_count = 0; // size_t?
-
 public:
     BaseIterator();
-    BaseIterator(BaseIterator &iterator);
+    BaseIterator(const BaseIterator &iterator);
     virtual ~BaseIterator() = 0;
+
+protected:
+    size_t index = 0;
+    size_t size = 0;
 };
 
 #endif
