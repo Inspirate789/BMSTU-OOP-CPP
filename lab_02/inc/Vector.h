@@ -57,6 +57,21 @@ public: // Добавить pragma region?
     Type &operator[](const size_t index);
     const Type &operator[](const size_t index) const;
 
+    Vector<Type> operator+(const Vector<Type> &vector) const;
+    Vector<Type> operator+(const Type &num) const;
+    template <typename OtherType>
+    decltype(auto) operator+(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    decltype(auto) operator+(const OtherType &num) const;
+
+    Vector<Type> &operator+=(const Vector<Type> &vector);
+    Vector<Type> &operator+=(const Type &num);
+    template <typename OtherType>
+    Vector<Type> &operator+=(const Vector<OtherType> &vector);
+    template <typename OtherType>
+    Vector<Type> &operator+=(const OtherType &num);
+
+
     template <typename OutType>
     OutType length() const;
 

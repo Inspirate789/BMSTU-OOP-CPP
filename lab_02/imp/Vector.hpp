@@ -279,7 +279,147 @@ const Type & Vector<Type>::operator[](const size_t index) const
     return data[index];
 }
 #pragma endregion Indexations
+#pragma region ArithmeticalOperations
+template <typename Type>
+Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
+{
+    sizesCheck(vector, __LINE__);
 
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
+    ConstIterator<Type> vec_iter = vector.cbegin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += *(vec_iter++);
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator+(const Type &num) const
+{
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += num;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator+(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<decltype((*this)[0] + vector[0])> res(size); // *this ??????
+    ConstIterator<OtherType> vec_iter = vector.cbegin();
+
+    size_t i = 0;
+    for (; vec_iter; ++vec_iter, ++i)
+        res[i] = (*this)[i] + *vec_iter;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator+(const OtherType &num) const
+{
+    Vector<decltype((*this)[0] + num)> res(size);
+
+    size_t i = 0;
+    for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
+        res[i] = *iter + num;
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator+=(const Vector<Type> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Iterator<Type> res_iter = begin();
+    ConstIterator<Type> vec_iter = vector.cbegin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += *(vec_iter++);
+
+    return *this;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator+=(const Type &num)
+{
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += num;
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator+=(const Vector<OtherType> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Iterator<Type> res_iter = begin();
+    ConstIterator<OtherType> vec_iter = vector.cbegin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += *(vec_iter++);
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator+=(const OtherType &num)
+{
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += num;
+
+    return *this;
+}
+#pragma endregion ArithmeticalOperations
 #pragma endregion Operators
 
+#pragma region OtherMethods
+template <typename Type>
+template <typename OutType>
+OutType Vector<Type>::length() const
+{
+    zeroSizeCheck(__LINE__);
+
+    Type len = 0;
+    ConstIterator<Type> iter = cbegin();
+    for (; iter; ++iter)
+        len += *iter * *iter;
+
+    return sqrt(len);
+}
+
+template <typename Type>
+template <typename OutType>
+Vector<OutType> Vector<Type>::getUnit() const
+{
+    zeroSizeCheck(__LINE__);
+    Vector<OutType> res(size);
+
+    OutType len = length<OutType>();
+    Iterator<OutType> res_iter = res.begin();
+
+    ConstIterator<Type> srcIt = cbegin();
+    for (; srcIt; ++srcIt, ++res_iter)
+        *res_iter = *srcIt / len;
+
+    return res;
+}
+#pragma endregion OtherMethods
 #endif
