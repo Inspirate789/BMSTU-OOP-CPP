@@ -6,12 +6,16 @@
 #include "BaseContainer.h"
 #include "Iterator.h"
 #include "ConstIterator.h"
+#include "ReverseIterator.h"
+#include "ConstReverseIterator.h"
 
 template <typename Type>
 class Vector : public BaseContainer
 {
     friend class Iterator<Type>;
     friend class ConstIterator<Type>;
+    friend class ReverseIterator<Type>;
+    friend class ConstReverseIterator<Type>;
 
 public:
     #pragma region Constructors
@@ -33,6 +37,10 @@ public:
     Iterator<Type> end() noexcept;
     ConstIterator<Type> cbegin() const noexcept;
     ConstIterator<Type> cend() const noexcept;
+    ReverseIterator<Type> rbegin() const noexcept;
+    ReverseIterator<Type> rend() const noexcept;
+    ConstReverseIterator<Type> crbegin() const noexcept;
+    ConstReverseIterator<Type> crend() const noexcept;
     #pragma endregion Iterators
 
     #pragma region Operations
