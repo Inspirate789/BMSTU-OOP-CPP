@@ -2,12 +2,12 @@
 #define _VECTOR_HPP_
 
 #include <memory>
+#include <cmath>
 
 #include "Vector.h"
 #include "Exceptions.h"
 
 #define EPS __DBL_EPSILON__
-#define DIMS_COUNT_OF_3D_VECTOR 3
 
 #pragma region Constructors
 template <typename Type>
@@ -23,11 +23,11 @@ Vector<Type>::Vector(const Vector<Type> &vector)
     allocate(vector.size);
     size = vector.size;
 
-    ConstIterator<Type> src = vector.cbegin();
-    Iterator<Type> dst = begin();
+    ConstIterator<Type> src_iter = vector.cbegin();
+    Iterator<Type> dst_iter = begin();
 
-    for (; src; ++src, ++dst)
-        *dst = *src;
+    for (; src_iter; ++src_iter, ++dst_iter)
+        *dst_iter = *src_iter;
 }
 
 template <typename Type>
@@ -76,8 +76,7 @@ template <typename IterType>
 Vector<Type>::Vector(IterType begin, IterType end)
 {
     size_t len = 0;
-    for (auto iter = begin; iter != end; ++iter, ++len)
-        ;
+    for (auto iter = begin; iter != end; ++iter, ++len);
 
     allocate(len);
     size = len;
@@ -102,18 +101,6 @@ Iterator<Type> Vector<Type>::end() noexcept
 }
 
 template <typename Type>
-ConstIterator<Type> Vector<Type>::begin() const noexcept // а зачем это, если есть cbegin и cend?
-{
-    return ConstIterator<Type>(*this);
-}
-
-template <typename Type>
-ConstIterator<Type> Vector<Type>::end() const noexcept
-{
-    return ConstIterator<Type>(*this) + size;
-}
-
-template <typename Type>
 ConstIterator<Type> Vector<Type>::cbegin() const noexcept
 {
     return ConstIterator<Type>(*this);
@@ -126,7 +113,69 @@ ConstIterator<Type> Vector<Type>::cend() const noexcept
 }
 #pragma endregion Iterators
 
-#pragma region Operators
+#pragma region Operations
+#pragma region UnaryOperations
+template <typename Type>
+Vector<Type> Vector<Type>::neg() const
+{
+    Vector<Type> res(*this);
+
+    for (auto &elem : res)
+        elem = -elem;
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator-() const
+{
+    return neg();
+}
+
+template <typename Type>
+template <typename OutType>
+OutType Vector<Type>::length() const
+{
+    zeroSizeCheck(__LINE__);
+
+    Type len = 0;
+    ConstIterator<Type> iter = cbegin();
+    for (; iter; ++iter)
+        len += *iter * *iter;
+
+    return sqrt(len);
+}
+
+template <typename Type>
+bool Vector<Type>::isZero() const
+{
+    return abs(length<double>()) < EPS;
+}
+
+template <typename Type>
+bool Vector<Type>::isUnit() const
+{
+    return abs(length<double>() - 1) < EPS;
+}
+
+template <typename Type>
+template <typename OutType>
+Vector<OutType> Vector<Type>::getUnit() const
+{
+    zeroSizeCheck(__LINE__);
+    Vector<OutType> res(size);
+
+    OutType len = length<OutType>();
+    Iterator<OutType> res_iter = res.begin();
+
+    ConstIterator<Type> src_iterIt = cbegin();
+    for (; src_iterIt; ++src_iterIt, ++res_iter)
+        *res_iter = *src_iterIt / len;
+
+    return res;
+}
+#pragma endregion UnaryOperations
+
 #pragma region Assignments
 template <typename Type>
 Vector<Type> &Vector<Type>::operator=(std::initializer_list<Type> elements)
@@ -167,7 +216,7 @@ Vector<Type> &Vector<Type>::operator=(Vector<Type> &&vector) noexcept // Пер�
 
 #pragma region Comparsions
 template <typename Type>
-bool Vector<Type>::operator==(const Vector<Type> &vector) const
+bool Vector<Type>::isEqual(const Vector<Type> &vector) const
 {
     ConstIterator<Type> first = cbegin();
     ConstIterator<Type> second = vector.cbegin();
@@ -181,9 +230,21 @@ bool Vector<Type>::operator==(const Vector<Type> &vector) const
 }
 
 template <typename Type>
+bool Vector<Type>::isNotEqual(const Vector<Type> &vector) const
+{
+    return !isEqual(vector);
+}
+
+template <typename Type>
+bool Vector<Type>::operator==(const Vector<Type> &vector) const
+{
+    return isEqual(vector);
+}
+
+template <typename Type>
 bool Vector<Type>::operator!=(const Vector<Type> &vector) const
 {
-    return !(*this == vector);
+    return !isEqual(vector);
 }
 #pragma endregion Comparsions
 
@@ -203,7 +264,7 @@ const Type & Vector<Type>::operator[](const size_t index) const
 }
 #pragma endregion Indexations
 
-#pragma region ArithmeticalOperations
+#pragma region Sum
 template <typename Type>
 Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
 {
@@ -311,7 +372,9 @@ Vector<Type> &Vector<Type>::operator+=(const OtherType &num)
 
     return *this;
 }
+#pragma endregion Sum
 
+#pragma region Diff
 template <typename Type>
 Vector<Type> Vector<Type>::operator-(const Vector<Type> &vector) const
 {
@@ -419,41 +482,312 @@ Vector<Type> &Vector<Type>::operator-=(const OtherType &num)
 
     return *this;
 }
-#pragma endregion ArithmeticalOperations
-#pragma endregion Operators
+#pragma endregion Diff
 
-#pragma region OtherPublicMethods
+#pragma region Mul
 template <typename Type>
-template <typename OutType>
-OutType Vector<Type>::length() const
+Vector<Type> Vector<Type>::operator*(const Type &num) const
 {
-    zeroSizeCheck(__LINE__);
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
 
-    Type len = 0;
-    ConstIterator<Type> iter = cbegin();
-    for (; iter; ++iter)
-        len += *iter * *iter;
-
-    return sqrt(len);
-}
-
-template <typename Type>
-template <typename OutType>
-Vector<OutType> Vector<Type>::getUnit() const
-{
-    zeroSizeCheck(__LINE__);
-    Vector<OutType> res(size);
-
-    OutType len = length<OutType>();
-    Iterator<OutType> res_iter = res.begin();
-
-    ConstIterator<Type> srcIt = cbegin();
-    for (; srcIt; ++srcIt, ++res_iter)
-        *res_iter = *srcIt / len;
+    for (; res_iter; ++res_iter)
+        *res_iter *= num;
 
     return res;
 }
-#pragma endregion OtherPublicMethods
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator*(const OtherType &num) const
+{
+    Vector<decltype((*this)[0] * num)> res(size);
+
+    size_t i = 0;
+    for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
+        res[i] = *iter * num;
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator*=(const Type &num)
+{
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter *= num;
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator*=(const OtherType &num)
+{
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter *= num;
+
+    return *this;
+}
+#pragma endregion Mul
+
+#pragma region Div
+template <typename Type>
+Vector<Type> Vector<Type>::operator/(const Type &num) const
+{
+    divisionByZeroCheck(num, __LINE__);
+
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter /= num;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator/(const OtherType &num) const
+{
+    divisionByZeroCheck(num, __LINE__);
+    
+    Vector<decltype((*this)[0] / num)> res(size);
+
+    size_t i = 0;
+    for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
+        res[i] = *iter / num;
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator/=(const Type &num)
+{
+    divisionByZeroCheck(num, __LINE__);
+    
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter /= num;
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator/=(const OtherType &num)
+{
+    divisionByZeroCheck(num, __LINE__);
+    
+    Iterator<Type> res_iter = begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter /= num;
+
+    return *this;
+}
+#pragma endregion Div
+
+#pragma region ScalarProd
+template <typename Type>
+Type Vector<Type>::scalarProd(const Vector<Type> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    ConstIterator<Type> iter_1 = cbegin();
+    ConstIterator<Type> iter_2 = vector.cbegin();
+
+    Type sum = 0;
+    for (; iter_1; ++iter_1, ++iter_2)
+        sum += *iter_1 * *iter_2;
+
+    return sum;
+}
+
+template <typename Type>
+Type Vector<Type>::operator&(const Vector<Type> &vector) const
+{
+    return scalarProd(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::scalarProd(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    ConstIterator<Type> iter_1 = cbegin();
+    ConstIterator<OtherType> iter_2 = vector.cbegin();
+
+    decltype(*iter_1 * *iter_2) sum = 0;
+    for (; iter_1; ++iter_1, ++iter_2)
+        sum += *iter_1 * *iter_2;
+
+    return sum;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator&(const Vector<OtherType> &vector) const
+{
+    return scalarProd(vector);
+}
+#pragma endregion ScalarProd
+
+#pragma region VectorProd
+template <typename Type>
+Vector<Type> Vector<Type>::vectorProd(const Vector<Type> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<Type> res(size);
+
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[(i + 1) % size] * vector[(i + 2) % size] - 
+                 (*this)[(i + 2) % size] * vector[(i + 1) % size];
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator^(const Vector<Type> &vector) const
+{
+    return vectorProd(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::vectorProd(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<decltype((*this)[0] * vector[0])> res(size);
+
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[(i + 1) % size] * vector[(i + 2) % size] - 
+                 (*this)[(i + 2) % size] * vector[(i + 1) % size];
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator^(const Vector<OtherType> &vector) const
+{
+    return vectorProd(vector);
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::eqVectorProd(const Vector<Type> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<Type> tmp(*this);
+
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] = tmp[(i + 1) % size] * vector[(i + 2) % size] - 
+                     tmp[(i + 2) % size] * vector[(i + 1) % size];
+
+    return *this;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator^=(const Vector<Type> &vector)
+{
+    return eqVectorProd(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::eqVectorProd(const Vector<OtherType> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<Type> tmp(*this);
+
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] = tmp[(i + 1) % size] * vector[(i + 2) % size] - 
+                     tmp[(i + 2) % size] * vector[(i + 1) % size];
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator^=(const Vector<OtherType> &vector)
+{
+    return eqVectorProd(vector);
+}
+#pragma endregion VectorProd
+
+#pragma region OtherBinaryOperations
+template <typename Type>
+double Vector<Type>::angle(const Vector<Type> &vector) const
+{
+    double res = 0;
+
+    if (abs(length<double>()) > EPS && abs(vector.length<double>()) > EPS)
+        res = acos(scalarProd(vector) / (length<double>() * vector.length<double>()));
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+double Vector<Type>::angle(const Vector<OtherType> &vector) const
+{
+    double res = 0;
+
+    if (abs(this->template length<double>()) > EPS &&
+        abs(vector.template length<double>()) > EPS)
+        res = acos(scalarProd(vector) /
+            (this->template length<double>() * 
+            vector.template length<double>()));
+
+    return res;
+}
+
+template <typename Type>
+bool Vector<Type>::isCollinear(const Vector<Type> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    double ang = angle(vector);
+    return abs(ang) < EPS || abs(ang - M_PI) < EPS;
+}
+
+template <typename Type>
+template <typename OtherType>
+bool Vector<Type>::isCollinear(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    double ang = angle(vector);
+    return abs(ang) < EPS || abs(ang - M_PI) < EPS;
+}
+
+template <typename Type>
+bool Vector<Type>::isOrthogonal(const Vector<Type> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    return abs(angle(vector) - M_PI / 2) < EPS;
+}
+
+template <typename Type>
+template <typename OtherType>
+bool Vector<Type>::isOrthogonal(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    return abs(angle(vector) - M_PI / 2) < EPS;
+}
+#pragma endregion OtherBinaryOperations
+#pragma endregion Operations
 
 #pragma region ProtectedMethods
 #pragma region Allocate
@@ -508,17 +842,17 @@ void Vector<Type>::sizesCheck(const Vector<OtherType> &vector, const size_t line
     }
 }
 
-template <typename Type>
-template <typename OtherType>
-void Vector<Type>::vector3DSizesCheck(const Vector<OtherType> &vector, const size_t line) const
-{
-    if (GetSize() != DIMS_COUNT_OF_3D_VECTOR || vector.GetSize() != DIMS_COUNT_OF_3D_VECTOR)
-    {
-        time_t cur_time = time(NULL);
-        throw Not3DException(ctime(&cur_time), __FILE__, line,
-                             typeid(*this).name(), __FUNCTION__);
-    }
-}
+// template <typename Type>
+// template <typename OtherType>
+// void Vector<Type>::vector3DimsCheck(const Vector<OtherType> &vector, const size_t line) const
+// {
+//     if (GetSize() != DIMS_COUNT_OF_3D_VECTOR || vector.GetSize() != DIMS_COUNT_OF_3D_VECTOR)
+//     {
+//         time_t cur_time = time(NULL);
+//         throw Not3DException(ctime(&cur_time), __FILE__, line,
+//                              typeid(*this).name(), __FUNCTION__);
+//     }
+// }
 
 template <typename Type>
 template <typename OtherType>
