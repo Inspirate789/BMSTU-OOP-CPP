@@ -13,7 +13,7 @@ DEPENDS := $(SRCS:$(SRC_DIR)/%.cpp=$(OUT_DIR)/%.d)
 
 _MAKE_OUT_DIR_ := $(shell mkdir -p $(OUT_DIR))
 
-.PHONY: debug release coverage clean
+.PHONY: debug release run coverage memcheck clean
 .NOTPARALLEL: debug release
 
 debug: CPPFLAGS += $(DEBUGFLAGS)
@@ -32,13 +32,19 @@ release.lastbuildstate:
 	rm -f $(OBJS) $(OUT_DIR)/main.o $(OUT_DIR)/*.g* *.exe
 	rm -f debug.lastbuildstate
 
+app.exe: $(OBJS)
+	$(CC) $^ -o $@ $(LINKFLAGS)
+
+run: app.exe
+	./app.exe
+
 coverage: debug
 	./app.exe
 	gcov -r $(GCOV_MODULES)
 	mv *.gcov $(OUT_DIR)/
 
-app.exe: $(OBJS)
-	$(CC) $^ -o $@ $(LINKFLAGS)
+memcheck: debug
+	valgrind --leak-check=full ./app.exe
 
 $(OUT_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CPPFLAGS) $(INC_DIRS) -MMD -o $@ -c $<
