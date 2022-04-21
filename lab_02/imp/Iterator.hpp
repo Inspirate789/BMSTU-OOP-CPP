@@ -102,7 +102,6 @@ template <typename OtherType>
 Iterator<Type> &Iterator<Type>::operator+=(const OtherType diff)
 {
     expiredCheck(__LINE__);
-    indexCheck(__LINE__);
 
     index += diff;
     return this;
@@ -113,7 +112,6 @@ template <typename OtherType>
 Iterator<Type> &Iterator<Type>::operator-=(const OtherType diff)
 {
     expiredCheck(__LINE__);
-    indexCheck(__LINE__);
 
     index -= diff;
     return this;
