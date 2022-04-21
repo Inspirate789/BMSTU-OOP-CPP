@@ -89,13 +89,13 @@ Vector<Type>::Vector(IterType begin, IterType end)
 
 #pragma region Iterators
 template <typename Type>
-Iterator<Type> Vector<Type>::begin() noexcept
+Iterator<Type> Vector<Type>::begin() const noexcept
 {
     return Iterator<Type>(*this);
 }
 
 template <typename Type>
-Iterator<Type> Vector<Type>::end() noexcept
+Iterator<Type> Vector<Type>::end() const noexcept
 {
     if (IsEmpty())
         return begin();
@@ -119,7 +119,7 @@ ConstIterator<Type> Vector<Type>::cend() const noexcept
 }
 
 template <typename Type>
-ReverseIterator<Type> Vector<Type>::rbegin() noexcept
+ReverseIterator<Type> Vector<Type>::rbegin() const noexcept
 {
     if (IsEmpty())
         return rend();
@@ -128,7 +128,7 @@ ReverseIterator<Type> Vector<Type>::rbegin() noexcept
 }
 
 template <typename Type>
-ReverseIterator<Type> Vector<Type>::rend() noexcept
+ReverseIterator<Type> Vector<Type>::rend() const noexcept
 {
     return ReverseIterator<Type>(*this);
 }
@@ -219,7 +219,7 @@ Vector<Type> &Vector<Type>::operator=(std::initializer_list<Type> elements)
 {
     allocate(elements.size());
     size = elements.size();
-
+    
     Iterator<Type> iter = begin();
     for (auto &cur : elements)
         *(iter++) = cur;
@@ -232,7 +232,7 @@ Vector<Type> &Vector<Type>::operator=(const Vector<Type> &vector)
 {
     allocate(vector.size);
     size = vector.size;
-
+    
     Iterator<Type> iter = begin();
     for (auto &cur : vector)
         *(iter++) = cur;
@@ -262,7 +262,7 @@ bool Vector<Type>::isEqual(const Vector<OtherType> &vector) const
     bool are_equal = (size && size == vector.GetSize());
     for (; are_equal && (first < cend()) && (second < vector.cend());
          ++first, ++second)
-        are_equal = (*first - *second) < EPS;
+        are_equal = abs(*first - *second) < EPS;
 
     return are_equal || !size;
 }

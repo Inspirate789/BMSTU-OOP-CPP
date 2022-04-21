@@ -5,5 +5,7 @@
 
 #include "TestConstructors.hpp"
 #include "TestUnaryOperatons.hpp"
+#include "TestAssignments.hpp"
+#include "TestComparsions.hpp"
 
 #endif
