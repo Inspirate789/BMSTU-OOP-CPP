@@ -76,13 +76,13 @@ template <typename IterType>
 Vector<Type>::Vector(IterType begin, IterType end)
 {
     size_t len = 0;
-    for (auto iter = begin; iter != end; ++iter, ++len);
+    for (auto iter = begin; iter < end; ++iter, ++len);
 
     allocate(len);
     size = len;
 
     len = 0;
-    for (auto iter = begin; iter != end; ++iter, ++len)
+    for (auto iter = begin; iter < end; ++iter, ++len)
         data[len] = *iter;
 }
 #pragma endregion Constructors
@@ -97,7 +97,10 @@ Iterator<Type> Vector<Type>::begin() noexcept
 template <typename Type>
 Iterator<Type> Vector<Type>::end() noexcept
 {
-    return Iterator<Type>(*this) + size;
+    if (IsEmpty())
+        return begin();
+        
+    return Iterator<Type>(*this) + size - 1;
 }
 
 template <typename Type>
@@ -109,7 +112,40 @@ ConstIterator<Type> Vector<Type>::cbegin() const noexcept
 template <typename Type>
 ConstIterator<Type> Vector<Type>::cend() const noexcept
 {
-    return ConstIterator<Type>(*this) + size;
+    if (IsEmpty())
+        return cbegin();
+        
+    return ConstIterator<Type>(*this) + size - 1;
+}
+
+template <typename Type>
+ReverseIterator<Type> Vector<Type>::rbegin() noexcept
+{
+    if (IsEmpty())
+        return rend();
+        
+    return ReverseIterator<Type>(*this) - (size - 1);
+}
+
+template <typename Type>
+ReverseIterator<Type> Vector<Type>::rend() noexcept
+{
+    return ReverseIterator<Type>(*this);
+}
+
+template <typename Type>
+ConstReverseIterator<Type> Vector<Type>::crbegin() const noexcept
+{
+    if (IsEmpty())
+        return crend();
+        
+    return ConstReverseIterator<Type>(*this) - (size - 1);
+}
+
+template <typename Type>
+ConstReverseIterator<Type> Vector<Type>::crend() const noexcept
+{
+    return ConstReverseIterator<Type>(*this);
 }
 #pragma endregion Iterators
 

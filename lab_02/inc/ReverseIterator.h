@@ -28,11 +28,15 @@ public:
     Type *operator->();
     const Type *operator->() const;
 
-    ReverseIterator<Type> operator+(const size_t diff) const;
-    ReverseIterator<Type> operator-(const size_t diff) const;
+    template <typename OtherType>
+    ReverseIterator<Type> operator+(const OtherType diff) const;
+    template <typename OtherType>
+    ReverseIterator<Type> operator-(const OtherType diff) const;
 
-    ReverseIterator<Type> &operator+=(const size_t diff);
-    ReverseIterator<Type> &operator-=(const size_t diff);
+    template <typename OtherType>
+    ReverseIterator<Type> &operator+=(const OtherType diff);
+    template <typename OtherType>
+    ReverseIterator<Type> &operator-=(const OtherType diff);
 
     ReverseIterator<Type> &operator++();
     ReverseIterator<Type> operator++(int);

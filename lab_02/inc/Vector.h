@@ -37,8 +37,8 @@ public:
     Iterator<Type> end() noexcept;
     ConstIterator<Type> cbegin() const noexcept;
     ConstIterator<Type> cend() const noexcept;
-    ReverseIterator<Type> rbegin() const noexcept;
-    ReverseIterator<Type> rend() const noexcept;
+    ReverseIterator<Type> rbegin() noexcept;
+    ReverseIterator<Type> rend() noexcept;
     ConstReverseIterator<Type> crbegin() const noexcept;
     ConstReverseIterator<Type> crend() const noexcept;
     #pragma endregion Iterators

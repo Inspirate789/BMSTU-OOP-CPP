@@ -28,11 +28,15 @@ public:
     Type *operator->();
     const Type *operator->() const;
 
-    Iterator<Type> operator+(const size_t diff) const;
-    Iterator<Type> operator-(const size_t diff) const;
+    template <typename OtherType>
+    Iterator<Type> operator+(const OtherType diff) const;
+    template <typename OtherType>
+    Iterator<Type> operator-(const OtherType diff) const;
 
-    Iterator<Type> &operator+=(const size_t diff);
-    Iterator<Type> &operator-=(const size_t diff);
+    template <typename OtherType>
+    Iterator<Type> &operator+=(const OtherType diff);
+    template <typename OtherType>
+    Iterator<Type> &operator-=(const OtherType diff);
 
     Iterator<Type> &operator++();
     Iterator<Type> operator++(int);

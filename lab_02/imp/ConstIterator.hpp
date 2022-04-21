@@ -58,10 +58,10 @@ const Type *ConstIterator<Type>::operator->() const
 }
 
 template <typename Type>
-ConstIterator<Type> ConstIterator<Type>::operator+(const size_t diff) const
+template <typename OtherType>
+ConstIterator<Type> ConstIterator<Type>::operator+(const OtherType diff) const
 {
     expiredCheck(__LINE__);
-    indexCheck(__LINE__);
 
     ConstIterator<Type> res(*this);
     res.index += diff;
@@ -69,10 +69,10 @@ ConstIterator<Type> ConstIterator<Type>::operator+(const size_t diff) const
 }
 
 template <typename Type>
-ConstIterator<Type> ConstIterator<Type>::operator-(const size_t diff) const
+template <typename OtherType>
+ConstIterator<Type> ConstIterator<Type>::operator-(const OtherType diff) const
 {
     expiredCheck(__LINE__);
-    indexCheck(__LINE__);
 
     ConstIterator<Type> res(*this);
     res.index -= diff;
@@ -80,20 +80,20 @@ ConstIterator<Type> ConstIterator<Type>::operator-(const size_t diff) const
 }
 
 template <typename Type>
-ConstIterator<Type> &ConstIterator<Type>::operator+=(const size_t diff)
+template <typename OtherType>
+ConstIterator<Type> &ConstIterator<Type>::operator+=(const OtherType diff)
 {
     expiredCheck(__LINE__);
-    indexCheck(__LINE__);
 
     index += diff;
     return this;
 }
 
 template <typename Type>
-ConstIterator<Type> &ConstIterator<Type>::operator-=(const size_t diff)
+template <typename OtherType>
+ConstIterator<Type> &ConstIterator<Type>::operator-=(const OtherType diff)
 {
     expiredCheck(__LINE__);
-    indexCheck(__LINE__);
 
     index -= diff;
     return this;

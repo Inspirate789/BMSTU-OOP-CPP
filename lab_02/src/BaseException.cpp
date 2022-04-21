@@ -5,7 +5,7 @@ BaseException::BaseException(const str &time, const str &filename,
                              const str &method_name, const str &info)
 {
     ErrorInfo = "\n Time: " + time + 
-                "\n Error in file " + filename + 
+                " Error in file " + filename + 
                 ", line " + std::to_string(line) + 
                 ", in method " + method_name + 
                 " of class " + class_name + 
