@@ -199,14 +199,15 @@ template <typename OutType>
 Vector<OutType> Vector<Type>::getUnit() const
 {
     zeroSizeCheck(__LINE__);
-    Vector<OutType> res(size);
+    Vector<OutType> res(size, 666);
 
     OutType len = length<OutType>();
+    divisionByZeroCheck(len, __LINE__);
+    
     Iterator<OutType> res_iter = res.begin();
-
-    ConstIterator<Type> src_iterIt = cbegin();
-    for (; src_iterIt; ++src_iterIt, ++res_iter)
-        *res_iter = *src_iterIt / len;
+    ConstIterator<Type> src_iter = cbegin();
+    while (src_iter && res_iter)
+        *(res_iter++) = *(src_iter++) / len;
 
     return res;
 }
@@ -252,33 +253,37 @@ Vector<Type> &Vector<Type>::operator=(Vector<Type> &&vector) noexcept // Пер�
 
 #pragma region Comparsions
 template <typename Type>
-bool Vector<Type>::isEqual(const Vector<Type> &vector) const
+template <typename OtherType>
+bool Vector<Type>::isEqual(const Vector<OtherType> &vector) const
 {
     ConstIterator<Type> first = cbegin();
-    ConstIterator<Type> second = vector.cbegin();
+    ConstIterator<OtherType> second = vector.cbegin();
 
-    bool are_equal = (size && size == vector.size);
-    for (; are_equal && (first != cend()) && (second != vector.cend());
+    bool are_equal = (size && size == vector.GetSize());
+    for (; are_equal && (first < cend()) && (second < vector.cend());
          ++first, ++second)
-        are_equal = (*first == *second);
+        are_equal = (*first - *second) < EPS;
 
     return are_equal || !size;
 }
 
 template <typename Type>
-bool Vector<Type>::isNotEqual(const Vector<Type> &vector) const
+template <typename OtherType>
+bool Vector<Type>::isNotEqual(const Vector<OtherType> &vector) const
 {
     return !isEqual(vector);
 }
 
 template <typename Type>
-bool Vector<Type>::operator==(const Vector<Type> &vector) const
+template <typename OtherType>
+bool Vector<Type>::operator==(const Vector<OtherType> &vector) const
 {
     return isEqual(vector);
 }
 
 template <typename Type>
-bool Vector<Type>::operator!=(const Vector<Type> &vector) const
+template <typename OtherType>
+bool Vector<Type>::operator!=(const Vector<OtherType> &vector) const
 {
     return !isEqual(vector);
 }
@@ -845,7 +850,7 @@ void Vector<Type>::allocate(size_t size_value)
 
 #pragma region Checks
 template <typename Type>
-void Vector<Type>::zeroSizeCheck(const size_t line)
+void Vector<Type>::zeroSizeCheck(const size_t line) const
 {
     if (IsEmpty())
     {

@@ -65,10 +65,14 @@ public:
     #pragma endregion Assignments
 
     #pragma region Comparsions
-    bool isEqual(const Vector<Type> &vector) const;
-    bool isNotEqual(const Vector<Type> &vector) const;
-    bool operator==(const Vector<Type> &vector) const;
-    bool operator!=(const Vector<Type> &vector) const;
+    template <typename OtherType>
+    bool isEqual(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    bool isNotEqual(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    bool operator==(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    bool operator!=(const Vector<OtherType> &vector) const;
     #pragma endregion Comparsions
 
     #pragma region Indexations
@@ -183,7 +187,7 @@ protected:
     void allocate(size_t size_value);
 
     #pragma region Checks
-    void zeroSizeCheck(const size_t line);
+    void zeroSizeCheck(const size_t line) const;
     void indexCheck(const size_t index, const size_t line) const;
     template <typename OtherType>
     void sizesCheck(const Vector<OtherType> &vector, const size_t line) const;

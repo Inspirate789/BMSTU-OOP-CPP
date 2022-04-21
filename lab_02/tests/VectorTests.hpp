@@ -4,5 +4,6 @@
 #include <gtest/gtest.h>
 
 #include "TestConstructors.hpp"
+#include "TestUnaryOperatons.hpp"
 
 #endif
