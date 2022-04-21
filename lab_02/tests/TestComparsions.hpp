@@ -5,7 +5,7 @@
 
 #include "Vector.h"
 
-TEST(comparison_operators, equal)
+TEST(Comparsions, equal)
 {
     Vector<int> a = {5, -3, 1, 0, -7};
     Vector<int> b = {5, -3, 1, 0, -7};
@@ -14,7 +14,7 @@ TEST(comparison_operators, equal)
     EXPECT_EQ((a != b), false);
 }
 
-TEST(comparison_operators, emptyEqual)
+TEST(Comparsions, emptyEqual)
 {
     Vector<int> a(0);
     Vector<int> b(0);
@@ -23,7 +23,7 @@ TEST(comparison_operators, emptyEqual)
     EXPECT_EQ((a != b), false);
 }
 
-TEST(comparison_operators, notEqual)
+TEST(Comparsions, notEqual)
 {
     Vector<int> a = {5, -3, 1, 0, -7};
     Vector<int> b = {5, 10, 1, 0, -7};
@@ -32,7 +32,7 @@ TEST(comparison_operators, notEqual)
     EXPECT_EQ((a != b), true);
 }
 
-TEST(comparison_operators, notEqualBySizes)
+TEST(Comparsions, notEqualBySizes)
 {
     Vector<int> a = {5, -3, 1, 0, -7};
     Vector<int> b = {5, -3, 1};

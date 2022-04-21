@@ -44,7 +44,7 @@ coverage: debug
 	mv *.gcov $(OUT_DIR)/
 
 memcheck: debug
-	valgrind --leak-check=full ./app.exe
+	valgrind --leak-check=full -s ./app.exe
 
 $(OUT_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CPPFLAGS) $(INC_DIRS) -MMD -o $@ -c $<

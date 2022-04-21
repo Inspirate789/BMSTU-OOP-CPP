@@ -199,7 +199,7 @@ template <typename OutType>
 Vector<OutType> Vector<Type>::getUnit() const
 {
     zeroSizeCheck(__LINE__);
-    Vector<OutType> res(size, 666);
+    Vector<OutType> res(size, 1);
 
     OutType len = length<OutType>();
     divisionByZeroCheck(len, __LINE__);

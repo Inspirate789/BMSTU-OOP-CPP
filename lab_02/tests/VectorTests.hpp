@@ -7,5 +7,6 @@
 #include "TestUnaryOperatons.hpp"
 #include "TestAssignments.hpp"
 #include "TestComparsions.hpp"
+#include "TestIndexation.hpp"
 
 #endif
