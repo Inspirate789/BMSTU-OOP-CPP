@@ -35,7 +35,7 @@ release.lastbuildstate:
 app.exe: $(OBJS)
 	$(CC) $^ -o $@ $(LINKFLAGS)
 
-run: app.exe
+run: release
 	./app.exe
 
 coverage: debug

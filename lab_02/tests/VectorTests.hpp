@@ -8,5 +8,6 @@
 #include "TestAssignments.hpp"
 #include "TestComparsions.hpp"
 #include "TestIndexation.hpp"
+#include "TestArithmeticalOperations.hpp"
 
 #endif
