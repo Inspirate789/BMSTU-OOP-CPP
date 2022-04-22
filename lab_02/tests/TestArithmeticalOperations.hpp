@@ -103,7 +103,7 @@ TEST(Sum, EqVecSum)
 TEST(Sum, EqVecSumAnyTypes)
 {
     Vector<double> a = {-100.5, 0.5, 6.5};
-    Vector<int> b = {200, 4, -5};
+    Vector<long long int> b = {200, 4, -5};
 
     Vector<double> res(a += b);
 
@@ -231,12 +231,12 @@ TEST(Diff, ByNumDiff)
 
 TEST(Diff, ByNumDiffAnyTypes)
 {
-    Vector<size_t> a = {100, 15, 36};
+    Vector<int> a = {100, 15, 36};
     size_t k = 10;
 
     Vector<size_t> res(a - k);
 
-    size_t tmp_a[3] = {100, 15, 36};
+    int tmp_a[3] = {100, 15, 36};
     size_t tmp[3] = {90, 5, 26};
 
     size_t i = 0;
@@ -503,6 +503,6 @@ TEST(Div, BadEqByNumDiv)
 
     EXPECT_ANY_THROW(a /= k);
 }
-#pragma region Div
+#pragma endregion Div
 
 #endif
