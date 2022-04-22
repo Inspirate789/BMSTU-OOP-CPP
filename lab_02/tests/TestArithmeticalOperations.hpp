@@ -193,13 +193,13 @@ TEST(Diff, VecDiff)
 
 TEST(Diff, VecDiffAnyTypes)
 {
-    Vector<long double> a = {-100.5, 0.5, 6.5};
+    Vector<double> a = {-100.5, 0.5, 6.5};
     Vector<int> b = {200, 4, -5};
 
-    Vector<long double> res(a - b);
+    Vector<double> res(a - b);
 
-    long double tmp_a[3] = {-100.5, 0.5, 6.5};
-    long double tmp[3] = {-300.5, -3.5, 11.5};
+    double tmp_a[3] = {-100.5, 0.5, 6.5};
+    double tmp[3] = {-300.5, -3.5, 11.5};
 
     size_t i = 0;
     for (auto elem : a)

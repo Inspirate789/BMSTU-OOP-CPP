@@ -101,7 +101,7 @@ Iterator<Type> Vector<Type>::end() const noexcept
     if (IsEmpty())
         return begin();
         
-    return Iterator<Type>(*this) + size - 1;
+    return Iterator<Type>(*this) + size;
 }
 
 template <typename Type>
@@ -116,7 +116,7 @@ ConstIterator<Type> Vector<Type>::cend() const noexcept
     if (IsEmpty())
         return cbegin();
         
-    return ConstIterator<Type>(*this) + size - 1;
+    return ConstIterator<Type>(*this) + size;
 }
 
 template <typename Type>
@@ -131,7 +131,7 @@ ReverseIterator<Type> Vector<Type>::rbegin() const noexcept
 template <typename Type>
 ReverseIterator<Type> Vector<Type>::rend() const noexcept
 {
-    return ReverseIterator<Type>(*this);
+    return ReverseIterator<Type>(*this) - 1;
 }
 
 template <typename Type>
@@ -146,7 +146,7 @@ ConstReverseIterator<Type> Vector<Type>::crbegin() const noexcept
 template <typename Type>
 ConstReverseIterator<Type> Vector<Type>::crend() const noexcept
 {
-    return ConstReverseIterator<Type>(*this);
+    return ConstReverseIterator<Type>(*this) - 1;
 }
 #pragma endregion Iterators
 
@@ -340,7 +340,7 @@ decltype(auto) Vector<Type>::operator+(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
-    Vector<decltype((*this)[0] + vector[0])> res(size, NULL_FILLER);
+    Vector<decltype((*this)[0] + vector[0])> res(size);
     ConstIterator<OtherType> vec_iter = vector.cbegin();
 
     size_t i = 0;
@@ -354,7 +354,7 @@ template <typename Type>
 template <typename OtherType>
 decltype(auto) Vector<Type>::operator+(const OtherType &num) const
 {
-    Vector<decltype((*this)[0] + num)> res(size, NULL_FILLER);
+    Vector<decltype((*this)[0] + num)> res(size);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
@@ -450,7 +450,7 @@ decltype(auto) Vector<Type>::operator-(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
-    Vector<decltype((*this)[0] - vector[0])> res(size, NULL_FILLER); // *this ??????
+    Vector<decltype((*this)[0] + vector[0])> res(size);
     ConstIterator<OtherType> vec_iter = vector.cbegin();
 
     size_t i = 0;
@@ -464,7 +464,7 @@ template <typename Type>
 template <typename OtherType>
 decltype(auto) Vector<Type>::operator-(const OtherType &num) const
 {
-    Vector<decltype((*this)[0] - num)> res(size, NULL_FILLER);
+    Vector<decltype((*this)[0] - num)> res(size);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
@@ -543,7 +543,7 @@ template <typename Type>
 template <typename OtherType>
 decltype(auto) Vector<Type>::operator*(const OtherType &num) const
 {
-    Vector<decltype((*this)[0] * num)> res(size, NULL_FILLER);
+    Vector<decltype((*this)[0] * num)> res(size);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
@@ -597,7 +597,7 @@ decltype(auto) Vector<Type>::operator/(const OtherType &num) const
 {
     divisionByZeroCheck(num, __LINE__);
     
-    Vector<decltype((*this)[0] / num)> res(size, NULL_FILLER);
+    Vector<decltype((*this)[0] / num)> res(size);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
