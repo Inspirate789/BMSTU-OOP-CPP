@@ -118,12 +118,10 @@ public:
     
     #pragma region Mul
     Vector<Type> operator*(const Type &num) const;
-
     template <typename OtherType>
     decltype(auto) operator*(const OtherType &num) const;
 
     Vector<Type> &operator*=(const Type &num);
-
     template <typename OtherType>
     Vector<Type> &operator*=(const OtherType &num);
     #pragma endregion Mul

@@ -12,7 +12,7 @@ BaseException::BaseException(const str &time, const str &filename,
                 "\n Info: " + info + "\n";
 }
 
-const char* BaseException::what() const noexcept
+const char *BaseException::what() const noexcept
 {
     return ErrorInfo.c_str();
 }

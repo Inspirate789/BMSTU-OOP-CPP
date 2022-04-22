@@ -17,8 +17,6 @@ template <typename Type>
 ReverseIterator<Type>::ReverseIterator(const ReverseIterator<Type> &iterator) noexcept: BaseIterator(iterator)
 {
     ptr = iterator.ptr;
-    size = iterator.size;
-    index = iterator.index;
 }
 #pragma endregion Constructors
 

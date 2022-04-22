@@ -17,8 +17,6 @@ template <typename Type>
 Iterator<Type>::Iterator(const Iterator<Type> &iterator) noexcept: BaseIterator(iterator)
 {
     ptr = iterator.ptr;
-    size = iterator.size;
-    index = iterator.index;
 }
 #pragma endregion Constructors
 

@@ -8,6 +8,7 @@
 #include "Exceptions.h"
 
 #define EPS __DBL_EPSILON__
+#define NULL_FILLER 0.0
 
 #pragma region Constructors
 template <typename Type>
@@ -199,7 +200,7 @@ template <typename OutType>
 Vector<OutType> Vector<Type>::getUnit() const
 {
     zeroSizeCheck(__LINE__);
-    Vector<OutType> res(size, 0.0);
+    Vector<OutType> res(size, NULL_FILLER);
 
     OutType len = length<OutType>();
     divisionByZeroCheck(len, __LINE__);
@@ -339,7 +340,7 @@ decltype(auto) Vector<Type>::operator+(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
-    Vector<decltype((*this)[0] + vector[0])> res(size, 0.0); // *this ??????
+    Vector<decltype((*this)[0] + vector[0])> res(size, NULL_FILLER);
     ConstIterator<OtherType> vec_iter = vector.cbegin();
 
     size_t i = 0;
@@ -353,7 +354,7 @@ template <typename Type>
 template <typename OtherType>
 decltype(auto) Vector<Type>::operator+(const OtherType &num) const
 {
-    Vector<decltype((*this)[0] + num)> res(size, 0.0);
+    Vector<decltype((*this)[0] + num)> res(size, NULL_FILLER);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
@@ -449,7 +450,7 @@ decltype(auto) Vector<Type>::operator-(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
-    Vector<decltype((*this)[0] - vector[0])> res(size, 0.0); // *this ??????
+    Vector<decltype((*this)[0] - vector[0])> res(size, NULL_FILLER); // *this ??????
     ConstIterator<OtherType> vec_iter = vector.cbegin();
 
     size_t i = 0;
@@ -463,7 +464,7 @@ template <typename Type>
 template <typename OtherType>
 decltype(auto) Vector<Type>::operator-(const OtherType &num) const
 {
-    Vector<decltype((*this)[0] - num)> res(size, 0.0);
+    Vector<decltype((*this)[0] - num)> res(size, NULL_FILLER);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
@@ -542,7 +543,7 @@ template <typename Type>
 template <typename OtherType>
 decltype(auto) Vector<Type>::operator*(const OtherType &num) const
 {
-    Vector<decltype((*this)[0] * num)> res(size, 0.0);
+    Vector<decltype((*this)[0] * num)> res(size, NULL_FILLER);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
@@ -596,7 +597,7 @@ decltype(auto) Vector<Type>::operator/(const OtherType &num) const
 {
     divisionByZeroCheck(num, __LINE__);
     
-    Vector<decltype((*this)[0] / num)> res(size, 0.0);
+    Vector<decltype((*this)[0] / num)> res(size, NULL_FILLER);
 
     size_t i = 0;
     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)

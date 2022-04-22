@@ -337,6 +337,172 @@ TEST(Diff, BadEqVecDiff)
 }
 #pragma endregion Diff
 
+#pragma region Mul
+TEST(Mul, ByNumMul)
+{
+    Vector<int> a = {-100, 0, 6};
+    int k = 10;
 
+    Vector<int> res(a * k);
+
+    int tmp_a[3] = {-100, 0, 6};
+    int tmp[3] = {-1000, 0, 60};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Mul, ByNumMulAnyTypes)
+{
+    Vector<int> a = {100, 15, 36};
+    double k = 10.0;
+
+    Vector<double> res(a * k);
+
+    int tmp_a[3] = {100, 15, 36};
+    double tmp[3] = {1000.0, 150.0, 360.0};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Mul, EqByNumMul)
+{
+    Vector<int> a = {-100, 0, 6};
+    int k = 10;
+
+    Vector<int> res(a *= k);
+
+    int tmp[3] = {-1000, 0, 60};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Mul, EqByNumMulAnyTypes)
+{
+    Vector<size_t> a = {100, 15, 36};
+    size_t k = 10;
+
+    Vector<size_t> res(a *= k);
+
+    size_t tmp[3] = {1000, 150, 360};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+#pragma endregion Mul
+
+#pragma region Div
+TEST(Div, ByNumDiv)
+{
+    Vector<int> a = {-100, 0, 6};
+    int k = 10;
+
+    Vector<int> res(a / k);
+
+    int tmp_a[3] = {-100, 0, 6};
+    int tmp[3] = {-10, 0, 0};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Div, ByNumDivAnyTypes)
+{
+    Vector<int> a = {100, 15, 36};
+    double k = 10.0;
+
+    Vector<double> res(a / k);
+
+    int tmp_a[3] = {100, 15, 36};
+    double tmp[3] = {10.0, 1.5, 3.6};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Div, EqByNumDiv)
+{
+    Vector<int> a = {-100, 0, 6};
+    int k = 10;
+
+    Vector<int> res(a /= k);
+
+    int tmp[3] = {-10, 0, 0};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Div, EqByNumDivAnyTypes)
+{
+    Vector<long long int> a = {100, 15, 36};
+    long long int k = 10;
+
+    Vector<long long int> res(a /= k);
+
+    long long int tmp[3] = {10, 1, 3};
+
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
+
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
+
+TEST(Div, BadByNumDiv)
+{
+    Vector<double> a = {-100.5, 0.0000001, 6.7};
+    double k = 0.0;
+
+    EXPECT_ANY_THROW(a / k);
+}
+
+TEST(Div, BadEqByNumDiv)
+{
+    Vector<int> a = {-100, 0, 6};
+    int k = 0;
+
+    EXPECT_ANY_THROW(a /= k);
+}
+#pragma region Div
 
 #endif
