@@ -85,6 +85,9 @@ Vector<Type>::Vector(IterType begin, IterType end): BaseContainer()
 }
 #pragma endregion Constructors
 
+template <typename Type>
+Vector<Type>::~Vector() = default;
+
 #pragma region Iterators
 template <typename Type>
 Iterator<Type> Vector<Type>::begin() const noexcept

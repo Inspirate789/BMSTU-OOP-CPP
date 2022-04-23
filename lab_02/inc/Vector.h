@@ -30,7 +30,7 @@ public:
     Vector(IterType begin, IterType end);
     #pragma endregion Constructors
 
-    ~Vector() override = default;
+    ~Vector() override;
 
     #pragma region Iterators
     Iterator<Type> begin() const noexcept;
