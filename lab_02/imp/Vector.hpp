@@ -63,7 +63,7 @@ Vector<Type>::Vector(std::initializer_list<Type> elements): BaseContainer(elemen
 }
 
 template <typename Type>
-Vector<Type>::Vector(Vector<Type> &&vector) noexcept: BaseContainer(vector.size) // Передача по правосторонней ссылке (вызывается конструктор перемещения) (~передача владения~)
+Vector<Type>::Vector(Vector<Type> &&vector) noexcept: BaseContainer(vector.size)
 {
     data = vector.data;
     vector.data.reset();
@@ -242,7 +242,7 @@ Vector<Type> &Vector<Type>::operator=(const Vector<Type> &vector)
 }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator=(Vector<Type> &&vector) noexcept // Передача по правосторонней ссылке (перемещение) (~передача владения~)
+Vector<Type> &Vector<Type>::operator=(Vector<Type> &&vector) noexcept
 {
     size = vector.size;
     data = vector.data;
@@ -334,35 +334,6 @@ Vector<Type> Vector<Type>::operator+(const Type &num) const
     return res;
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator+(const Vector<OtherType> &vector) const
-// {
-//     sizesCheck(vector, __LINE__);
-
-//     Vector<decltype((*this)[0] + vector[0])> res(size);
-//     ConstIterator<OtherType> vec_iter = vector.cbegin();
-
-//     size_t i = 0;
-//     for (; vec_iter; ++vec_iter, ++i)
-//         res[i] = (*this)[i] + *vec_iter;
-
-//     return res;
-// }
-
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator+(const OtherType &num) const
-// {
-//     Vector<decltype((*this)[0] + num)> res(size);
-
-//     size_t i = 0;
-//     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
-//         res[i] = *iter + num;
-
-//     return res;
-// }
-
 template <typename Type>
 Vector<Type> &Vector<Type>::operator+=(const Vector<Type> &vector)
 {
@@ -387,33 +358,6 @@ Vector<Type> &Vector<Type>::operator+=(const Type &num)
 
     return *this;
 }
-
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator+=(const Vector<OtherType> &vector)
-// {
-//     sizesCheck(vector, __LINE__);
-
-//     Iterator<Type> res_iter = begin();
-//     ConstIterator<OtherType> vec_iter = vector.cbegin();
-
-//     for (; res_iter; ++res_iter)
-//         *res_iter += *(vec_iter++);
-
-//     return *this;
-// }
-
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator+=(const OtherType &num)
-// {
-//     Iterator<Type> res_iter = begin();
-
-//     for (; res_iter; ++res_iter)
-//         *res_iter += num;
-
-//     return *this;
-// }
 #pragma endregion Sum
 
 #pragma region Diff
@@ -701,28 +645,6 @@ Vector<Type> Vector<Type>::operator^(const Vector<Type> &vector) const
     return vectorProd(vector);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::vectorProd(const Vector<OtherType> &vector) const
-// {
-//     sizesCheck(vector, __LINE__);
-
-//     Vector<decltype((*this)[0] * vector[0])> res(size);
-
-//     for (size_t i = 0; i < size; ++i)
-//         res[i] = (*this)[(i + 1) % size] * vector[(i + 2) % size] - 
-//                  (*this)[(i + 2) % size] * vector[(i + 1) % size];
-
-//     return res;
-// }
-
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator^(const Vector<OtherType> &vector) const
-// {
-//     return vectorProd(vector);
-// }
-
 template <typename Type>
 Vector<Type> &Vector<Type>::eqVectorProd(const Vector<Type> &vector)
 {
@@ -742,28 +664,6 @@ Vector<Type> &Vector<Type>::operator^=(const Vector<Type> &vector)
 {
     return eqVectorProd(vector);
 }
-
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::eqVectorProd(const Vector<OtherType> &vector)
-// {
-//     sizesCheck(vector, __LINE__);
-
-//     Vector<Type> tmp(*this);
-
-//     for (size_t i = 0; i < size; ++i)
-//         (*this)[i] = tmp[(i + 1) % size] * vector[(i + 2) % size] - 
-//                      tmp[(i + 2) % size] * vector[(i + 1) % size];
-
-//     return *this;
-// }
-
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator^=(const Vector<OtherType> &vector)
-// {
-//     return eqVectorProd(vector);
-// }
 #pragma endregion VectorProd
 
 #pragma region OtherBinaryOperations
