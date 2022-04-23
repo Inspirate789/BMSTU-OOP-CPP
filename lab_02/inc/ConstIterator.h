@@ -24,6 +24,7 @@ public:
 
     const Type &operator*() const;
     const Type *operator->() const;
+    const Type &operator[](const size_t offset) const;
 
     template <typename OtherType>
     ConstIterator<Type> operator+(const OtherType diff) const;
@@ -53,7 +54,7 @@ public:
 protected:
     Type *getCurPtr() const;
     void expiredCheck(const size_t line) const;
-    void indexCheck(const size_t line) const;
+    void indexCheck(const size_t line, const size_t offset = 0) const;
 
 private:
     std::weak_ptr<Type[]> ptr; // указатель без права собственности на объект

@@ -59,6 +59,15 @@ const Type *ConstReverseIterator<Type>::operator->() const
 }
 
 template <typename Type>
+const Type &ConstReverseIterator<Type>::operator[](const size_t offset) const
+{
+    expiredCheck(__LINE__);
+    indexCheck(__LINE__, offset);
+
+    return *(getCurPtr() + offset);
+}
+
+template <typename Type>
 template <typename OtherType>
 ConstReverseIterator<Type> ConstReverseIterator<Type>::operator+(const OtherType diff) const
 {
@@ -213,9 +222,9 @@ void ConstReverseIterator<Type>::expiredCheck(const size_t line) const
 }
 
 template <typename Type>
-void ConstReverseIterator<Type>::indexCheck(const size_t line) const
+void ConstReverseIterator<Type>::indexCheck(const size_t line, const size_t offset) const
 {
-    if (index >= size)
+    if (index + offset >= size)
     {
         time_t cur_time = time(NULL);
         throw OutOfRangeException(ctime(&cur_time), __FILE__, line,

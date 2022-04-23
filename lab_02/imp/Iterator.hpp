@@ -76,6 +76,24 @@ const Type *Iterator<Type>::operator->() const
 }
 
 template <typename Type>
+Type &Iterator<Type>::operator[](const size_t offset)
+{
+    expiredCheck(__LINE__);
+    indexCheck(__LINE__, offset);
+
+    return *(getCurPtr() + offset);
+}
+
+template <typename Type>
+const Type &Iterator<Type>::operator[](const size_t offset) const
+{
+    expiredCheck(__LINE__);
+    indexCheck(__LINE__, offset);
+
+    return *(getCurPtr() + offset);
+}
+
+template <typename Type>
 template <typename OtherType>
 Iterator<Type> Iterator<Type>::operator+(const OtherType diff) const
 {
@@ -230,9 +248,9 @@ void Iterator<Type>::expiredCheck(const size_t line) const
 }
 
 template <typename Type>
-void Iterator<Type>::indexCheck(const size_t line) const
+void Iterator<Type>::indexCheck(const size_t line, const size_t offset) const
 {
-    if (index >= size)
+    if (index + offset >= size)
     {
         time_t cur_time = time(NULL);
         throw OutOfRangeException(ctime(&cur_time), __FILE__, line,
