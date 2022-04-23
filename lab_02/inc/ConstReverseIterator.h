@@ -17,7 +17,7 @@ public:
     ConstReverseIterator(const Vector<Type> &vector) noexcept;
     ConstReverseIterator(const ConstReverseIterator<Type> &iterator) noexcept;
 
-    ~ConstReverseIterator() = default;
+    ~ConstReverseIterator();
 
     operator bool() const;
     ConstReverseIterator<Type> &operator=(const ConstReverseIterator<Type> &iterator) noexcept;

@@ -20,6 +20,9 @@ Iterator<Type>::Iterator(const Iterator<Type> &iterator) noexcept: BaseIterator(
 }
 #pragma endregion Constructors
 
+template <typename Type>
+Iterator<Type>::~Iterator() = default;
+
 #pragma region Operators
 template <typename Type>
 Iterator<Type>::operator bool() const

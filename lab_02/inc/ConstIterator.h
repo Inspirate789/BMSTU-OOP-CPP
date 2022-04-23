@@ -17,7 +17,7 @@ public:
     ConstIterator(const Vector<Type> &vector) noexcept;
     ConstIterator(const ConstIterator<Type> &iterator) noexcept;
 
-    ~ConstIterator() = default;
+    ~ConstIterator();
 
     operator bool() const;
     ConstIterator<Type> &operator=(const ConstIterator<Type> &iterator) noexcept;

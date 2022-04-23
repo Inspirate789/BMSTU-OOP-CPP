@@ -20,6 +20,9 @@ ConstReverseIterator<Type>::ConstReverseIterator(const ConstReverseIterator<Type
 }
 #pragma endregion Constructors
 
+template <typename Type>
+ConstReverseIterator<Type>::~ConstReverseIterator() = default;
+
 #pragma region Operators
 template <typename Type>
 ConstReverseIterator<Type>::operator bool() const
