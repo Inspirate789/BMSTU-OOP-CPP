@@ -7,7 +7,7 @@
 
 Лабы:
 - 1 - :white_check_mark: :keycap_ten:/:keycap_ten: 
-- 2 - :o:
+- 2 - :white_check_mark: :keycap_ten:/:keycap_ten: 
 - 3 - :o:
 - 4 - :o:
 - 5 - :o:
