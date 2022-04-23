@@ -8,7 +8,6 @@
 #include "Exceptions.h"
 
 #define EPS __DBL_EPSILON__
-#define NULL_FILLER 0.0
 
 #pragma region Constructors
 template <typename Type>
@@ -25,11 +24,8 @@ Vector<Type>::Vector(const Vector<Type> &vector): BaseContainer(vector.size)
 {
     allocate(size);
 
-    ConstIterator<Type> src_iter = vector.cbegin();
-    Iterator<Type> dst_iter = begin();
-
-    for (; src_iter; ++src_iter, ++dst_iter)
-        *dst_iter = *src_iter;
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] = vector[i];
 }
 
 template <typename Type>
@@ -37,8 +33,8 @@ Vector<Type>::Vector(size_t sizeValue, const Type &filler): BaseContainer(sizeVa
 {
     allocate(sizeValue);
 
-    for (Iterator<Type> iter = begin(); iter; ++iter)
-        *iter = filler;
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] = filler;
 }
 
 template <typename Type>
@@ -46,9 +42,8 @@ Vector<Type>::Vector(size_t sizeValue, const Type *arr): BaseContainer(sizeValue
 {
     allocate(sizeValue);
 
-    size_t i = 0;
-    for (Iterator<Type> iter = begin(); iter; ++iter, ++i)
-        *iter = arr[i];
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] = arr[i];
 }
 
 template <typename Type>
@@ -56,10 +51,9 @@ Vector<Type>::Vector(std::initializer_list<Type> elements): BaseContainer(elemen
 {
     allocate(size);
 
-    Iterator<Type> iter = begin();
-
+    size_t i = 0;
     for (auto elem : elements)
-        *(iter++) = elem;
+        (*this)[i++] = elem;
 }
 
 template <typename Type>
@@ -76,8 +70,8 @@ Vector<Type>::Vector(IterType begin, IterType end): BaseContainer()
     size_t len = 0;
     for (auto iter = begin; iter < end; ++iter, ++len);
 
-    allocate(len);
     size = len;
+    allocate(size);
 
     len = 0;
     for (auto iter = begin; iter < end; ++iter, ++len)
@@ -187,8 +181,8 @@ Vector<Type> Vector<Type>::neg() const
 {
     Vector<Type> res(*this);
 
-    for (auto &elem : res)
-        elem = -elem;
+    for (size_t i = 0; i < size; ++i)
+        res[i] = -res[i];
 
     return res;
 }
@@ -206,9 +200,8 @@ OutType Vector<Type>::length() const
     zeroSizeCheck(__LINE__);
 
     Type len = 0;
-    ConstIterator<Type> iter = cbegin();
-    for (; iter; ++iter)
-        len += *iter * *iter;
+    for (size_t i = 0; i < size; ++i)
+        len += (*this)[i] * (*this)[i];
 
     return sqrt(len);
 }
@@ -230,15 +223,14 @@ template <typename OutType>
 Vector<OutType> Vector<Type>::getUnit() const
 {
     zeroSizeCheck(__LINE__);
-    Vector<OutType> res(size, NULL_FILLER);
 
     OutType len = length<OutType>();
     divisionByZeroCheck(len, __LINE__);
     
-    Iterator<OutType> res_iter = res.begin();
-    ConstIterator<Type> src_iter = cbegin();
-    while (src_iter && res_iter)
-        *(res_iter++) = *(src_iter++) / len;
+    Vector<OutType> res(size);
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] / len;
 
     return res;
 }
@@ -248,12 +240,12 @@ Vector<OutType> Vector<Type>::getUnit() const
 template <typename Type>
 Vector<Type> &Vector<Type>::operator=(std::initializer_list<Type> elements)
 {
-    allocate(elements.size());
     size = elements.size();
+    allocate(size);
     
-    Iterator<Type> iter = begin();
+    size_t i = 0;
     for (auto &cur : elements)
-        *(iter++) = cur;
+        (*this)[i++] = cur;
 
     return *this;
 }
@@ -261,13 +253,13 @@ Vector<Type> &Vector<Type>::operator=(std::initializer_list<Type> elements)
 template <typename Type>
 Vector<Type> &Vector<Type>::operator=(const Vector<Type> &vector)
 {
-    allocate(vector.size);
     size = vector.size;
+    allocate(size);
     
-    Iterator<Type> iter = begin();
+    size_t i = 0;
     for (auto &cur : vector)
-        *(iter++) = cur;
-
+        (*this)[i++] = cur;
+ 
     return *this;
 }
 
@@ -287,22 +279,14 @@ template <typename Type>
 template <typename OtherType>
 bool Vector<Type>::isEqual(const Vector<OtherType> &vector) const
 {
-    ConstIterator<Type> first = cbegin();
-    ConstIterator<OtherType> second = vector.cbegin();
+    if (size != vector.GetSize())
+    return false;
 
-    bool are_equal = (size && size == vector.GetSize());
-    for (; are_equal && (first < cend()) && (second < vector.cend());
-         ++first, ++second)
-        are_equal = abs(*first - *second) < EPS;
+    for (size_t i = 0; i < size; ++i)
+        if (abs((*this)[i] - vector[i]) > EPS)
+            return false;
 
-    return are_equal || !size;
-}
-
-template <typename Type>
-template <typename OtherType>
-bool Vector<Type>::isNotEqual(const Vector<OtherType> &vector) const
-{
-    return !isEqual(vector);
+    return true;
 }
 
 template <typename Type>
@@ -310,6 +294,13 @@ template <typename OtherType>
 bool Vector<Type>::operator==(const Vector<OtherType> &vector) const
 {
     return isEqual(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+bool Vector<Type>::isNotEqual(const Vector<OtherType> &vector) const
+{
+    return !isEqual(vector);
 }
 
 template <typename Type>
@@ -325,6 +316,7 @@ template <typename Type>
 Type & Vector<Type>::operator[](const size_t index)
 {
     indexCheck(index, __LINE__);
+
     return data[index];
 }
 
@@ -332,6 +324,7 @@ template <typename Type>
 const Type & Vector<Type>::operator[](const size_t index) const
 {
     indexCheck(index, __LINE__);
+
     return data[index];
 }
 #pragma endregion Indexations
@@ -343,11 +336,9 @@ Vector<Type> Vector<Type>::VecSum(const Vector<Type> &vector) const
     sizesCheck(vector, __LINE__);
 
     Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-    ConstIterator<Type> vec_iter = vector.cbegin();
 
-    for (; res_iter; ++res_iter)
-        *res_iter += *(vec_iter++);
+    for (size_t i = 0; i < size; ++i)
+        res[i] += vector[i];
 
     return res;
 }
@@ -362,10 +353,9 @@ template <typename Type>
 Vector<Type> Vector<Type>::ByNumSum(const Type &num) const
 {
     Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter += num;
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] += num;
 
     return res;
 }
@@ -377,15 +367,51 @@ Vector<Type> Vector<Type>::operator+(const Type &num) const
 }
 
 template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::VecSum(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+    Vector<decltype((*this)[0] + vector[0])> res(size);
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] + vector[i];
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator+(const Vector<OtherType> &vector) const
+{
+    return VecSum(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::ByNumSum(const OtherType &num) const
+{
+    Vector<decltype((*this)[0] + num)> res(size);
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] + num;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator+(const OtherType &num) const
+{
+    return ByNumSum(num);
+}
+
+template <typename Type>
 Vector<Type> &Vector<Type>::EqVecSum(const Vector<Type> &vector)
 {
     sizesCheck(vector, __LINE__);
 
-    Iterator<Type> res_iter = begin();
-    ConstIterator<Type> vec_iter = vector.cbegin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter += *(vec_iter++);
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] += vector[i];
 
     return *this;
 }
@@ -399,16 +425,50 @@ Vector<Type> &Vector<Type>::operator+=(const Vector<Type> &vector)
 template <typename Type>
 Vector<Type> &Vector<Type>::EqByNumSum(const Type &num)
 {
-    Iterator<Type> res_iter = begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter += num;
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] += num;
 
     return *this;
 }
 
 template <typename Type>
 Vector<Type> &Vector<Type>::operator+=(const Type &num)
+{
+    return EqByNumSum(num);
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::EqVecSum(const Vector<OtherType> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] += vector[i];
+    
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator+=(const Vector<OtherType> &vector)
+{
+    return EqVecSum(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::EqByNumSum(const OtherType &num)
+{
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] += num;
+    
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator+=(const OtherType &num)
 {
     return EqByNumSum(num);
 }
@@ -421,11 +481,9 @@ Vector<Type> Vector<Type>::VecDiff(const Vector<Type> &vector) const
     sizesCheck(vector, __LINE__);
 
     Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-    ConstIterator<Type> vec_iter = vector.cbegin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter -= *(vec_iter++);
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] -= vector[i];
 
     return res;
 }
@@ -440,10 +498,9 @@ template <typename Type>
 Vector<Type> Vector<Type>::ByNumDiff(const Type &num) const
 {
     Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter -= num;
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] -= num;
 
     return res;
 }
@@ -454,45 +511,53 @@ Vector<Type> Vector<Type>::operator-(const Type &num) const
     return ByNumDiff(num);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator-(const Vector<OtherType> &vector) const
-// {
-//     sizesCheck(vector, __LINE__);
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::VecDiff(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
 
-//     Vector<decltype((*this)[0] + vector[0])> res(size);
-//     ConstIterator<OtherType> vec_iter = vector.cbegin();
+    Vector<decltype((*this)[0] - vector[0])> res(size);
 
-//     size_t i = 0;
-//     for (; vec_iter; ++vec_iter, ++i)
-//         res[i] = (*this)[i] - *vec_iter;
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] - vector[i];
 
-//     return res;
-// }
+    return res;
+}
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator-(const OtherType &num) const
-// {
-//     Vector<decltype((*this)[0] - num)> res(size);
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator-(const Vector<OtherType> &vector) const
+{
+    return VecDiff(vector);
+}
 
-//     size_t i = 0;
-//     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
-//         res[i] = *iter - num;
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::ByNumDiff(const OtherType &num) const
+{
+    Vector<decltype((*this)[0] - num)> res(size);
 
-//     return res;
-// }
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] - num;
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator-(const OtherType &num) const
+{
+    return ByNumDiff(num);
+}
 
 template <typename Type>
 Vector<Type> &Vector<Type>::EqVecDiff(const Vector<Type> &vector)
 {
     sizesCheck(vector, __LINE__);
 
-    Iterator<Type> res_iter = begin();
-    ConstIterator<Type> vec_iter = vector.cbegin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter -= *(vec_iter++);
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] -= vector[i];
 
     return *this;
 }
@@ -506,10 +571,8 @@ Vector<Type> &Vector<Type>::operator-=(const Vector<Type> &vector)
 template <typename Type>
 Vector<Type> &Vector<Type>::EqByNumDiff(const Type &num)
 {
-    Iterator<Type> res_iter = begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter -= num;
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] -= num;
 
     return *this;
 }
@@ -520,32 +583,41 @@ Vector<Type> &Vector<Type>::operator-=(const Type &num)
     return EqByNumDiff(num);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator-=(const Vector<OtherType> &vector)
-// {
-//     sizesCheck(vector, __LINE__);
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::EqVecDiff(const Vector<OtherType> &vector)
+{
+    sizesCheck(vector, __LINE__);
 
-//     Iterator<Type> res_iter = begin();
-//     ConstIterator<OtherType> vec_iter = vector.cbegin();
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] -= vector[i];
+    
+    return *this;
+}
 
-//     for (; res_iter; ++res_iter)
-//         *res_iter -= *(vec_iter++);
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator-=(const Vector<OtherType> &vector)
+{
+    return EqVecDiff(vector);
+}
 
-//     return *this;
-// }
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::EqByNumDiff(const OtherType &num)
+{
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] -= num;
+    
+    return *this;
+}
 
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator-=(const OtherType &num)
-// {
-//     Iterator<Type> res_iter = begin();
-
-//     for (; res_iter; ++res_iter)
-//         *res_iter -= num;
-
-//     return *this;
-// }
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator-=(const OtherType &num)
+{
+    return EqByNumDiff(num);
+}
 #pragma endregion Diff
 
 #pragma region Mul
@@ -553,10 +625,9 @@ template <typename Type>
 Vector<Type> Vector<Type>::ByNumMul(const Type &num) const
 {
     Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter *= num;
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] *= num;
 
     return res;
 }
@@ -567,26 +638,32 @@ Vector<Type> Vector<Type>::operator*(const Type &num) const
     return ByNumMul(num);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator*(const OtherType &num) const
-// {
-//     Vector<decltype((*this)[0] * num)> res(size);
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::ByNumMul(const OtherType &num) const
+{
+    Vector<decltype((*this)[0] * num)> res(size);
 
-//     size_t i = 0;
-//     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
-//         res[i] = *iter * num;
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] * num;
 
-//     return res;
-// }
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator*(const OtherType &num) const
+{
+    return ByNumMul(num);
+}
 
 template <typename Type>
 Vector<Type> &Vector<Type>::EqByNumMul(const Type &num)
 {
     Iterator<Type> res_iter = begin();
 
-    for (; res_iter; ++res_iter)
-        *res_iter *= num;
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] *= num;
 
     return *this;
 }
@@ -597,17 +674,22 @@ Vector<Type> &Vector<Type>::operator*=(const Type &num)
     return EqByNumMul(num);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator*=(const OtherType &num)
-// {
-//     Iterator<Type> res_iter = begin();
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::EqByNumMul(const OtherType &num)
+{
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] *= num;
 
-//     for (; res_iter; ++res_iter)
-//         *res_iter *= num;
+    return *this;
+}
 
-//     return *this;
-// }
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator*=(const OtherType &num)
+{
+    return EqByNumMul(num);
+}
 #pragma endregion Mul
 
 #pragma region Div
@@ -617,10 +699,9 @@ Vector<Type> Vector<Type>::ByNumDiv(const Type &num) const
     divisionByZeroCheck(num, __LINE__);
 
     Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter /= num;
+    
+    for (size_t i = 0; i < size; ++i)
+        res[i] /= num;
 
     return res;
 }
@@ -631,30 +712,34 @@ Vector<Type> Vector<Type>::operator/(const Type &num) const
     return ByNumDiv(num);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator/(const OtherType &num) const
-// {
-//     divisionByZeroCheck(num, __LINE__);
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::ByNumDiv(const OtherType &num) const
+{
+    divisionByZeroCheck(num, __LINE__);
     
-//     Vector<decltype((*this)[0] / num)> res(size);
+    Vector<decltype((*this)[0] / num)> res(size);
 
-//     size_t i = 0;
-//     for (ConstIterator<Type> iter = cbegin(); iter; ++iter, ++i)
-//         res[i] = *iter / num;
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[i] / num;
 
-//     return res;
-// }
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator/(const OtherType &num) const
+{
+    return ByNumDiv(num);
+}
 
 template <typename Type>
 Vector<Type> &Vector<Type>::EqByNumDiv(const Type &num)
 {
     divisionByZeroCheck(num, __LINE__);
     
-    Iterator<Type> res_iter = begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter /= num;
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] /= num;
 
     return *this;
 }
@@ -665,19 +750,24 @@ Vector<Type> &Vector<Type>::operator/=(const Type &num)
     return EqByNumDiv(num);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// Vector<Type> &Vector<Type>::operator/=(const OtherType &num)
-// {
-//     divisionByZeroCheck(num, __LINE__);
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::EqByNumDiv(const OtherType &num)
+{
+    divisionByZeroCheck(num, __LINE__);
     
-//     Iterator<Type> res_iter = begin();
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] /= num;
 
-//     for (; res_iter; ++res_iter)
-//         *res_iter /= num;
+    return *this;
+}
 
-//     return *this;
-// }
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator/=(const OtherType &num)
+{
+    return EqByNumDiv(num);
+}
 #pragma endregion Div
 
 #pragma region ScalarProd
@@ -686,12 +776,10 @@ Type Vector<Type>::scalarProd(const Vector<Type> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
-    ConstIterator<Type> iter_1 = cbegin();
-    ConstIterator<Type> iter_2 = vector.cbegin();
-
     Type sum = 0;
-    for (; iter_1; ++iter_1, ++iter_2)
-        sum += *iter_1 * *iter_2;
+
+    for (size_t i = 0; i < size; ++i)
+        sum += (*this)[i] * vector[i];
 
     return sum;
 }
@@ -702,28 +790,26 @@ Type Vector<Type>::operator&(const Vector<Type> &vector) const
     return scalarProd(vector);
 }
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::scalarProd(const Vector<OtherType> &vector) const
-// {
-//     sizesCheck(vector, __LINE__);
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::scalarProd(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
 
-//     ConstIterator<Type> iter_1 = cbegin();
-//     ConstIterator<OtherType> iter_2 = vector.cbegin();
+    decltype((*this)[0] * vector[0]) sum = 0;
 
-//     decltype(*iter_1 * *iter_2) sum = 0;
-//     for (; iter_1; ++iter_1, ++iter_2)
-//         sum += *iter_1 * *iter_2;
+    for (size_t i = 0; i < size; ++i)
+        sum += (*this)[i] * vector[i];
 
-//     return sum;
-// }
+    return sum;
+}
 
-// template <typename Type>
-// template <typename OtherType>
-// decltype(auto) Vector<Type>::operator&(const Vector<OtherType> &vector) const
-// {
-//     return scalarProd(vector);
-// }
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator&(const Vector<OtherType> &vector) const
+{
+    return scalarProd(vector);
+}
 #pragma endregion ScalarProd
 
 #pragma region VectorProd
@@ -748,6 +834,28 @@ Vector<Type> Vector<Type>::operator^(const Vector<Type> &vector) const
 }
 
 template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::vectorProd(const Vector<OtherType> &vector) const
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<decltype((*this)[0] + vector[0])> res(size);
+
+    for (size_t i = 0; i < size; ++i)
+        res[i] = (*this)[(i + 1) % size] * vector[(i + 2) % size] - 
+                 (*this)[(i + 2) % size] * vector[(i + 1) % size];
+
+    return res;
+}
+
+template <typename Type>
+template <typename OtherType>
+decltype(auto) Vector<Type>::operator^(const Vector<OtherType> &vector) const
+{
+    return vectorProd(vector);
+}
+
+template <typename Type>
 Vector<Type> &Vector<Type>::eqVectorProd(const Vector<Type> &vector)
 {
     sizesCheck(vector, __LINE__);
@@ -763,6 +871,28 @@ Vector<Type> &Vector<Type>::eqVectorProd(const Vector<Type> &vector)
 
 template <typename Type>
 Vector<Type> &Vector<Type>::operator^=(const Vector<Type> &vector)
+{
+    return eqVectorProd(vector);
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::eqVectorProd(const Vector<OtherType> &vector)
+{
+    sizesCheck(vector, __LINE__);
+
+    Vector<Type> tmp(*this);
+
+    for (size_t i = 0; i < size; ++i)
+        (*this)[i] = tmp[(i + 1) % size] * vector[(i + 2) % size] - 
+                     tmp[(i + 2) % size] * vector[(i + 1) % size];
+
+    return *this;
+}
+
+template <typename Type>
+template <typename OtherType>
+Vector<Type> &Vector<Type>::operator^=(const Vector<OtherType> &vector)
 {
     return eqVectorProd(vector);
 }
@@ -801,6 +931,7 @@ bool Vector<Type>::isCollinear(const Vector<Type> &vector) const
     sizesCheck(vector, __LINE__);
 
     double ang = angle(vector);
+    
     return abs(ang) < EPS || abs(ang - M_PI) < EPS;
 }
 
@@ -811,6 +942,7 @@ bool Vector<Type>::isCollinear(const Vector<OtherType> &vector) const
     sizesCheck(vector, __LINE__);
 
     double ang = angle(vector);
+    
     return abs(ang) < EPS || abs(ang - M_PI) < EPS;
 }
 

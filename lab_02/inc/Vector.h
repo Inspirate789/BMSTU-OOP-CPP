@@ -35,12 +35,15 @@ public:
     #pragma region Iterators
     Iterator<Type> begin() noexcept;
     Iterator<Type> end() noexcept;
+
     ConstIterator<Type> begin() const noexcept;
     ConstIterator<Type> end() const noexcept;
     ConstIterator<Type> cbegin() const noexcept;
     ConstIterator<Type> cend() const noexcept;
+
     ReverseIterator<Type> rbegin() noexcept;
     ReverseIterator<Type> rend() noexcept;
+
     ConstReverseIterator<Type> rbegin() const noexcept;
     ConstReverseIterator<Type> rend() const noexcept;
     ConstReverseIterator<Type> crbegin() const noexcept;
@@ -72,9 +75,9 @@ public:
     template <typename OtherType>
     bool isEqual(const Vector<OtherType> &vector) const;
     template <typename OtherType>
-    bool isNotEqual(const Vector<OtherType> &vector) const;
-    template <typename OtherType>
     bool operator==(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    bool isNotEqual(const Vector<OtherType> &vector) const;
     template <typename OtherType>
     bool operator!=(const Vector<OtherType> &vector) const;
     #pragma endregion Comparsions
@@ -87,54 +90,133 @@ public:
     #pragma region Sum
     Vector<Type> VecSum(const Vector<Type> &vector) const;
     Vector<Type> operator+(const Vector<Type> &vector) const;
+    
     Vector<Type> ByNumSum(const Type &num) const;
     Vector<Type> operator+(const Type &num) const;
 
+    template <typename OtherType>
+    decltype(auto) VecSum(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    decltype(auto) operator+(const Vector<OtherType> &vector) const;
+
+    template <typename OtherType>
+    decltype(auto) ByNumSum(const OtherType &num) const;
+    template <typename OtherType>
+    decltype(auto) operator+(const OtherType &num) const;
+
     Vector<Type> &EqVecSum(const Vector<Type> &vector);
     Vector<Type> &operator+=(const Vector<Type> &vector);
+
     Vector<Type> &EqByNumSum(const Type &num);
     Vector<Type> &operator+=(const Type &num);
+
+    template <typename OtherType>
+    Vector<Type> &EqVecSum(const Vector<OtherType> &vector);
+    template <typename OtherType>
+    Vector<Type> &operator+=(const Vector<OtherType> &vector);
+
+    template <typename OtherType>
+    Vector<Type> &EqByNumSum(const OtherType &num);
+    template <typename OtherType>
+    Vector<Type> &operator+=(const OtherType &num);
     #pragma endregion Sum
 
     #pragma region Diff
     Vector<Type> VecDiff(const Vector<Type> &vector) const;
     Vector<Type> operator-(const Vector<Type> &vector) const;
+    
     Vector<Type> ByNumDiff(const Type &num) const;
     Vector<Type> operator-(const Type &num) const;
 
+    template <typename OtherType>
+    decltype(auto) VecDiff(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    decltype(auto) operator-(const Vector<OtherType> &vector) const;
+
+    template <typename OtherType>
+    decltype(auto) ByNumDiff(const OtherType &num) const;
+    template <typename OtherType>
+    decltype(auto) operator-(const OtherType &num) const;
+
     Vector<Type> &EqVecDiff(const Vector<Type> &vector);
     Vector<Type> &operator-=(const Vector<Type> &vector);
+
     Vector<Type> &EqByNumDiff(const Type &num);
     Vector<Type> &operator-=(const Type &num);
+
+    template <typename OtherType>
+    Vector<Type> &EqVecDiff(const Vector<OtherType> &vector);
+    template <typename OtherType>
+    Vector<Type> &operator-=(const Vector<OtherType> &vector);
+
+    template <typename OtherType>
+    Vector<Type> &EqByNumDiff(const OtherType &num);
+    template <typename OtherType>
+    Vector<Type> &operator-=(const OtherType &num);
     #pragma endregion Diff
     
     #pragma region Mul
     Vector<Type> ByNumMul(const Type &num) const;
     Vector<Type> operator*(const Type &num) const;
 
+    template <typename OtherType>
+    decltype(auto) ByNumMul(const OtherType &num) const;
+    template <typename OtherType>
+    decltype(auto) operator*(const OtherType &num) const;
+
     Vector<Type> &EqByNumMul(const Type &num);
     Vector<Type> &operator*=(const Type &num);
+
+    template <typename OtherType>
+    Vector<Type> &EqByNumMul(const OtherType &num);
+    template <typename OtherType>
+    Vector<Type> &operator*=(const OtherType &num);
     #pragma endregion Mul
 
     #pragma region Div
     Vector<Type> ByNumDiv(const Type &num) const;
     Vector<Type> operator/(const Type &num) const;
 
+    template <typename OtherType>
+    decltype(auto) ByNumDiv(const OtherType &num) const;
+    template <typename OtherType>
+    decltype(auto) operator/(const OtherType &num) const;
+
     Vector<Type> &EqByNumDiv(const Type &num);
     Vector<Type> &operator/=(const Type &num);
+
+    template <typename OtherType>
+    Vector<Type> &EqByNumDiv(const OtherType &num);
+    template <typename OtherType>
+    Vector<Type> &operator/=(const OtherType &num);
     #pragma endregion Div
 
     #pragma region ScalarProd
     Type scalarProd(const Vector<Type> &vector) const;
     Type operator&(const Vector<Type> &vector) const;
+
+    template <typename OtherType>
+    decltype(auto) scalarProd(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    decltype(auto) operator&(const Vector<OtherType> &vector) const;
     #pragma endregion ScalarProd
 
     #pragma region VectorProd
     Vector<Type> vectorProd(const Vector<Type> &vector) const;
     Vector<Type> operator^(const Vector<Type> &vector) const;
 
+    template <typename OtherType>
+    decltype(auto) vectorProd(const Vector<OtherType> &vector) const;
+    template <typename OtherType>
+    decltype(auto) operator^(const Vector<OtherType> &vector) const;
+
     Vector<Type> &eqVectorProd(const Vector<Type> &vector);
     Vector<Type> &operator^=(const Vector<Type> &vector);
+
+    template <typename OtherType>
+    Vector<Type> &eqVectorProd(const Vector<OtherType> &vector);
+    template <typename OtherType>
+    Vector<Type> &operator^=(const Vector<OtherType> &vector);
     #pragma endregion VectorProd
 
     #pragma region OtherBinaryOperations

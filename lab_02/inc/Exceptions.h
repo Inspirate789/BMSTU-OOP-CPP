@@ -53,15 +53,15 @@ public:
         : BaseException(time, filename, line, class_name, method_name, info){};
 };
 
-class Not3DException : public BaseException
-{
-public:
-    Not3DException(const str &time, const str &filename,
-                   const size_t &line, const str &class_name,
-                   const str &method_name,
-                   const str &info = "Vector product with non 3D-vectors.")
-        : BaseException(time, filename, line, class_name, method_name, info){};
-};
+// class Not3DException : public BaseException
+// {
+// public:
+//     Not3DException(const str &time, const str &filename,
+//                    const size_t &line, const str &class_name,
+//                    const str &method_name,
+//                    const str &info = "Vector product with non 3D-vectors.")
+//         : BaseException(time, filename, line, class_name, method_name, info){};
+// };
 
 class DivisionByZeroException : public BaseException
 {

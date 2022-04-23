@@ -25,24 +25,24 @@ TEST(Sum, VecSum)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Sum, VecSumAnyTypes)
-// {
-//     Vector<double> a = {-100.5, 0.5, 6.5};
-//     Vector<int> b = {200, 4, -5};
+TEST(Sum, VecSumAnyTypes)
+{
+    Vector<double> a = {-100.5, 0.5, 6.5};
+    Vector<int> b = {200, 4, -5};
 
-//     Vector<double> res(a + b);
+    Vector<double> res(a + b);
 
-//     double tmp_a[3] = {-100.5, 0.5, 6.5};
-//     double tmp[3] = {99.5, 4.5, 1.5};
+    double tmp_a[3] = {-100.5, 0.5, 6.5};
+    double tmp[3] = {99.5, 4.5, 1.5};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp_a[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Sum, ByNumSum)
 {
@@ -63,24 +63,24 @@ TEST(Sum, ByNumSum)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Sum, ByNumSumAnyTypes)
-// {
-//     Vector<double> a = {-100.5, 0.5, 6.5};
-//     int k = 10;
+TEST(Sum, ByNumSumAnyTypes)
+{
+    Vector<double> a = {-100.5, 0.5, 6.5};
+    int k = 10;
 
-//     Vector<double> res(a + k);
+    Vector<double> res(a + k);
 
-//     double tmp_a[3] = {-100.5, 0.5, 6.5};
-//     double tmp[3] = {-90.5, 10.5, 16.5};
+    double tmp_a[3] = {-100.5, 0.5, 6.5};
+    double tmp[3] = {-90.5, 10.5, 16.5};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp_a[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Sum, EqVecSum)
 {
@@ -100,23 +100,23 @@ TEST(Sum, EqVecSum)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Sum, EqVecSumAnyTypes)
-// {
-//     Vector<double> a = {-100.5, 0.5, 6.5};
-//     Vector<long long int> b = {200, 4, -5};
+TEST(Sum, EqVecSumAnyTypes)
+{
+    Vector<double> a = {-100.5, 0.5, 6.5};
+    Vector<long long int> b = {200, 4, -5};
 
-//     Vector<double> res(a += b);
+    Vector<double> res(a += b);
 
-//     double tmp[3] = {99.5, 4.5, 1.5};
+    double tmp[3] = {99.5, 4.5, 1.5};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Sum, EqByNumSum)
 {
@@ -136,23 +136,23 @@ TEST(Sum, EqByNumSum)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Sum, EqByNumSumAnyTypes)
-// {
-//     Vector<double> a = {-100.5, 0.5, 6.5};
-//     int k = 10;
+TEST(Sum, EqByNumSumAnyTypes)
+{
+    Vector<double> a = {-100.5, 0.5, 6.5};
+    int k = 10;
 
-//     Vector<double> res(a += k);
+    Vector<double> res(a += k);
 
-//     double tmp[3] = {-90.5, 10.5, 16.5};
+    double tmp[3] = {-90.5, 10.5, 16.5};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Sum, BadVecSum)
 {
@@ -191,24 +191,24 @@ TEST(Diff, VecDiff)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Diff, VecDiffAnyTypes)
-// {
-//     Vector<double> a = {-100.5, 0.5, 6.5};
-//     Vector<int> b = {200, 4, -5};
+TEST(Diff, VecDiffAnyTypes)
+{
+    Vector<double> a = {-100.5, 0.5, 6.5};
+    Vector<int> b = {200, 4, -5};
 
-//     Vector<double> res(a - b);
+    Vector<double> res(a - b);
 
-//     double tmp_a[3] = {-100.5, 0.5, 6.5};
-//     double tmp[3] = {-300.5, -3.5, 11.5};
+    double tmp_a[3] = {-100.5, 0.5, 6.5};
+    double tmp[3] = {-300.5, -3.5, 11.5};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp_a[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Diff, ByNumDiff)
 {
@@ -229,24 +229,24 @@ TEST(Diff, ByNumDiff)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Diff, ByNumDiffAnyTypes)
-// {
-//     Vector<int> a = {100, 15, 36};
-//     size_t k = 10;
+TEST(Diff, ByNumDiffAnyTypes)
+{
+    Vector<int> a = {100, 15, 36};
+    size_t k = 10;
 
-//     Vector<size_t> res(a - k);
+    Vector<size_t> res(a - k);
 
-//     int tmp_a[3] = {100, 15, 36};
-//     size_t tmp[3] = {90, 5, 26};
+    int tmp_a[3] = {100, 15, 36};
+    size_t tmp[3] = {90, 5, 26};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp_a[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Diff, EqVecDiff)
 {
@@ -266,23 +266,23 @@ TEST(Diff, EqVecDiff)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Diff, EqVecDiffAnyTypes)
-// {
-//     Vector<long double> a = {-100.5, 0.5, 6.5};
-//     Vector<int> b = {200, 4, -5};
+TEST(Diff, EqVecDiffAnyTypes)
+{
+    Vector<long double> a = {-100.5, 0.5, 6.5};
+    Vector<int> b = {200, 4, -5};
 
-//     Vector<long double> res(a -= b);
+    Vector<long double> res(a -= b);
 
-//     long double tmp[3] = {-300.5, -3.5, 11.5};
+    long double tmp[3] = {-300.5, -3.5, 11.5};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Diff, EqByNumDiff)
 {
@@ -302,23 +302,23 @@ TEST(Diff, EqByNumDiff)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Diff, EqByNumDiffAnyTypes)
-// {
-//     Vector<size_t> a = {100, 15, 36};
-//     size_t k = 10;
+TEST(Diff, EqByNumDiffAnyTypes)
+{
+    Vector<size_t> a = {100, 15, 36};
+    size_t k = 10;
 
-//     Vector<size_t> res(a -= k);
+    Vector<size_t> res(a -= k);
 
-//     size_t tmp[3] = {90, 5, 26};
+    size_t tmp[3] = {90, 5, 26};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Diff, BadVecDiff)
 {
@@ -357,24 +357,24 @@ TEST(Mul, ByNumMul)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Mul, ByNumMulAnyTypes)
-// {
-//     Vector<int> a = {100, 15, 36};
-//     double k = 10.0;
+TEST(Mul, ByNumMulAnyTypes)
+{
+    Vector<int> a = {100, 15, 36};
+    double k = 10.0;
 
-//     Vector<double> res(a * k);
+    Vector<double> res(a * k);
 
-//     int tmp_a[3] = {100, 15, 36};
-//     double tmp[3] = {1000.0, 150.0, 360.0};
+    int tmp_a[3] = {100, 15, 36};
+    double tmp[3] = {1000.0, 150.0, 360.0};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp_a[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Mul, EqByNumMul)
 {
@@ -394,23 +394,23 @@ TEST(Mul, EqByNumMul)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Mul, EqByNumMulAnyTypes)
-// {
-//     Vector<size_t> a = {100, 15, 36};
-//     size_t k = 10;
+TEST(Mul, EqByNumMulAnyTypes)
+{
+    Vector<size_t> a = {100, 15, 36};
+    size_t k = 10;
 
-//     Vector<size_t> res(a *= k);
+    Vector<size_t> res(a *= k);
 
-//     size_t tmp[3] = {1000, 150, 360};
+    size_t tmp[3] = {1000, 150, 360};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 #pragma endregion Mul
 
 #pragma region Div
@@ -433,24 +433,24 @@ TEST(Div, ByNumDiv)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Div, ByNumDivAnyTypes)
-// {
-//     Vector<int> a = {100, 15, 36};
-//     double k = 10.0;
+TEST(Div, ByNumDivAnyTypes)
+{
+    Vector<int> a = {100, 15, 36};
+    double k = 10.0;
 
-//     Vector<double> res(a / k);
+    Vector<double> res(a / k);
 
-//     int tmp_a[3] = {100, 15, 36};
-//     double tmp[3] = {10.0, 1.5, 3.6};
+    int tmp_a[3] = {100, 15, 36};
+    double tmp[3] = {10.0, 1.5, 3.6};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp_a[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp_a[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Div, EqByNumDiv)
 {
@@ -470,23 +470,23 @@ TEST(Div, EqByNumDiv)
         EXPECT_EQ(elem, tmp[i++]);
 }
 
-// TEST(Div, EqByNumDivAnyTypes)
-// {
-//     Vector<long long int> a = {100, 15, 36};
-//     long long int k = 10;
+TEST(Div, EqByNumDivAnyTypes)
+{
+    Vector<long long int> a = {100, 15, 36};
+    long long int k = 10;
 
-//     Vector<long long int> res(a /= k);
+    Vector<long long int> res(a /= k);
 
-//     long long int tmp[3] = {10, 1, 3};
+    long long int tmp[3] = {10, 1, 3};
 
-//     size_t i = 0;
-//     for (auto elem : a)
-//         EXPECT_EQ(elem, tmp[i++]);
+    size_t i = 0;
+    for (auto elem : a)
+        EXPECT_EQ(elem, tmp[i++]);
 
-//     i = 0;
-//     for (auto elem : res)
-//         EXPECT_EQ(elem, tmp[i++]);
-// }
+    i = 0;
+    for (auto elem : res)
+        EXPECT_EQ(elem, tmp[i++]);
+}
 
 TEST(Div, BadByNumDiv)
 {
