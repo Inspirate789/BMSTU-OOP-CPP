@@ -6,8 +6,10 @@
 class BaseContainer
 {
 public:
-    virtual bool IsEmpty() const;
-    virtual size_t GetSize() const;
+    BaseContainer();
+    BaseContainer(size_t sizeValue);
+    bool IsEmpty() const;
+    size_t GetSize() const;
     virtual ~BaseContainer() = 0;
 
 protected:

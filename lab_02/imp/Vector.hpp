@@ -12,17 +12,15 @@
 
 #pragma region Constructors
 template <typename Type>
-Vector<Type>::Vector(size_t size_value)
+Vector<Type>::Vector(size_t sizeValue): BaseContainer(sizeValue)
 {
     allocate(size);
-    size = size_value;
 }
 
 template <typename Type>
-Vector<Type>::Vector(const Vector<Type> &vector)
+Vector<Type>::Vector(const Vector<Type> &vector): BaseContainer(vector.size)
 {
-    allocate(vector.size);
-    size = vector.size;
+    allocate(size);
 
     ConstIterator<Type> src_iter = vector.cbegin();
     Iterator<Type> dst_iter = begin();
@@ -32,20 +30,18 @@ Vector<Type>::Vector(const Vector<Type> &vector)
 }
 
 template <typename Type>
-Vector<Type>::Vector(size_t sizeValue, const Type &filler)
+Vector<Type>::Vector(size_t sizeValue, const Type &filler): BaseContainer(sizeValue)
 {
     allocate(sizeValue);
-    size = sizeValue;
 
     for (Iterator<Type> iter = begin(); iter; ++iter)
         *iter = filler;
 }
 
 template <typename Type>
-Vector<Type>::Vector(size_t sizeValue, const Type *arr)
+Vector<Type>::Vector(size_t sizeValue, const Type *arr): BaseContainer(sizeValue)
 {
     allocate(sizeValue);
-    size = sizeValue;
 
     size_t i = 0;
     for (Iterator<Type> iter = begin(); iter; ++iter, ++i)
@@ -53,10 +49,9 @@ Vector<Type>::Vector(size_t sizeValue, const Type *arr)
 }
 
 template <typename Type>
-Vector<Type>::Vector(std::initializer_list<Type> elements)
+Vector<Type>::Vector(std::initializer_list<Type> elements): BaseContainer(elements.size())
 {
-    allocate(elements.size());
-    size = elements.size();
+    allocate(size);
 
     Iterator<Type> iter = begin();
 
@@ -65,16 +60,15 @@ Vector<Type>::Vector(std::initializer_list<Type> elements)
 }
 
 template <typename Type>
-Vector<Type>::Vector(Vector<Type> &&vector) noexcept // Передача по правосторонней ссылке (вызывается конструктор перемещения) (~передача владения~)
+Vector<Type>::Vector(Vector<Type> &&vector) noexcept: BaseContainer(vector.size) // Передача по правосторонней ссылке (вызывается конструктор перемещения) (~передача владения~)
 {
-    size = vector.size;
     data = vector.data;
     vector.data.reset();
 }
 
 template <typename Type>
 template <typename IterType>
-Vector<Type>::Vector(IterType begin, IterType end)
+Vector<Type>::Vector(IterType begin, IterType end): BaseContainer()
 {
     size_t len = 0;
     for (auto iter = begin; iter < end; ++iter, ++len);

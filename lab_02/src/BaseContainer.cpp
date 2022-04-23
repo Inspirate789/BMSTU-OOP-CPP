@@ -1,5 +1,15 @@
 #include "BaseContainer.h"
 
+BaseContainer::BaseContainer()
+{
+    size = 0;
+}
+
+BaseContainer::BaseContainer(size_t sizeValue)
+{
+    size = sizeValue;
+}
+
 bool BaseContainer::IsEmpty() const
 {
     return size == 0;
