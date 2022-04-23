@@ -102,4 +102,40 @@ TEST(Contructors, RevIterChar)
         EXPECT_EQ(elem, vector_1[i--]);
 }
 
+class A
+{
+    private:
+        int a;
+        size_t b;
+    public:
+    A() {a = 0; b = 0; };
+    explicit A(int x, size_t y) {a = x; b = y; };
+    bool operator==(const A &other) const { return (a == other.a) && (b == other.b); }
+    ~A() = default;
+};
+
+TEST(Contructors, FillerClass)
+{
+    size_t size = 3;
+    A filler(1, 2);
+    Vector<A> vector(size, filler);
+    EXPECT_EQ(vector.IsEmpty(), false);
+
+    for (auto elem : vector)
+        EXPECT_EQ(elem, filler);
+}
+
+TEST(Contructors, FillerClassWithDynAlloc)
+{
+    size_t size = 3;
+    A filler(1, 2);
+    Vector<A> *vector_ptr = new Vector(size, filler);
+    EXPECT_EQ(vector_ptr->IsEmpty(), false);
+
+    for (auto elem : *vector_ptr)
+        EXPECT_EQ(elem, filler);
+
+    delete vector_ptr;
+}
+
 #endif
