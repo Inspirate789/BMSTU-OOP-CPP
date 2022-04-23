@@ -90,18 +90,33 @@ Vector<Type>::~Vector() = default;
 
 #pragma region Iterators
 template <typename Type>
-Iterator<Type> Vector<Type>::begin() const noexcept
+Iterator<Type> Vector<Type>::begin() noexcept
 {
     return Iterator<Type>(*this);
 }
 
 template <typename Type>
-Iterator<Type> Vector<Type>::end() const noexcept
+Iterator<Type> Vector<Type>::end() noexcept
 {
     if (IsEmpty())
         return begin();
         
     return Iterator<Type>(*this) + size;
+}
+
+template <typename Type>
+ConstIterator<Type> Vector<Type>::begin() const noexcept
+{
+    return ConstIterator<Type>(*this);
+}
+
+template <typename Type>
+ConstIterator<Type> Vector<Type>::end() const noexcept
+{
+    if (IsEmpty())
+        return cbegin();
+        
+    return ConstIterator<Type>(*this) + size;
 }
 
 template <typename Type>
@@ -120,7 +135,7 @@ ConstIterator<Type> Vector<Type>::cend() const noexcept
 }
 
 template <typename Type>
-ReverseIterator<Type> Vector<Type>::rbegin() const noexcept
+ReverseIterator<Type> Vector<Type>::rbegin() noexcept
 {
     if (IsEmpty())
         return rend();
@@ -129,9 +144,24 @@ ReverseIterator<Type> Vector<Type>::rbegin() const noexcept
 }
 
 template <typename Type>
-ReverseIterator<Type> Vector<Type>::rend() const noexcept
+ReverseIterator<Type> Vector<Type>::rend() noexcept
 {
     return ReverseIterator<Type>(*this) - 1;
+}
+
+template <typename Type>
+ConstReverseIterator<Type> Vector<Type>::rbegin() const noexcept
+{
+    if (IsEmpty())
+        return crend();
+        
+    return ConstReverseIterator<Type>(*this) - (size - 1);
+}
+
+template <typename Type>
+ConstReverseIterator<Type> Vector<Type>::rend() const noexcept
+{
+    return ConstReverseIterator<Type>(*this) - 1;
 }
 
 template <typename Type>
@@ -308,7 +338,7 @@ const Type & Vector<Type>::operator[](const size_t index) const
 
 #pragma region Sum
 template <typename Type>
-Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
+Vector<Type> Vector<Type>::VecSum(const Vector<Type> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
@@ -318,6 +348,24 @@ Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
 
     for (; res_iter; ++res_iter)
         *res_iter += *(vec_iter++);
+
+    return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
+{
+    return VecSum(vector);
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::ByNumSum(const Type &num) const
+{
+    Vector<Type> res(*this);
+    Iterator<Type> res_iter = res.begin();
+
+    for (; res_iter; ++res_iter)
+        *res_iter += num;
 
     return res;
 }
@@ -325,17 +373,11 @@ Vector<Type> Vector<Type>::operator+(const Vector<Type> &vector) const
 template <typename Type>
 Vector<Type> Vector<Type>::operator+(const Type &num) const
 {
-    Vector<Type> res(*this);
-    Iterator<Type> res_iter = res.begin();
-
-    for (; res_iter; ++res_iter)
-        *res_iter += num;
-
-    return res;
+    return ByNumSum(num);
 }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator+=(const Vector<Type> &vector)
+Vector<Type> &Vector<Type>::EqVecSum(const Vector<Type> &vector)
 {
     sizesCheck(vector, __LINE__);
 
@@ -349,7 +391,13 @@ Vector<Type> &Vector<Type>::operator+=(const Vector<Type> &vector)
 }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator+=(const Type &num)
+Vector<Type> &Vector<Type>::operator+=(const Vector<Type> &vector)
+{
+    return EqVecSum(vector);
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::EqByNumSum(const Type &num)
 {
     Iterator<Type> res_iter = begin();
 
@@ -358,11 +406,17 @@ Vector<Type> &Vector<Type>::operator+=(const Type &num)
 
     return *this;
 }
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator+=(const Type &num)
+{
+    return EqByNumSum(num);
+}
 #pragma endregion Sum
 
 #pragma region Diff
 template <typename Type>
-Vector<Type> Vector<Type>::operator-(const Vector<Type> &vector) const
+Vector<Type> Vector<Type>::VecDiff(const Vector<Type> &vector) const
 {
     sizesCheck(vector, __LINE__);
 
@@ -377,7 +431,13 @@ Vector<Type> Vector<Type>::operator-(const Vector<Type> &vector) const
 }
 
 template <typename Type>
-Vector<Type> Vector<Type>::operator-(const Type &num) const
+Vector<Type> Vector<Type>::operator-(const Vector<Type> &vector) const
+{
+    return VecDiff(vector);
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::ByNumDiff(const Type &num) const
 {
     Vector<Type> res(*this);
     Iterator<Type> res_iter = res.begin();
@@ -386,6 +446,12 @@ Vector<Type> Vector<Type>::operator-(const Type &num) const
         *res_iter -= num;
 
     return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator-(const Type &num) const
+{
+    return ByNumDiff(num);
 }
 
 // template <typename Type>
@@ -418,7 +484,7 @@ Vector<Type> Vector<Type>::operator-(const Type &num) const
 // }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator-=(const Vector<Type> &vector)
+Vector<Type> &Vector<Type>::EqVecDiff(const Vector<Type> &vector)
 {
     sizesCheck(vector, __LINE__);
 
@@ -432,7 +498,13 @@ Vector<Type> &Vector<Type>::operator-=(const Vector<Type> &vector)
 }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator-=(const Type &num)
+Vector<Type> &Vector<Type>::operator-=(const Vector<Type> &vector)
+{
+    return EqVecDiff(vector);
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::EqByNumDiff(const Type &num)
 {
     Iterator<Type> res_iter = begin();
 
@@ -440,6 +512,12 @@ Vector<Type> &Vector<Type>::operator-=(const Type &num)
         *res_iter -= num;
 
     return *this;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator-=(const Type &num)
+{
+    return EqByNumDiff(num);
 }
 
 // template <typename Type>
@@ -472,7 +550,7 @@ Vector<Type> &Vector<Type>::operator-=(const Type &num)
 
 #pragma region Mul
 template <typename Type>
-Vector<Type> Vector<Type>::operator*(const Type &num) const
+Vector<Type> Vector<Type>::ByNumMul(const Type &num) const
 {
     Vector<Type> res(*this);
     Iterator<Type> res_iter = res.begin();
@@ -481,6 +559,12 @@ Vector<Type> Vector<Type>::operator*(const Type &num) const
         *res_iter *= num;
 
     return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator*(const Type &num) const
+{
+    return ByNumMul(num);
 }
 
 // template <typename Type>
@@ -497,7 +581,7 @@ Vector<Type> Vector<Type>::operator*(const Type &num) const
 // }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator*=(const Type &num)
+Vector<Type> &Vector<Type>::EqByNumMul(const Type &num)
 {
     Iterator<Type> res_iter = begin();
 
@@ -505,6 +589,12 @@ Vector<Type> &Vector<Type>::operator*=(const Type &num)
         *res_iter *= num;
 
     return *this;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator*=(const Type &num)
+{
+    return EqByNumMul(num);
 }
 
 // template <typename Type>
@@ -522,7 +612,7 @@ Vector<Type> &Vector<Type>::operator*=(const Type &num)
 
 #pragma region Div
 template <typename Type>
-Vector<Type> Vector<Type>::operator/(const Type &num) const
+Vector<Type> Vector<Type>::ByNumDiv(const Type &num) const
 {
     divisionByZeroCheck(num, __LINE__);
 
@@ -533,6 +623,12 @@ Vector<Type> Vector<Type>::operator/(const Type &num) const
         *res_iter /= num;
 
     return res;
+}
+
+template <typename Type>
+Vector<Type> Vector<Type>::operator/(const Type &num) const
+{
+    return ByNumDiv(num);
 }
 
 // template <typename Type>
@@ -551,7 +647,7 @@ Vector<Type> Vector<Type>::operator/(const Type &num) const
 // }
 
 template <typename Type>
-Vector<Type> &Vector<Type>::operator/=(const Type &num)
+Vector<Type> &Vector<Type>::EqByNumDiv(const Type &num)
 {
     divisionByZeroCheck(num, __LINE__);
     
@@ -561,6 +657,12 @@ Vector<Type> &Vector<Type>::operator/=(const Type &num)
         *res_iter /= num;
 
     return *this;
+}
+
+template <typename Type>
+Vector<Type> &Vector<Type>::operator/=(const Type &num)
+{
+    return EqByNumDiv(num);
 }
 
 // template <typename Type>

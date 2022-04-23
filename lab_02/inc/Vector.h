@@ -33,12 +33,16 @@ public:
     ~Vector() override;
 
     #pragma region Iterators
-    Iterator<Type> begin() const noexcept;
-    Iterator<Type> end() const noexcept;
+    Iterator<Type> begin() noexcept;
+    Iterator<Type> end() noexcept;
+    ConstIterator<Type> begin() const noexcept;
+    ConstIterator<Type> end() const noexcept;
     ConstIterator<Type> cbegin() const noexcept;
     ConstIterator<Type> cend() const noexcept;
-    ReverseIterator<Type> rbegin() const noexcept;
-    ReverseIterator<Type> rend() const noexcept;
+    ReverseIterator<Type> rbegin() noexcept;
+    ReverseIterator<Type> rend() noexcept;
+    ConstReverseIterator<Type> rbegin() const noexcept;
+    ConstReverseIterator<Type> rend() const noexcept;
     ConstReverseIterator<Type> crbegin() const noexcept;
     ConstReverseIterator<Type> crend() const noexcept;
     #pragma endregion Iterators
@@ -81,30 +85,42 @@ public:
     #pragma endregion Indexations
 
     #pragma region Sum
+    Vector<Type> VecSum(const Vector<Type> &vector) const;
     Vector<Type> operator+(const Vector<Type> &vector) const;
+    Vector<Type> ByNumSum(const Type &num) const;
     Vector<Type> operator+(const Type &num) const;
 
+    Vector<Type> &EqVecSum(const Vector<Type> &vector);
     Vector<Type> &operator+=(const Vector<Type> &vector);
+    Vector<Type> &EqByNumSum(const Type &num);
     Vector<Type> &operator+=(const Type &num);
     #pragma endregion Sum
 
     #pragma region Diff
+    Vector<Type> VecDiff(const Vector<Type> &vector) const;
     Vector<Type> operator-(const Vector<Type> &vector) const;
+    Vector<Type> ByNumDiff(const Type &num) const;
     Vector<Type> operator-(const Type &num) const;
 
+    Vector<Type> &EqVecDiff(const Vector<Type> &vector);
     Vector<Type> &operator-=(const Vector<Type> &vector);
+    Vector<Type> &EqByNumDiff(const Type &num);
     Vector<Type> &operator-=(const Type &num);
     #pragma endregion Diff
     
     #pragma region Mul
+    Vector<Type> ByNumMul(const Type &num) const;
     Vector<Type> operator*(const Type &num) const;
 
+    Vector<Type> &EqByNumMul(const Type &num);
     Vector<Type> &operator*=(const Type &num);
     #pragma endregion Mul
 
     #pragma region Div
+    Vector<Type> ByNumDiv(const Type &num) const;
     Vector<Type> operator/(const Type &num) const;
 
+    Vector<Type> &EqByNumDiv(const Type &num);
     Vector<Type> &operator/=(const Type &num);
     #pragma endregion Div
 
