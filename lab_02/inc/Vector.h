@@ -19,7 +19,7 @@ class Vector : public BaseContainer
 
 public:
     #pragma region Constructors
-    Vector(): BaseContainer(), data() {};
+    Vector();
     explicit Vector(size_t size_value);
     explicit Vector(const Vector<Type> &vector);
     Vector(size_t sizeValue, const Type &filler);

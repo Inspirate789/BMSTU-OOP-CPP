@@ -12,6 +12,9 @@
 
 #pragma region Constructors
 template <typename Type>
+Vector<Type>::Vector(): BaseContainer(), data() {}
+
+template <typename Type>
 Vector<Type>::Vector(size_t sizeValue): BaseContainer(sizeValue)
 {
     allocate(size);

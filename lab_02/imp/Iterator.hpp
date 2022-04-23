@@ -6,11 +6,10 @@
 
 #pragma region Constructors
 template <typename Type>
-Iterator<Type>::Iterator(const Vector<Type> &vector) noexcept
+Iterator<Type>::Iterator(const Vector<Type> &vector) noexcept: BaseIterator()
 {
     ptr = vector.data;
     size = vector.size;
-    index = 0;
 }
 
 template <typename Type>
