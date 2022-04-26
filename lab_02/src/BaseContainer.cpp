@@ -5,7 +5,7 @@ BaseContainer::BaseContainer()
     size = 0;
 }
 
-BaseContainer::BaseContainer(size_t sizeValue)
+BaseContainer::BaseContainer(const size_t sizeValue)
 {
     size = sizeValue;
 }

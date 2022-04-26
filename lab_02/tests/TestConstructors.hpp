@@ -129,7 +129,7 @@ TEST(Contructors, FillerClassWithDynAlloc)
 {
     size_t size = 3;
     A filler(1, 2);
-    Vector<A> *vector_ptr = new Vector(size, filler);
+    Vector<A> *vector_ptr = new Vector<A>(size, filler);
     EXPECT_EQ(vector_ptr->IsEmpty(), false);
 
     for (auto elem : *vector_ptr)

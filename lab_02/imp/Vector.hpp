@@ -14,7 +14,7 @@ template <typename Type>
 Vector<Type>::Vector(): BaseContainer(), data() {}
 
 template <typename Type>
-Vector<Type>::Vector(size_t sizeValue): BaseContainer(sizeValue)
+Vector<Type>::Vector(const size_t sizeValue): BaseContainer(sizeValue)
 {
     allocate(size);
 }
@@ -29,7 +29,7 @@ Vector<Type>::Vector(const Vector<Type> &vector): BaseContainer(vector.size)
 }
 
 template <typename Type>
-Vector<Type>::Vector(size_t sizeValue, const Type &filler): BaseContainer(sizeValue)
+Vector<Type>::Vector(const size_t sizeValue, const Type &filler): BaseContainer(sizeValue)
 {
     allocate(sizeValue);
 
@@ -38,7 +38,7 @@ Vector<Type>::Vector(size_t sizeValue, const Type &filler): BaseContainer(sizeVa
 }
 
 template <typename Type>
-Vector<Type>::Vector(size_t sizeValue, const Type *arr): BaseContainer(sizeValue)
+Vector<Type>::Vector(const size_t sizeValue, const Type *arr): BaseContainer(sizeValue)
 {
     allocate(sizeValue);
 
@@ -47,7 +47,7 @@ Vector<Type>::Vector(size_t sizeValue, const Type *arr): BaseContainer(sizeValue
 }
 
 template <typename Type>
-Vector<Type>::Vector(std::initializer_list<Type> elements): BaseContainer(elements.size())
+Vector<Type>::Vector(const std::initializer_list<Type> elements): BaseContainer(elements.size())
 {
     allocate(size);
 
@@ -65,7 +65,7 @@ Vector<Type>::Vector(Vector<Type> &&vector) noexcept: BaseContainer(vector.size)
 
 template <typename Type>
 template <typename IterType>
-Vector<Type>::Vector(IterType begin, IterType end): BaseContainer()
+Vector<Type>::Vector(const IterType begin, const IterType end): BaseContainer()
 {
     size_t len = 0;
     for (auto iter = begin; iter < end; ++iter, ++len);
@@ -140,7 +140,7 @@ ReverseIterator<Type> Vector<Type>::rbegin() noexcept
 template <typename Type>
 ReverseIterator<Type> Vector<Type>::rend() noexcept
 {
-    return ReverseIterator<Type>(*this) - 1;
+    return ReverseIterator<Type>(*this) + 1;
 }
 
 template <typename Type>
@@ -155,7 +155,7 @@ ConstReverseIterator<Type> Vector<Type>::rbegin() const noexcept
 template <typename Type>
 ConstReverseIterator<Type> Vector<Type>::rend() const noexcept
 {
-    return ConstReverseIterator<Type>(*this) - 1;
+    return ConstReverseIterator<Type>(*this) + 1;
 }
 
 template <typename Type>
@@ -170,7 +170,7 @@ ConstReverseIterator<Type> Vector<Type>::crbegin() const noexcept
 template <typename Type>
 ConstReverseIterator<Type> Vector<Type>::crend() const noexcept
 {
-    return ConstReverseIterator<Type>(*this) - 1;
+    return ConstReverseIterator<Type>(*this) + 1;
 }
 #pragma endregion Iterators
 
@@ -313,7 +313,7 @@ bool Vector<Type>::operator!=(const Vector<OtherType> &vector) const
 
 #pragma region Indexations
 template <typename Type>
-Type & Vector<Type>::operator[](const size_t index)
+Type &Vector<Type>::operator[](const size_t index)
 {
     indexCheck(index, __LINE__);
 
@@ -321,7 +321,7 @@ Type & Vector<Type>::operator[](const size_t index)
 }
 
 template <typename Type>
-const Type & Vector<Type>::operator[](const size_t index) const
+const Type &Vector<Type>::operator[](const size_t index) const
 {
     indexCheck(index, __LINE__);
 
