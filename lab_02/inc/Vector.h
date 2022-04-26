@@ -20,14 +20,14 @@ class Vector : public BaseContainer
 public:
     #pragma region Constructors
     Vector();
-    explicit Vector(size_t size_value);
+    explicit Vector(const size_t size_value);
     explicit Vector(const Vector<Type> &vector);
-    Vector(size_t sizeValue, const Type &filler);
-    Vector(size_t sizeValue, const Type *arr);
-    Vector(std::initializer_list<Type> elements);
+    Vector(const size_t sizeValue, const Type &filler);
+    Vector(const size_t sizeValue, const Type *arr);
+    Vector(const std::initializer_list<Type> elements);
     Vector(Vector<Type> &&vector) noexcept;
     template <typename IterType>
-    Vector(IterType begin, IterType end);
+    Vector(const IterType begin, const IterType end);
     #pragma endregion Constructors
 
     ~Vector() override;
