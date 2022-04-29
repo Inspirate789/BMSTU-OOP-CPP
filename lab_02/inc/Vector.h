@@ -19,7 +19,7 @@ class Vector : public BaseContainer
 
 public:
     #pragma region Constructors
-    Vector();
+    Vector() noexcept;
     explicit Vector(const size_t size_value);
     explicit Vector(const Vector<Type> &vector);
     Vector(const size_t sizeValue, const Type &filler);
@@ -235,7 +235,7 @@ public:
     #pragma endregion Operations
 
 protected:
-    void allocate(size_t size_value);
+    void allocate(const size_t size_value);
 
     #pragma region Checks
     void zeroSizeCheck(const size_t line) const;
