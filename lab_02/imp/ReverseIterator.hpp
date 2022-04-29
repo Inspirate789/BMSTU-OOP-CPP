@@ -6,11 +6,10 @@
 
 #pragma region Constructors
 template <typename Type>
-ReverseIterator<Type>::ReverseIterator(const Vector<Type> &vector) noexcept
+ReverseIterator<Type>::ReverseIterator(const Vector<Type> &vector) noexcept: BaseIterator()
 {
     ptr = vector.data;
     size = vector.size;
-    index = 0;
 }
 
 template <typename Type>
@@ -82,7 +81,7 @@ Type &ReverseIterator<Type>::operator[](const size_t offset)
     expiredCheck(__LINE__);
     indexCheck(__LINE__, offset);
 
-    return *(getCurPtr() + offset);
+    return *(getCurPtr() - offset);
 }
 
 template <typename Type>
@@ -91,7 +90,7 @@ const Type &ReverseIterator<Type>::operator[](const size_t offset) const
     expiredCheck(__LINE__);
     indexCheck(__LINE__, offset);
 
-    return *(getCurPtr() + offset);
+    return *(getCurPtr() - offset);
 }
 
 template <typename Type>
@@ -137,7 +136,7 @@ ReverseIterator<Type> &ReverseIterator<Type>::operator-=(const OtherType diff)
 }
 
 template <typename Type>
-ReverseIterator<Type> & ReverseIterator<Type>::operator++()
+ReverseIterator<Type> &ReverseIterator<Type>::operator++()
 {
     expiredCheck(__LINE__);
 
@@ -151,12 +150,12 @@ ReverseIterator<Type> ReverseIterator<Type>::operator++(int)
     expiredCheck(__LINE__);
 
     ReverseIterator<Type> tmp(*this);
-    --(*this);
+    --index;
     return tmp;
 }
 
 template <typename Type>
-ReverseIterator<Type> & ReverseIterator<Type>::operator--()
+ReverseIterator<Type> &ReverseIterator<Type>::operator--()
 {
     expiredCheck(__LINE__);
 
@@ -170,7 +169,7 @@ ReverseIterator<Type> ReverseIterator<Type>::operator--(int)
     expiredCheck(__LINE__);
 
     ReverseIterator<Type> tmp(*this);
-    ++(*this);
+    ++index;
     return tmp;
 }
 
@@ -251,7 +250,7 @@ void ReverseIterator<Type>::expiredCheck(const size_t line) const
 template <typename Type>
 void ReverseIterator<Type>::indexCheck(const size_t line, const size_t offset) const
 {
-    if (index + offset >= size)
+    if (index - offset >= size)
     {
         time_t cur_time = time(NULL);
         throw OutOfRangeException(ctime(&cur_time), __FILE__, line,

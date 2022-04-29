@@ -11,7 +11,7 @@
 
 #pragma region Constructors
 template <typename Type>
-Vector<Type>::Vector(): BaseContainer(), data() {}
+Vector<Type>::Vector() noexcept: BaseContainer(), data() {}
 
 template <typename Type>
 Vector<Type>::Vector(const size_t sizeValue): BaseContainer(sizeValue)
@@ -280,7 +280,7 @@ template <typename OtherType>
 bool Vector<Type>::isEqual(const Vector<OtherType> &vector) const
 {
     if (size != vector.GetSize())
-    return false;
+        return false;
 
     for (size_t i = 0; i < size; ++i)
         if (abs((*this)[i] - vector[i]) > EPS)
@@ -371,6 +371,8 @@ template <typename OtherType>
 decltype(auto) Vector<Type>::VecSum(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
+    zeroSizeCheck(__LINE__);
+
     Vector<decltype((*this)[0] + vector[0])> res(size);
     
     for (size_t i = 0; i < size; ++i)
@@ -516,6 +518,7 @@ template <typename OtherType>
 decltype(auto) Vector<Type>::VecDiff(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
+    zeroSizeCheck(__LINE__);
 
     Vector<decltype((*this)[0] - vector[0])> res(size);
 
@@ -795,6 +798,7 @@ template <typename OtherType>
 decltype(auto) Vector<Type>::scalarProd(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
+    zeroSizeCheck(__LINE__);
 
     decltype((*this)[0] * vector[0]) sum = 0;
 
@@ -838,6 +842,7 @@ template <typename OtherType>
 decltype(auto) Vector<Type>::vectorProd(const Vector<OtherType> &vector) const
 {
     sizesCheck(vector, __LINE__);
+    zeroSizeCheck(__LINE__);
 
     Vector<decltype((*this)[0] + vector[0])> res(size);
 
@@ -968,7 +973,7 @@ bool Vector<Type>::isOrthogonal(const Vector<OtherType> &vector) const
 #pragma region ProtectedMethods
 #pragma region Allocate
 template <typename Type>
-void Vector<Type>::allocate(size_t size_value)
+void Vector<Type>::allocate(const size_t size_value)
 {
     try
     {

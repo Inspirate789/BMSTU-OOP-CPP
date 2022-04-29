@@ -76,6 +76,9 @@ TEST(Contructors, IterChar)
     size_t size = 5;
     const char *str = "abcdef";
     Vector<char> vector_1(size, str);
+
+    EXPECT_EQ(vector_1.IsEmpty(), false);
+
     Vector<char> vector_2(vector_1.cbegin() + 1, vector_1.cend() - 1);
     
     EXPECT_EQ(vector_2.IsEmpty(), false);
@@ -109,7 +112,7 @@ class A
         size_t b;
     public:
     A() {a = 0; b = 0; };
-    explicit A(int x, size_t y) {a = x; b = y; };
+    explicit A(int x, size_t y) { a = x; b = y; };
     bool operator==(const A &other) const { return (a == other.a) && (b == other.b); }
     ~A() = default;
 };

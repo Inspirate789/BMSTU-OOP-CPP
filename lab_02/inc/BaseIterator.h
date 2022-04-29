@@ -7,7 +7,7 @@ class BaseIterator
 {
 public:
     BaseIterator();
-    BaseIterator(const BaseIterator &iterator);
+    explicit BaseIterator(const BaseIterator &iterator);
     virtual ~BaseIterator() = 0;
 
 protected:

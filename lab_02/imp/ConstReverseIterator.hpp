@@ -6,11 +6,10 @@
 
 #pragma region Constructors
 template <typename Type>
-ConstReverseIterator<Type>::ConstReverseIterator(const Vector<Type> &vector) noexcept
+ConstReverseIterator<Type>::ConstReverseIterator(const Vector<Type> &vector) noexcept: BaseIterator()
 {
     ptr = vector.data;
     size = vector.size;
-    index = 0;
 }
 
 template <typename Type>
@@ -64,7 +63,7 @@ const Type &ConstReverseIterator<Type>::operator[](const size_t offset) const
     expiredCheck(__LINE__);
     indexCheck(__LINE__, offset);
 
-    return *(getCurPtr() + offset);
+    return *(getCurPtr() - offset);
 }
 
 template <typename Type>
@@ -110,7 +109,7 @@ ConstReverseIterator<Type> &ConstReverseIterator<Type>::operator-=(const OtherTy
 }
 
 template <typename Type>
-ConstReverseIterator<Type> & ConstReverseIterator<Type>::operator++()
+ConstReverseIterator<Type> &ConstReverseIterator<Type>::operator++()
 {
     expiredCheck(__LINE__);
 
@@ -124,12 +123,12 @@ ConstReverseIterator<Type> ConstReverseIterator<Type>::operator++(int)
     expiredCheck(__LINE__);
 
     ConstReverseIterator<Type> tmp(*this);
-    --(*this);
+    --index;
     return tmp;
 }
 
 template <typename Type>
-ConstReverseIterator<Type> & ConstReverseIterator<Type>::operator--()
+ConstReverseIterator<Type> &ConstReverseIterator<Type>::operator--()
 {
     expiredCheck(__LINE__);
 
@@ -143,7 +142,7 @@ ConstReverseIterator<Type> ConstReverseIterator<Type>::operator--(int)
     expiredCheck(__LINE__);
 
     ConstReverseIterator<Type> tmp(*this);
-    ++(*this);
+    ++index;
     return tmp;
 }
 
@@ -224,7 +223,7 @@ void ConstReverseIterator<Type>::expiredCheck(const size_t line) const
 template <typename Type>
 void ConstReverseIterator<Type>::indexCheck(const size_t line, const size_t offset) const
 {
-    if (index + offset >= size)
+    if (index - offset >= size)
     {
         time_t cur_time = time(NULL);
         throw OutOfRangeException(ctime(&cur_time), __FILE__, line,
