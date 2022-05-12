@@ -6,6 +6,8 @@
 #include "camera.h"
 #include "basedrawer.h"
 
+class Camera;
+
 class DrawCarcassModelAdapter : public ModelAdapter
 {
 public:

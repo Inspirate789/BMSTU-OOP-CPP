@@ -58,9 +58,3 @@ Iterator Composite::end()
 {
     return _elements.end();
 }
-
-
-void Composite::accept(std::shared_ptr<Visitor> visitor)
-{
-    visitor->visit(*this);
-}

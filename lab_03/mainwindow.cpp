@@ -29,7 +29,7 @@ void MainWindow::setupScene()
     _scene->setSceneRect(0, 0, cont.width(), cont.height());
     _camInd = 1;
 
-    std::shared_ptr<DrawerFactoryDirector> director(new DrawerFactoryDirector());
+    auto director(new DrawerFactorySolution<QtDrawerFactory, QGraphicsScene>());
     _drawer = director->createDrawer(_scene);
 }
 

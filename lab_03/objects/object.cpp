@@ -23,9 +23,3 @@ void Camera::transform(const Vertex &move, const Vertex &scale, const Vertex &ro
     moveX(move.getX());
     moveY(move.getY());
 }
-
-
-void Camera::accept(std::shared_ptr<Visitor> visitor)
-{
-    visitor->visit(*this);
-}

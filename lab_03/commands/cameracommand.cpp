@@ -18,9 +18,6 @@ void AddCamera::execute()
 
     shared_ptr<Solution<SceneManager>> solution(new Solution<SceneManager>({ {1, &CrCreator<SceneManager>::createProdCreator} }));
     solution->registration(2, &CrCreator<SceneManager>::createProdCreator);
-    //shared_ptr<ManagerCreator<SceneManager>> cr(solution->create(2));
-    //unique_ptr<SceneManager> sceneManagerPtr = solution->create(2)->createManager();
-    //auto sceneManager = SceneManagerCreator().createManager();
     solution->create(2)->getScene()->addObject(camera);
 
     (*_id) = camera->getId();

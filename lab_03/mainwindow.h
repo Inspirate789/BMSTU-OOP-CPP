@@ -13,7 +13,8 @@
 #include "scenecommand.h"
 #include "exceptions.h"
 #include "basedrawer.h"
-#include "drawerfactorydirector.h"
+#include "drawerfactorysolution.h"
+#include "qtdrawerfactory.h"
 #include "facade.h"
 
 QT_BEGIN_NAMESPACE

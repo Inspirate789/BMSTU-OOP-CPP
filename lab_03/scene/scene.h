@@ -3,6 +3,12 @@
 
 #include "composite.h"
 
+class Object;
+
+using Iterator = std::vector<std::shared_ptr<Object>>::iterator;
+
+class Composite;
+
 class Scene
 {
 public:
