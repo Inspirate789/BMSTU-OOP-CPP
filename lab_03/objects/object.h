@@ -25,7 +25,7 @@ public:
     virtual bool isComposite() { return  false; };
 
     virtual void moveElems(std::vector<Vertex> &distances) { };
-    virtual std::vector<Vertex> getElemsDistances(Vertex &center) const { };
+    virtual std::vector<Vertex> getElemsDistances(Vertex &center) const { return std::vector<Vertex>(); };
     virtual Vertex getCenter() const = 0;
     virtual void transform(const Matrix<double> &mtr) = 0;
 
