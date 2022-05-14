@@ -29,8 +29,8 @@ void MainWindow::setupScene()
     _scene->setSceneRect(0, 0, cont.width(), cont.height());
     _camInd = 1;
 
-    auto director(new DrawerFactorySolution<QtDrawerFactory, QGraphicsScene>());
-    _drawer = director->createDrawer(_scene);
+    auto solution(new DrawerFactorySolution<QtDrawerFactory, QGraphicsScene>());
+    _drawer = solution->createDrawer(_scene);
 }
 
 void MainWindow::updateScene()
