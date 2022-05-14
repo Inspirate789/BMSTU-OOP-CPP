@@ -119,6 +119,11 @@ void Vertex::transform(const Matrix<double> &mtr)
     _z = new_location[0][2];
 }
 
+Vertex Vertex::getCenter() const
+{
+    return *this;
+}
+
 Vertex Vertex::getAbsVertex(const Vertex &center)
 {
     return (*this) + center;

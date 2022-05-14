@@ -23,6 +23,7 @@ public:
 
     ~CarcassModel() override = default;
 
+    virtual Vertex getCenter() const override;
     void transform(const Matrix<double> &mtr) override;
 
 protected:

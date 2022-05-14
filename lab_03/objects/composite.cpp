@@ -41,10 +41,48 @@ bool Composite::isComposite()
 
 void Composite::transform(const Matrix<double> &mtr)
 {
+    Vertex center = this->getCenter();
+
+    std::vector<Vertex> distances;
+
+    for (const auto &element : _elements)
+    {
+        distances.push_back(element->getCenter() - center);
+    }
+
+    center.transform(mtr);
+
+    size_t i = 0;
+    for (const auto &element : _elements)
+    {
+        Matrix<double> move_mtr = {{1,  0,  0,  0},
+                                   {0,  1,  0,  0},
+                                   {0,  0,  1,  0},
+                                   {distances[i].getX(), distances[i].getY(), distances[i].getZ(), 1}};
+        element->transform(move_mtr);
+        i++;
+    }
+
     for (const auto &element : _elements)
     {
         element->transform(mtr);
     }
+}
+
+Vertex Composite::getCenter() const
+{
+    Vertex center = Vertex(0, 0, 0);
+    size_t count = 0;
+
+    for (const auto &element : _elements)
+    {
+        center = center + element->getCenter();
+        count++;
+    }
+
+    center = Vertex(center.getX() / count, center.getY() / count, center.getZ() / count);
+
+    return center;
 }
 
 

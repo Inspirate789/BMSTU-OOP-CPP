@@ -118,6 +118,9 @@ SOURCES = \
    $$PWD/main.cpp \
    $$PWD/mainwindow.cpp
 
+FORMS += \
+    mainwindow.ui
+
 INCLUDEPATH = \
     $$PWD/. \
     $$PWD/adapters \

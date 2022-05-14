@@ -18,6 +18,7 @@ public:
     bool isVisible() override;
     bool isComposite() override;
 
+    virtual Vertex getCenter() const override;
     virtual void transform(const Matrix<double> &mtr) override;
 
     Iterator begin() override;

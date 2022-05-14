@@ -17,7 +17,7 @@ public:
 
     const std::vector<Vertex> &getVertexes() const;
     const std::vector<Link> &getLinks() const;
-    const Vertex &getCenter() const;
+    const Vertex getCenter() const;
 
     void addVertex(const Vertex &vertex);
     void addLink(const Link &link);

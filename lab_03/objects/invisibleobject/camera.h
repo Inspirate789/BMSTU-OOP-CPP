@@ -13,6 +13,7 @@ public:
     Camera(const Vertex &location) : _location(location) { }
     ~Camera() override = default;
 
+    virtual Vertex getCenter() const override;
     void transform(const Matrix<double> &mtr) override;
 private:
     Vertex _location;

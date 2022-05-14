@@ -6,6 +6,11 @@ CarcassModel::CarcassModel(const CarcassModel &model)
     _id = model._id;
 }
 
+Vertex CarcassModel::getCenter() const
+{
+    return _modelStructure->getCenter();
+}
+
 void CarcassModel::transform(const Matrix<double> &mtr)
 {
     _modelStructure->transform(mtr);

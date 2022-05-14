@@ -20,9 +20,20 @@ const std::vector<Link> &ModelStructure::getLinks() const
 }
 
 
-const Vertex &ModelStructure::getCenter() const
+const Vertex ModelStructure::getCenter() const
 {
-    return _center;
+    Vertex center = Vertex(0, 0, 0);
+    size_t count = 0;
+
+    for (const auto &element : _vertexes)
+    {
+        center = center + element.getCenter();
+        count++;
+    }
+
+    center = Vertex(center.getX() / count, center.getY() / count, center.getZ() / count);
+
+    return center;
 }
 
 void ModelStructure::addVertex(const Vertex &vertex)

@@ -7,3 +7,8 @@ void Camera::transform(const Matrix<double> &mtr)
 
     _location = Vertex(new_location[0][0], new_location[0][1], new_location[0][2]);
 }
+
+Vertex Camera::getCenter() const
+{
+    return _location;
+}

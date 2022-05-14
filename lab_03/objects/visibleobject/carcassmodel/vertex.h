@@ -36,6 +36,7 @@ public:
 
     Vertex getAbsVertex(const Vertex &center);
 
+    Vertex getCenter() const;
     void transform(const Matrix<double> &mtr);
 
 private:
