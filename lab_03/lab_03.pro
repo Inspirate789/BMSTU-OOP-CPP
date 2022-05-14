@@ -3,7 +3,9 @@
 
 #TARGET = lab_03
 
-QT = core gui widgets
+QT = core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 HEADERS = \
    $$PWD/adapters/composite/compositeadapter.h \
@@ -78,7 +80,6 @@ HEADERS = \
    $$PWD/objects/object.h \
    $$PWD/scene/scene.h \
    $$PWD/mainwindow.h \
-   $$PWD/ui_mainwindow.h
 
 SOURCES = \
    $$PWD/adapters/composite/drawcompositeadapter.cpp \
@@ -155,7 +156,7 @@ INCLUDEPATH = \
     $$PWD/objects/visibleobject/carcassmodel \
     $$PWD/scene
 
-#DEFINES = 
+#DEFINES =
 
 DISTFILES += \
     data/cone.txt \
