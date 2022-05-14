@@ -8,6 +8,6 @@
 Лабы:
 - 1 - :white_check_mark: :keycap_ten:/:keycap_ten: 
 - 2 - :white_check_mark: :keycap_ten:/:keycap_ten: 
-- 3 - :o:
+- 3 - :white_check_mark: (:keycap_ten::heavy_plus_sign::keycap_ten:)/(:keycap_ten::heavy_plus_sign::keycap_ten:)
 - 4 - :o:
 - 5 - :o:
