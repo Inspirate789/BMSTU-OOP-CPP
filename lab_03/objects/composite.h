@@ -18,6 +18,8 @@ public:
     bool isVisible() override;
     bool isComposite() override;
 
+    virtual void moveElems(std::vector<Vertex> &distances) override;
+    virtual std::vector<Vertex> getElemsDistances(Vertex &center) const override;
     virtual Vertex getCenter() const override;
     virtual void transform(const Matrix<double> &mtr) override;
 
