@@ -4,6 +4,8 @@
 #include "baseadapter.h"
 #include "carcassmodel.h"
 
+class CarcassModel;
+
 class ModelAdapter: public BaseAdapter
 {
 public:

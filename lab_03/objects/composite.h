@@ -2,8 +2,6 @@
 #define COMPOSITE_H
 
 #include "object.h"
-#include "scene.h"
-#include "drawcompositeadapter.h"
 
 class Composite : public Object
 {
@@ -20,7 +18,7 @@ public:
     bool isVisible() override;
     bool isComposite() override;
 
-    virtual void transform(const Vertex &move, const Vertex &scale, const Vertex &rotate) override;
+    virtual void transform(const Matrix<double> &mtr) override;
 
     Iterator begin() override;
     Iterator end() override;

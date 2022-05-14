@@ -64,8 +64,8 @@ void FileSceneBuildDirector::loadModels(std::shared_ptr<SceneBuilder> builder)
 
     for (int i = 0; i < num; i++)
     {
-        auto model = std::make_shared<Object>(*(FileModelBuildDirector(_file).load(modBuilder)));
-        builder->buildObject(model);
+        std::shared_ptr<CarcassModel> model_sh_ptr = FileModelBuildDirector(_file).load(modBuilder);
+        builder->buildObject(model_sh_ptr);
     }
 }
 
@@ -79,7 +79,7 @@ void FileSceneBuildDirector::loadCameras(std::shared_ptr<SceneBuilder> builder)
 
     for (int i = 0; i < num; i++)
     {
-        auto cam = std::make_shared<Object>(*(FileCameraBuildDirector(_file).load(camBuilder)));
-        builder->buildObject(cam);
+        std::shared_ptr<Camera> cam_sh_ptr = FileCameraBuildDirector(_file).load(camBuilder);
+        builder->buildObject(cam_sh_ptr);
     }
 }

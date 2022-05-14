@@ -5,8 +5,6 @@
 #include "camera.h"
 #include "basedrawer.h"
 
-class Camera;
-
 class DrawCompositeAdapter : public CompositeAdapter
 {
 public:

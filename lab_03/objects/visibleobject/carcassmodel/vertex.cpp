@@ -109,61 +109,14 @@ Vertex Vertex::operator-(const Vertex &vertex)
 }
 
 
-void Vertex::move(const double dx, const double dy, const double dz)
+void Vertex::transform(const Matrix<double> &mtr)
 {
-    setX(_x + dx);
-    setY(_y + dy);
-    setZ(_y + dz);
-}
+    Matrix<double> cur_location = {{_x, _y, _z, 1}};
+    Matrix<double> new_location = cur_location * mtr;
 
-void Vertex::scale(const double kx, const double ky, const double kz)
-{
-    setX(_x * kx);
-    setY(_y * ky);
-    setZ(_z * kz);
-}
-
-void Vertex::rotate(const double ox, const double oy, const double oz)
-{
-    rotateX(ox);
-    rotateY(oy);
-    rotateZ(oz);
-}
-
-
-void Vertex::rotateX(const double ox)
-{
-    const double cosO = cos(toRadians(ox));
-    const double sinO = sin(toRadians(ox));
-
-    const double tmp = _y;
-
-    setY(_y * cosO + _z * sinO);
-    setZ(_z * cosO - tmp * sinO);
-}
-
-
-void Vertex::rotateY(const double oy)
-{
-    const double cosO = cos(toRadians(oy));
-    const double sinO = sin(toRadians(oy));
-
-    const double tmp = _x;
-
-    setX(_x * cosO + _z * sinO);
-    setZ(_z * cosO - tmp * sinO);
-}
-
-
-void Vertex::rotateZ(const double oz)
-{
-    const double cosO = cos(toRadians(oz));
-    const double sinO = sin(toRadians(oz));
-
-    const double tmp = _x;
-
-    setX(_x * cosO + _y * sinO);
-    setY(_y * cosO - tmp * sinO);
+    _x = new_location[0][0];
+    _y = new_location[0][1];
+    _z = new_location[0][2];
 }
 
 Vertex Vertex::getAbsVertex(const Vertex &center)

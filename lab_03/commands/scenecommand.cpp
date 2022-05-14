@@ -27,7 +27,7 @@ void DrawScene::execute()
     adapter.setDrawer(_drawer);
 
     _drawer->clearScene();
-    drawManager->setAdapter(std::make_shared<CompositeAdapter>(adapter));
+    drawManager->setAdapter(std::make_shared<DrawCompositeAdapter>(adapter));
     drawManager->drawScene(sceneManager->getScene());
 }
 

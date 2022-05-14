@@ -1,3 +1,6 @@
+#ifndef DRAWERFACTORYSOLUTION_HPP
+#define DRAWERFACTORYSOLUTION_HPP
+
 #include "drawerfactorysolution.h"
 
 template <typename Tfactory, typename Tscene>
@@ -7,3 +10,6 @@ std::unique_ptr<BaseDrawer> DrawerFactorySolution<Tfactory, Tscene>::createDrawe
 
     return factory->createDrawer();
 }
+
+
+#endif // DRAWERFACTORYSOLUTION_HPP

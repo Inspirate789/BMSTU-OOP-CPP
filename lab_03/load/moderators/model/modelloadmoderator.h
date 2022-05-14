@@ -3,13 +3,14 @@
 
 #include "baseloadmoderator.h"
 #include "basemodelbuilddirector.h"
-#include "basedirector.h"
 #include "basemodelbuilder.h"
 
 class ModelLoadModerator : public BaseLoadModerator
 {
 public:
+    ModelLoadModerator() = default;
     explicit ModelLoadModerator(std::shared_ptr<BaseModelBuildDirector> loader);
+
     ~ModelLoadModerator() = default;
 
     std::shared_ptr<Object> load(std::string &fileName) override;

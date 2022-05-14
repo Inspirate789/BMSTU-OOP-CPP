@@ -11,4 +11,6 @@ public:
     std::unique_ptr<BaseDrawer> createDrawer(Tscene *scene);
 };
 
+#include "drawerfactorysolution.hpp"
+
 #endif // DRAWERFACTORYSOLUTION_H

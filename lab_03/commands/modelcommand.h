@@ -49,17 +49,15 @@ private:
     std::size_t _id;
 };
 
-
 class TransformModel : public ModelCommand
 {
 public:
-    TransformModel(const Vertex &move, const Vertex &scale,
-                   const Vertex &rotate, const std::size_t id);
+    TransformModel(const Matrix<double> mtr, const std::size_t id);
 
     virtual void execute() override;
 
 private:
-    Vertex _move, _scale, _rotate;
+    Matrix<double> _mtr;
     std::size_t _id;
 };
 

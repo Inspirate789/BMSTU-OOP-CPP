@@ -1,6 +1,8 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
+#include "matrix.h"
+
 class Vertex
 {
 public:
@@ -34,15 +36,9 @@ public:
 
     Vertex getAbsVertex(const Vertex &center);
 
-    void move(const double dx, const double dy, const double dz);
-    void scale(const double kx, const double ky, const double kz);
-    void rotate(const double ox, const double oy, const double oz);
+    void transform(const Matrix<double> &mtr);
 
 private:
-    void rotateX(const double ox);
-    void rotateY(const double oy);
-    void rotateZ(const double oz);
-
     double _x;
     double _y;
     double _z;

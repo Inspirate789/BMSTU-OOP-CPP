@@ -7,6 +7,7 @@
 class SceneLoadModerator
 {
 public:
+    SceneLoadModerator() = default;
     explicit SceneLoadModerator(std::shared_ptr<BaseSceneBuildDirector> loader);
 
     ~SceneLoadModerator() = default;

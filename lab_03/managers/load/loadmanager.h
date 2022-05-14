@@ -24,7 +24,7 @@ public:
     void setSceneLoader(std::shared_ptr<SceneLoadModerator> loader);
 
 private:
-    std::shared_ptr<ModelLoadModerator> _loader;
+    std::shared_ptr<BaseLoadModerator> _loader;
     std::shared_ptr<SceneLoadModerator> _sceneLoader;
 };
 

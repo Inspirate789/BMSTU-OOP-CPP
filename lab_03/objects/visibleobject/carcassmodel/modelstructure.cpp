@@ -36,13 +36,10 @@ void ModelStructure::addLink(const Link &link)
     _links.push_back(link);
 }
 
-void ModelStructure::transform(const Vertex &move, const Vertex &scale, const Vertex &rotate)
+void ModelStructure::transform(const Matrix<double> &mtr)
 {
-    _center.move(move.getX(), move.getY(), move.getZ());
+    _center.transform(mtr);
 
     for (auto &vertex : _vertexes)
-    {
-        vertex.scale(scale.getX(), scale.getY(), scale.getZ());
-        vertex.rotate(rotate.getX(), rotate.getY(), rotate.getZ());
-    }
+        vertex.transform(mtr);
 }

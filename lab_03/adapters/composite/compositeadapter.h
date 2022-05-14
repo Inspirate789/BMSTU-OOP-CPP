@@ -4,6 +4,8 @@
 #include "baseadapter.h"
 #include "composite.h"
 
+class Composite;
+
 class CompositeAdapter: public BaseAdapter
 {
 public:

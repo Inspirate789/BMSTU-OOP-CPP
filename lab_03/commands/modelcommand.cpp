@@ -66,10 +66,8 @@ void RotateModel::execute()
     solution_transform->create(2)->rotateObject(model, _ox, _oy, _oz);
 }
 
-
-TransformModel::TransformModel(const Vertex &move, const Vertex &scale,
-                               const Vertex &rotate, const std::size_t id) :
-    _move(move), _scale(scale), _rotate(rotate), _id(id) { }
+TransformModel::TransformModel(const Matrix<double> mtr, const std::size_t id) :
+        _mtr(mtr), _id(id) { }
 
 void TransformModel::execute()
 {
@@ -83,7 +81,7 @@ void TransformModel::execute()
     shared_ptr<Solution<TransformManager>> solution_transform(new Solution<TransformManager>({ {1, &CrCreator<TransformManager>::createProdCreator} }));
     solution_transform->registration(2, &CrCreator<TransformManager>::createProdCreator);
 
-    solution_transform->create(2)->transformObject(model, _move, _scale, _rotate);
+    solution_transform->create(2)->transformObject(model, _mtr);
 }
 
 

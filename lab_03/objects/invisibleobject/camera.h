@@ -13,12 +13,8 @@ public:
     Camera(const Vertex &location) : _location(location) { }
     ~Camera() override = default;
 
-    void transform(const Vertex &move, const Vertex &scale, const Vertex &rotate) override;
+    void transform(const Matrix<double> &mtr) override;
 private:
-    void moveX(const double dx);
-    void moveY(const double dy);
-    void moveZ(const double dz);
-
     Vertex _location;
 };
 

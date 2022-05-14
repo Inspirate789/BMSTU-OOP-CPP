@@ -22,7 +22,7 @@ public:
     void addVertex(const Vertex &vertex);
     void addLink(const Link &link);
 
-    void transform(const Vertex &move, const Vertex &scale, const Vertex &rotate);
+    void transform(const Matrix<double> &mtr);
 
 private:
     Vertex _center;

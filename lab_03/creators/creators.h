@@ -16,9 +16,9 @@ template <typename Tprod>
 class ProdCreator // : public BaseProdCreator
 {
 public:
-    virtual unique_ptr<Tprod> createProd()
+    virtual shared_ptr<Tprod> createProd()
     {
-        return unique_ptr<Tprod>(new Tprod());
+        return shared_ptr<Tprod>(new Tprod());
     }
 };
 

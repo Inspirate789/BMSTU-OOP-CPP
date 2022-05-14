@@ -1,31 +1,9 @@
 #include "camera.h"
 
-void Camera::moveX(const double dx)
+void Camera::transform(const Matrix<double> &mtr)
 {
-    _location.setX(_location.getX() + dx);
-}
+    Matrix<double> cur_location = {{_location.getX(), _location.getY(), _location.getZ(), 1}};
+    Matrix<double> new_location = cur_location * mtr;
 
-
-void Camera::moveY(const double dy)
-{
-    _location.setY(_location.getY() + dy);
-}
-
-
-void Camera::moveZ(const double dz)
-{
-    _location.setZ(_location.getZ() + dz);
-}
-
-
-void Camera::transform(const Vertex &move, const Vertex &scale, const Vertex &rotate)
-{
-    moveX(move.getX());
-    moveY(move.getY());
-}
-
-
-void Camera::accept(std::shared_ptr<Visitor> visitor)
-{
-    visitor->visit(*this);
+    _location = Vertex(new_location[0][0], new_location[0][1], new_location[0][2]);
 }

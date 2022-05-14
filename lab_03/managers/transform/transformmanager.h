@@ -3,6 +3,7 @@
 
 #include "basemanager.h"
 #include "object.h"
+#include "matrix.h"
 
 
 class TransformManager : public BaseManager
@@ -28,9 +29,7 @@ public:
                              const double &oz);
 
     static void transformObject(const std::shared_ptr<Object> &object,
-                                const Vertex &move,
-                                const Vertex &scale,
-                                const Vertex &rotate);
+                                Matrix<double> &mtr);
 };
 
 

@@ -39,11 +39,11 @@ bool Composite::isComposite()
 }
 
 
-void Composite::transform(const Vertex &move, const Vertex &scale, const Vertex &rotate)
+void Composite::transform(const Matrix<double> &mtr)
 {
     for (const auto &element : _elements)
     {
-        element->transform(move, scale, rotate);
+        element->transform(mtr);
     }
 }
 

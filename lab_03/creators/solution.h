@@ -12,7 +12,7 @@ using namespace std;
 template <typename Tprodcr>
 class Solution
 {
-    using CreateCreator = unique_ptr<Tprodcr>(*)();
+    using CreateCreator = shared_ptr<Tprodcr>(*)();
     using CallBackMap = map<size_t, CreateCreator>;
 
 public:
@@ -27,6 +27,8 @@ public:
 private:
     CallBackMap callbacks;
 };
+
+#include "solution.hpp"
 
 
 #endif // SOLUTION_H

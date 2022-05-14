@@ -6,7 +6,6 @@
 #include <QDebug>
 
 #include "vertex.h"
-#include "drawcompositeadapter.h"
 
 
 class Object;
@@ -25,7 +24,7 @@ public:
     virtual bool isVisible() { return false; };
     virtual bool isComposite() { return  false; };
 
-    virtual void transform(const Vertex &move, const Vertex &scale, const Vertex &rotate) = 0;
+    virtual void transform(const Matrix<double> &mtr) = 0;
 
     virtual Iterator begin() { return Iterator(); };
     virtual Iterator end() { return Iterator(); };

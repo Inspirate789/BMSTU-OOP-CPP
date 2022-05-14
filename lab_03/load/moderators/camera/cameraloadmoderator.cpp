@@ -21,11 +21,11 @@ std::shared_ptr<Object> CameraLoadModerator::load(std::string &fileName)
         throw SourceException(msg);
     }
 
-    std::shared_ptr<Camera> camera_ptr;
+    std::shared_ptr<Camera> camera_sh_ptr;
 
     try
     {
-        camera_ptr = _director->load(_builder);
+        camera_sh_ptr = _director->load(_builder);
     }
     catch (std::exception &error)
     {
@@ -36,5 +36,5 @@ std::shared_ptr<Object> CameraLoadModerator::load(std::string &fileName)
 
     _director->close();
 
-    return std::make_shared<Object>(*camera_ptr);
+    return std::shared_ptr<Object>(camera_sh_ptr);
 }

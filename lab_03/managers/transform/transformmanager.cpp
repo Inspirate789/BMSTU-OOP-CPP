@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "transformmanager.h"
 
 void TransformManager::moveObject(const std::shared_ptr <Object> &object,
@@ -5,11 +7,12 @@ void TransformManager::moveObject(const std::shared_ptr <Object> &object,
                                   const double &dy,
                                   const double &dz)
 {
-    Vertex move(dx, dy, dz);
-    Vertex scale(1, 1, 1);
-    Vertex rotate(0, 0, 0);
+    Matrix<double> mtr = {{1,  0,  0,  0},
+                          {0,  1,  0,  0},
+                          {0,  0,  1,  0},
+                          {dx, dy, dz, 1}};
 
-    object->transform(move, scale, rotate);
+    object->transform(mtr);
 }
 
 
@@ -18,11 +21,12 @@ void TransformManager::scaleObject(const std::shared_ptr <Object> &object,
                                    const double &ky,
                                    const double &kz)
 {
-    Vertex move(0, 0, 0);
-    Vertex scale(kx, ky, kz);
-    Vertex rotate(0, 0, 0);
+    Matrix<double> mtr = {{kx, 0,  0,  0},
+                          {0,  ky, 0,  0},
+                          {0,  0,  kz, 0},
+                          {0,  0,  0,  1}};
 
-    object->transform(move, scale, rotate);
+    object->transform(mtr);
 }
 
 
@@ -31,18 +35,26 @@ void TransformManager::rotateObject(const std::shared_ptr <Object> &object,
                                    const double &oy,
                                    const double &oz)
 {
-    Vertex move(0, 0, 0);
-    Vertex scale(1, 1, 1);
-    Vertex rotate(ox, oy, oz);
+    Matrix<double> mtr_ox = {{1,      0,          0,        0},
+                             {0,     cos(ox),   sin(ox),    0},
+                             {0,    -sin(ox),   cos(ox),    0},
+                             {0,      0,          0,        1}};
 
-    object->transform(move, scale, rotate);
+    Matrix<double> mtr_oy = {{cos(oy),    0,    -sin(oy),    0},
+                             {  0,        1,       0,        0},
+                             {sin(oy),    0,     cos(oy),    0},
+                             {  0,        0,       0,        1}};
+
+    Matrix<double> mtr_oz = {{ cos(oz),   sin(oz),    0,      0},
+                             {-sin(oz),   cos(oz),    0,      0},
+                             {   0,         0,        1,      0},
+                             {   0,         0,        0,      1}};
+
+    object->transform(mtr_ox * mtr_oy * mtr_oz);
 }
 
-
 void TransformManager::transformObject(const std::shared_ptr<Object> &object,
-                                       const Vertex &move,
-                                       const Vertex &scale,
-                                       const Vertex &rotate)
+                                       Matrix<double> &mtr)
 {
-    object->transform(move, scale, rotate);
+    object->transform(mtr);
 }

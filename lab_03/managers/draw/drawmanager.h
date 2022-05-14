@@ -8,6 +8,7 @@
 #include "scene.h"
 #include "basedrawer.h"
 #include "baseadapter.h"
+#include "drawcompositeadapter.h"
 
 class DrawManager : public BaseManager
 {
@@ -18,12 +19,12 @@ public:
 
     ~DrawManager() = default;
 
-    void setAdapter(std::shared_ptr<CompositeAdapter> adapter);
+    void setAdapter(std::shared_ptr<DrawCompositeAdapter> adapter);
 
     void drawScene(std::shared_ptr<Scene> scene);
 
 private:
-    std::shared_ptr<CompositeAdapter> _adapter;
+    std::shared_ptr<DrawCompositeAdapter> _adapter;
 };
 
 #endif //DRAWMANAGER_H

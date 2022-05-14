@@ -23,7 +23,7 @@ public:
 
     ~CarcassModel() override = default;
 
-    void transform(const Vertex &move, const Vertex &scale, const Vertex &rotate) override;
+    void transform(const Matrix<double> &mtr) override;
 
 protected:
     std::shared_ptr<ModelStructure> _modelStructure;

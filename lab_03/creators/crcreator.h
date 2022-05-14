@@ -9,20 +9,10 @@ template <typename Tprodcr>
 class CrCreator
 {
 public:
-    static unique_ptr<Tprodcr> createProdCreator()
+    static shared_ptr<Tprodcr> createProdCreator()
     {
-        if (nullptr == _creator)
-            createInstance();
-
-        return _creator;
+        return shared_ptr<Tprodcr>(new Tprodcr());
     }
-
-    static void createInstance()
-    {
-        _creator = unique_ptr<Tprodcr>(new Tprodcr());
-    }
-
-    static unique_ptr<Tprodcr> _creator;
 };
 
 

@@ -23,11 +23,11 @@ std::shared_ptr<Object> ModelLoadModerator::load(std::string &file_name)
         throw SourceException(msg);
     }
 
-    std::shared_ptr<CarcassModel> model_ptr;
+    std::shared_ptr<CarcassModel> model_sh_ptr;
 
     try
     {
-        model_ptr = _director->load(_builder);
+        model_sh_ptr = _director->load(_builder);
     }
     catch (std::exception &error)
     {
@@ -38,5 +38,5 @@ std::shared_ptr<Object> ModelLoadModerator::load(std::string &file_name)
 
     _director->close();
 
-    return std::make_shared<Object>(*model_ptr);
+    return std::shared_ptr<Object>(model_sh_ptr);
 }
