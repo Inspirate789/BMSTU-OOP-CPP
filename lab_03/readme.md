@@ -11,3 +11,5 @@
 Также в процессе мне понадобилось работать с матрицами, и я, чтобы не париться, взял 2 лабу у [@vvinokurshin](https://github.com/vvinokurshin) и чуть-чуть отрефакторил.
 
 #### Настоятельно рекомендую почитать pull request [Lab 03 check](https://github.com/Inspirate789/BMSTU-OOP-CPP/pull/8) (хотя бы его конец).
+
+#### Балл: 20/20
