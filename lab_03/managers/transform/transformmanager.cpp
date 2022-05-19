@@ -50,9 +50,7 @@ void TransformManager::rotateObject(const std::shared_ptr <Object> &object,
                              {   0,         0,        1,      0},
                              {   0,         0,        0,      1}};
 
-    object->transform(mtr_ox);
-    object->transform(mtr_oy);
-    object->transform(mtr_oz);
+    object->transform(mtr_ox * mtr_oy * mtr_oz);
 }
 
 void TransformManager::transformObject(const std::shared_ptr<Object> &object,
