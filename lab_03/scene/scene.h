@@ -11,6 +11,8 @@ class Composite;
 
 class Scene
 {
+    friend class DrawManager;
+
 public:
     Scene();
     ~Scene() = default;

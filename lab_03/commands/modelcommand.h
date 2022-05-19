@@ -52,7 +52,7 @@ private:
 class TransformModel : public ModelCommand
 {
 public:
-    TransformModel(const Matrix<double> mtr, const std::size_t id);
+    TransformModel(const Matrix<double> &mtr, const std::size_t id);
 
     virtual void execute() override;
 
