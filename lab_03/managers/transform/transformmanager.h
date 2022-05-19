@@ -29,7 +29,7 @@ public:
                              const double &oz);
 
     static void transformObject(const std::shared_ptr<Object> &object,
-                                Matrix<double> &mtr);
+                                const Matrix<double> &mtr);
 };
 
 

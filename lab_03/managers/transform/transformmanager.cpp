@@ -7,10 +7,10 @@ void TransformManager::moveObject(const std::shared_ptr <Object> &object,
                                   const double &dy,
                                   const double &dz)
 {
-    Matrix<double> mtr = {{1,  0,  0,  0},
-                          {0,  1,  0,  0},
-                          {0,  0,  1,  0},
-                          {dx, dy, dz, 1}};
+    Matrix<double> mtr = {{1,  0,  0,  dx},
+                          {0,  1,  0,  dy},
+                          {0,  0,  1,  dz},
+                          {0,  0,  0,  1}};
 
     object->transform(mtr);
 }
@@ -50,11 +50,13 @@ void TransformManager::rotateObject(const std::shared_ptr <Object> &object,
                              {   0,         0,        1,      0},
                              {   0,         0,        0,      1}};
 
-    object->transform(mtr_ox * mtr_oy * mtr_oz);
+    object->transform(mtr_ox);
+    object->transform(mtr_oy);
+    object->transform(mtr_oz);
 }
 
 void TransformManager::transformObject(const std::shared_ptr<Object> &object,
-                                       Matrix<double> &mtr)
+                                       const Matrix<double> &mtr)
 {
     object->transform(mtr);
 }
