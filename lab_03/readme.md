@@ -8,7 +8,7 @@
 Так кому верить, коду или диаграмме? Диаграмме.
 
 #### Вообще эту лабу можно доделывать очень долго, потому что кодовая база получилась очень большая, да и диаграмма немаленькая.
-Также в процессе мне понадобилось работать с матрицами, и я, чтобы не париться, взял 2 лабу у [@katya-varlamova]([https://github.com/vvinokurshin](https://github.com/katya-varlamova)).
+Также в процессе мне понадобилось работать с матрицами, и я, чтобы не париться, взял 2 лабу у [@katya-varlamova](https://github.com/katya-varlamova).
 
 #### Настоятельно рекомендую почитать pull request [Lab 03 check](https://github.com/Inspirate789/BMSTU-OOP-CPP/pull/8).
 #### Ну и, чтобы убедиться в том, что проблемы решены, можно глянуть [Lab 03 fix](https://github.com/Inspirate789/BMSTU-OOP-CPP/pull/9).
