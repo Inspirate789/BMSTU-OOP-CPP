@@ -83,6 +83,7 @@ HEADERS = \
 SOURCES = \
    adapters/composite/drawcompositeadapter.cpp \
    adapters/model/drawcarcassmodeladapter.cpp \
+   commands/basecommand.cpp \
    commands/cameracommand.cpp \
    commands/modelcommand.cpp \
    commands/scenecommand.cpp \
