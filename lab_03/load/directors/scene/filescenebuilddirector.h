@@ -3,12 +3,13 @@
 
 
 #include "basescenebuilddirector.h"
+#include "filecarcassmodelreader.h"
 
 class FileSceneBuildDirector : public BaseSceneBuildDirector
 {
 public:
     FileSceneBuildDirector();
-    explicit FileSceneBuildDirector(std::shared_ptr<std::ifstream> &fileIn);
+    explicit FileSceneBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader);
     ~FileSceneBuildDirector() = default;
 
     void open(std::string &fileName) override;
@@ -20,7 +21,7 @@ protected:
     void loadModels(std::shared_ptr<SceneBuilder> builder) override;
     void loadCameras(std::shared_ptr<SceneBuilder> builder) override;
 
-    std::shared_ptr<std::ifstream> _file;
+    std::shared_ptr<FileCarcassModelReader> _reader;
 };
 
 #endif // FILESCENEBUILDDIRECTOR_H

@@ -7,7 +7,7 @@
 class CameraLoadModerator : public BaseLoadModerator
 {
 public:
-    explicit CameraLoadModerator(std::shared_ptr<BaseCameraBuildDirector> loader);
+    explicit CameraLoadModerator(std::shared_ptr<BaseCameraBuildDirector> director);
     ~CameraLoadModerator() = default;
 
     std::shared_ptr<Object> load(std::string &fileName) override;

@@ -35,7 +35,12 @@ void MainWindow::setupScene()
 
 void MainWindow::updateScene()
 {
-    DrawScene cmd(_drawer);
+    auto drawManager = ManagerSolution<DrawManagerCreator>().create();
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto drawCompositeAdapter = DrawCompositeAdapter();
+
+    DrawScene cmd(_drawer, drawManager, sceneManager,
+                  std::make_shared<DrawCompositeAdapter>(drawCompositeAdapter));
     _facade->execute(cmd);
 }
 
@@ -69,8 +74,13 @@ void MainWindow::checkCamDelete()
 void MainWindow::on_addCameraBtn_clicked()
 {
     auto cont = ui->graphicsView->contentsRect();
+
     auto id = std::make_shared<size_t>(0);
-    AddCamera addCMD(id, cont.width() / 2.0, cont.height() / 2.0, 0.0);
+    Vertex location(cont.width() / 2.0, cont.height() / 2.0, 0.0);
+    std::shared_ptr<Camera> camera(new Camera(location));
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    AddCamera addCMD(id, camera, sceneManager);
+
     _facade->execute(addCMD);
     _cameras.push_back(*id);
 
@@ -103,7 +113,13 @@ void MainWindow::on_loadModelBtn_clicked()
 
     auto id = std::make_shared<size_t>(0);
     std::string fileName = file.toStdString();
-    LoadModel cmd(id, fileName);
+
+    auto modelLoadModerator = ModeratorSolution<ModelLoadModeratorCreator>().create();
+    auto loadManager = ManagerSolution<LoadManagerCreator>().create();
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+
+    LoadModel cmd(id, fileName, modelLoadModerator,
+                  loadManager, sceneManager);
 
     try
     {
@@ -134,7 +150,8 @@ void MainWindow::on_deleteModelBtn_clicked()
     }
 
     std::size_t id = _models.at(ui->modelsCB->currentIndex());
-    DeleteModel cmd(id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    DeleteModel cmd(id, sceneManager);
     _facade->execute(cmd);
 
     _models.erase(_models.begin() + ui->modelsCB->currentIndex());
@@ -155,10 +172,12 @@ void MainWindow::on_deleteModelsBtn_clicked()
         return;
     }
 
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+
     for (int i = ui->modelsCB->count() - 1; i >= 0; --i)
     {
         std::size_t id = _models.at(i);
-        DeleteModel cmd(id);
+        DeleteModel cmd(id, sceneManager);
         _facade->execute(cmd);
 
         _models.erase(_models.begin() + i);
@@ -181,7 +200,8 @@ void MainWindow::on_cameraCB_currentIndexChanged(int index)
     }
 
     std::size_t id = _cameras.at(index);
-    SetCamera cmd(id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    SetCamera cmd(id, sceneManager);
     _facade->execute(cmd);
 
     updateScene();
@@ -211,7 +231,8 @@ void MainWindow::on_deleteCameraBtn_clicked()
     }
 
     std::size_t id = _cameras.at(ui->cameraCB->currentIndex());
-    DeleteCamera cmd(id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    DeleteCamera cmd(id, sceneManager);
     _facade->execute(cmd);
 
     _cameras.erase(_cameras.begin() + ui->cameraCB->currentIndex());
@@ -242,7 +263,10 @@ void MainWindow::on_upBtn_clicked()
     }
 
     std::size_t id = _cameras.at(ui->cameraCB->currentIndex());
-    MoveCamera cmd(0, 10, id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+    MoveCamera cmd(0, 10, 0, id, sceneManager, transformManager);
+
     _facade->execute(cmd);
     updateScene();
 }
@@ -260,7 +284,10 @@ void MainWindow::on_rigthBtn_clicked()
     }
 
     std::size_t id = _cameras.at(ui->cameraCB->currentIndex());
-    MoveCamera cmd(-10, 0, id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+    MoveCamera cmd(-10, 0, 0, id, sceneManager, transformManager);
+
     _facade->execute(cmd);
     updateScene();
 }
@@ -278,7 +305,10 @@ void MainWindow::on_downBtn_clicked()
     }
 
     std::size_t id = _cameras.at(ui->cameraCB->currentIndex());
-    MoveCamera cmd(0, -10, id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+    MoveCamera cmd(0, -10, 0, id, sceneManager, transformManager);
+
     _facade->execute(cmd);
     updateScene();
 }
@@ -296,7 +326,10 @@ void MainWindow::on_leftBtn_clicked()
     }
 
     std::size_t id = _cameras.at(ui->cameraCB->currentIndex());
-    MoveCamera cmd(10, 0, id);
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+    MoveCamera cmd(10, 0, 0, id, sceneManager, transformManager);
+
     _facade->execute(cmd);
     updateScene();
 }
@@ -319,11 +352,15 @@ void MainWindow::on_moveBtn_clicked()
         return;
     }
 
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+
     MoveModel cmd(
             ui->dxDSB->value(),
             ui->dyDSB->value(),
             ui->dzDSB->value(),
-            _models.at(ui->modelsCB->currentIndex()));
+            _models.at(ui->modelsCB->currentIndex()),
+            sceneManager, transformManager);
 
     _facade->execute(cmd);
     updateScene();
@@ -347,11 +384,15 @@ void MainWindow::on_scaleBtn_clicked()
         return;
     }
 
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+
     ScaleModel cmd(
             ui->kxDSB->value(),
             ui->kyDSB->value(),
             ui->kzDSB->value(),
-            _models.at(ui->modelsCB->currentIndex()));
+            _models.at(ui->modelsCB->currentIndex()),
+            sceneManager, transformManager);
 
     _facade->execute(cmd);
     updateScene();
@@ -375,11 +416,15 @@ void MainWindow::on_rotateBtn_clicked()
         return;
     }
 
+    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
+    auto transformManager = ManagerSolution<TransformManagerCreator>().create();
+
     RotateModel cmd(
             ui->oxDSB->value(),
             ui->oyDSB->value(),
             ui->ozDSB->value(),
-            _models.at(ui->modelsCB->currentIndex()));
+            _models.at(ui->modelsCB->currentIndex()),
+            sceneManager, transformManager);
 
     _facade->execute(cmd);
     updateScene();

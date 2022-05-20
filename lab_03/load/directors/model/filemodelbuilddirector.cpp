@@ -5,43 +5,25 @@
 
 FileModelBuildDirector::FileModelBuildDirector()
 {
-    _file = std::make_shared<std::ifstream>();
+    _reader = std::make_shared<FileCarcassModelReader>();
 }
 
 
-FileModelBuildDirector::FileModelBuildDirector(std::shared_ptr<std::ifstream> &file)
+FileModelBuildDirector::FileModelBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader)
 {
-    _file = file;
+    _reader = reader;
 }
 
 
 void FileModelBuildDirector::open(std::string &fileName)
 {
-    if (!_file)
-    {
-        std::string msg = "Error : File open";
-        throw SourceException(msg);
-    }
-
-    _file->open(fileName);
-
-    if (!_file)
-    {
-        std::string msg = "Error : File open";
-        throw SourceException(msg);
-    }
+    _reader->open(fileName);
 }
 
 
 void FileModelBuildDirector::close()
 {
-    if (!_file)
-    {
-        std::string msg = "Error : File open";
-        throw SourceException(msg);
-    }
-
-    _file->close();
+    _reader->close();
 }
 
 
@@ -49,47 +31,19 @@ std::shared_ptr<CarcassModel> FileModelBuildDirector::load(std::shared_ptr<BaseM
 {
     builder->build();
 
-    int vertexNum;
-    *_file >> vertexNum;
+    vector<Vertex> vertexes = _reader->readVertexes();
+    int vertexNum = vertexes.size();
 
-    if (vertexNum <= 0)
-    {
-        std::string msg = "wrong vertex num";
-        throw SourceException(msg);
-    }
+    std::vector<Link> links = _reader->readLinks(vertexNum);
+    int linksNum = links.size();
 
     for (int i = 0; i < vertexNum; i++)
-    {
-        double x, y, z;
-
-        *_file >> x >> y >> z;
-        builder->buildVertex(x, y, z);
-    }
-
-    int linksNum;
-    *_file >> linksNum;
-
-    if (linksNum <= 0)
-    {
-        std::string msg = "wrong links num";
-        throw SourceException(msg);
-    }
+        builder->buildVertex(vertexes[i]);
 
     for (int i = 0; i < linksNum; i++)
-    {
-        int vertex1Index, vertex2Index;
+        builder->buildLink(links[i]);
 
-        *_file >> vertex1Index >> vertex2Index;
+    std::shared_ptr<CarcassModel> model = builder->get();
 
-        if (vertex1Index <= 0 or vertex2Index <= 0 or
-            vertex1Index > vertexNum or vertex2Index > vertexNum)
-        {
-            std::string msg = "wrong link data";
-            throw SourceException(msg);
-        }
-
-        builder->buildLink(vertex1Index, vertex2Index);
-    }
-
-    return builder->get();
+    return model;
 }

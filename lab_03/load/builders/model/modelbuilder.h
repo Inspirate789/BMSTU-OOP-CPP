@@ -10,8 +10,8 @@ public:
     ~ModelBuilder() = default;
 
     void build() override;
-    void buildVertex(const double x, const double y, const double z) override;
-    void buildLink(const std::size_t vertex1Index, const std::size_t vertex2Index) override;
+    void buildVertex(const Vertex &vertex) override;
+    void buildLink(const Link &link) override;
     bool isBuild() const override;
 
     std::shared_ptr<CarcassModel> get() override;

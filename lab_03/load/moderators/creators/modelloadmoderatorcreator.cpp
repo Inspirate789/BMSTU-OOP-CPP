@@ -15,11 +15,10 @@ void ModelLoadModeratorCreator::createInstance()
 
     if (!moderator)
     {
-        std::shared_ptr<BaseModelBuildDirector> loader;
-        loader = std::shared_ptr<BaseModelBuildDirector>(new FileModelBuildDirector);
-        moderator = std::make_shared<ModelLoadModerator>(loader);
+        auto reader = std::shared_ptr<FileCarcassModelReader>(new FileCarcassModelReader());
+        auto director = std::shared_ptr<BaseModelBuildDirector>(new FileModelBuildDirector(reader));
+        moderator = std::make_shared<ModelLoadModerator>(director);
     }
 
     _moderator = moderator;
 }
-

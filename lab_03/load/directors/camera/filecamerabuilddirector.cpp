@@ -3,51 +3,31 @@
 
 FileCameraBuildDirector::FileCameraBuildDirector()
 {
-    _file = std::make_shared<std::ifstream>();
+    _reader = std::make_shared<FileCarcassModelReader>();
 }
 
-FileCameraBuildDirector::FileCameraBuildDirector(std::shared_ptr<std::ifstream> &file)
+FileCameraBuildDirector::FileCameraBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader)
 {
-    _file = file;
+    _reader = reader;
 }
 
 void FileCameraBuildDirector::open(std::string &fileName)
 {
-    if (!_file)
-    {
-        std::string msg = "Error : File open";
-        throw SourceException(msg);
-    }
-
-    _file->open(fileName);
-
-    if (!_file)
-    {
-        std::string msg = "Error : File open";
-        throw SourceException(msg);
-    }
+    _reader->open(fileName);
 }
 
 void FileCameraBuildDirector::close()
 {
-    if (!_file)
-    {
-        std::string msg = "Error : File open";
-        throw SourceException(msg);
-    }
-
-    _file->close();
+    _reader->close();
 }
 
 std::shared_ptr<Camera> FileCameraBuildDirector::load(std::shared_ptr<BaseCameraBuilder> builder)
 {
     builder->build();
 
-    double x, y, z;
+    Vertex location = _reader->readVertex();
 
-    *_file >> x >> y >> z;
-
-    builder->buildLocation(x, y, z);
+    builder->buildLocation(location);
 
     return builder->get();
 }

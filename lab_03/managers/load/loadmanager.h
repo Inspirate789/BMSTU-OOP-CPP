@@ -20,12 +20,12 @@ public:
 
     std::shared_ptr<Object> load(std::string &name);
     std::shared_ptr<Scene> loadScene(std::string &name);
-    void setLoader(std::shared_ptr<BaseLoadModerator> loader);
-    void setSceneLoader(std::shared_ptr<SceneLoadModerator> loader);
+    void setModerator(std::shared_ptr<BaseLoadModerator> moderator);
+    void setSceneModerator(std::shared_ptr<SceneLoadModerator> moderator);
 
 private:
-    std::shared_ptr<BaseLoadModerator> _loader;
-    std::shared_ptr<SceneLoadModerator> _sceneLoader;
+    std::shared_ptr<BaseLoadModerator> _moderator;
+    std::shared_ptr<SceneLoadModerator> _sceneModerator;
 };
 
 #endif // LOADMANAGER_H

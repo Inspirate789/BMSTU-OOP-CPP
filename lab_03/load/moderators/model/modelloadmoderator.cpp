@@ -5,7 +5,8 @@
 #include "modelbuilder.h"
 
 
-ModelLoadModerator::ModelLoadModerator(std::shared_ptr<BaseModelBuildDirector> director) : _builder(new ModelBuilder)
+ModelLoadModerator::ModelLoadModerator(std::shared_ptr<BaseModelBuildDirector> director) :
+    _builder(new ModelBuilder)
 {
     _director = director;
 }

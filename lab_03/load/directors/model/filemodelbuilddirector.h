@@ -3,12 +3,13 @@
 
 
 #include "basemodelbuilddirector.h"
+#include "filecarcassmodelreader.h"
 
 class FileModelBuildDirector : public BaseModelBuildDirector
 {
 public:
     FileModelBuildDirector();
-    explicit FileModelBuildDirector(std::shared_ptr<std::ifstream> &file);
+    explicit FileModelBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader);
 
     ~FileModelBuildDirector() override = default;
 
@@ -18,7 +19,7 @@ public:
     std::shared_ptr<CarcassModel> load(std::shared_ptr<BaseModelBuilder> builder) override;
 
 protected:
-    std::shared_ptr<std::ifstream> _file;
+    std::shared_ptr<FileCarcassModelReader> _reader;
 };
 
 #endif // FILEMODELBUILDDIRECTOR_H

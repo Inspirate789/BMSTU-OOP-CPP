@@ -19,7 +19,6 @@ HEADERS = \
     commands/scenecommand.h \
     drawer/abstractdrawerfactory.h \
     drawer/basedrawer.h \
-    drawer/drawerfactorydirector.h \
     drawer/drawerfactorysolution.h \
     drawer/drawerfactorysolution.hpp \
     drawer/qtdrawer.h \
@@ -37,6 +36,8 @@ HEADERS = \
     load/directors/camera/filecamerabuilddirector.h \
     load/directors/model/basemodelbuilddirector.h \
     load/directors/model/filemodelbuilddirector.h \
+    load/directors/readers/basecarcassmodelreader.h \
+    load/directors/readers/filecarcassmodelreader.h \
     load/directors/scene/basescenebuilddirector.h \
     load/directors/scene/filescenebuilddirector.h \
     load/directors/basedirector.h \
@@ -85,7 +86,6 @@ SOURCES = \
    commands/cameracommand.cpp \
    commands/modelcommand.cpp \
    commands/scenecommand.cpp \
-   drawer/drawerfactorydirector.cpp \
    drawer/qtdrawer.cpp \
    drawer/qtdrawerfactory.cpp \
    facade/facade.cpp \
@@ -94,6 +94,8 @@ SOURCES = \
    load/builders/scene/scenebuilder.cpp \
    load/directors/camera/filecamerabuilddirector.cpp \
    load/directors/model/filemodelbuilddirector.cpp \
+   load/directors/readers/basecarcassmodelreader.cpp \
+   load/directors/readers/filecarcassmodelreader.cpp \
    load/directors/scene/filescenebuilddirector.cpp \
    load/moderators/camera/cameraloadmoderator.cpp \
    load/moderators/creators/cameraloadmoderatorcreator.cpp \
@@ -144,6 +146,7 @@ INCLUDEPATH = \
     load/directors/camera \
     load/directors/model \
     load/directors/scene \
+    load/directors/readers \
     load/moderators \
     load/moderators/camera \
     load/moderators/creators \

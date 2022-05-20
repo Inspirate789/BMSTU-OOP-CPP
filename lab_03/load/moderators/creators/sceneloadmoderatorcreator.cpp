@@ -15,9 +15,9 @@ void SceneLoadModeratorCreator::createInstance()
 
     if (!moderator)
     {
-        std::shared_ptr<BaseSceneBuildDirector> loader;
-        loader = std::shared_ptr<BaseSceneBuildDirector>(new FileSceneBuildDirector);
-        moderator = std::make_shared<SceneLoadModerator>(loader);
+        std::shared_ptr<BaseSceneBuildDirector> director;
+        director = std::shared_ptr<BaseSceneBuildDirector>(new FileSceneBuildDirector);
+        moderator = std::make_shared<SceneLoadModerator>(director);
     }
 
     _moderator = moderator;

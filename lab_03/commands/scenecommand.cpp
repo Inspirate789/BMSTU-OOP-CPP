@@ -1,43 +1,48 @@
 #include "scenecommand.h"
 #include "managersolution.h"
-#include "drawmanagercreator.h"
-#include "loadmanagercreator.h"
-#include "scenemanagercreator.h"
-#include "transformmanagercreator.h"
+#include "drawmanager.h"
+#include "loadmanager.h"
+#include "scenemanager.h"
+#include "transformmanager.h"
 #include "moderatorsolution.h"
-#include "cameraloadmoderatorcreator.h"
-#include "sceneloadmoderatorcreator.h"
+#include "cameraloadmoderator.h"
+#include "sceneloadmoderator.h"
 #include "drawcompositeadapter.h"
 
 
-DrawScene::DrawScene(std::shared_ptr<BaseDrawer> drawer) : _drawer(drawer) { }
+DrawScene::DrawScene(std::shared_ptr<BaseDrawer> drawer,
+                     const std::shared_ptr<DrawManager> drawManager,
+                     const std::shared_ptr<SceneManager> sceneManager,
+                     const std::shared_ptr<DrawCompositeAdapter> drawCompositeAdapter) :
+    _drawer(drawer),
+    _drawManager(drawManager), _sceneManager(sceneManager),
+    _drawCompositeAdapter(drawCompositeAdapter) { }
 
 
 void DrawScene::execute()
 {
-    auto drawManager = ManagerSolution<DrawManagerCreator>().create();
-    auto sceneManager = ManagerSolution<SceneManagerCreator>().create();
-
-    auto camera = sceneManager->getCamera();
-    auto adapter = DrawCompositeAdapter();
-    adapter.setCamera(camera);
-    adapter.setDrawer(_drawer);
+    auto camera = _sceneManager->getCamera();
+    _drawCompositeAdapter->setCamera(camera);
+    _drawCompositeAdapter->setDrawer(_drawer);
 
     _drawer->clearScene();
-    drawManager->setAdapter(std::make_shared<DrawCompositeAdapter>(adapter));
-    drawManager->drawScene(sceneManager->getScene());
+    _drawManager->setAdapter(_drawCompositeAdapter);
+    _drawManager->drawScene(_sceneManager->getScene());
 }
 
 
-LoadScene::LoadScene(std::string fileName) : _fileName(fileName) { }
+LoadScene::LoadScene(const std::string fileName,
+                     const std::shared_ptr<LoadManager> loadManager,
+                     const std::shared_ptr<SceneLoadModerator> sceneLoadModerator,
+                     const std::shared_ptr<SceneManager> sceneManager) :
+    _fileName(fileName),
+    _loadManager(loadManager), _sceneLoadModerator(sceneLoadModerator),
+    _sceneManager(sceneManager) { }
 
 void LoadScene::execute()
 {
-    auto moderator = ModeratorSolution<SceneLoadModeratorCreator>().create();
-    auto manager = ManagerSolution<LoadManagerCreator>().create();
+    _loadManager->setSceneModerator(_sceneLoadModerator);
+    auto scene = _loadManager->loadScene(_fileName);
 
-    manager->setSceneLoader(moderator);
-    auto scene = manager->loadScene(_fileName);
-
-    ManagerSolution<SceneManagerCreator>().create()->setScene(scene);
+    _sceneManager->setScene(scene);
 }
