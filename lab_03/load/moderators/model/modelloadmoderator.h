@@ -9,7 +9,7 @@ class ModelLoadModerator : public BaseLoadModerator
 {
 public:
     ModelLoadModerator() = default;
-    explicit ModelLoadModerator(std::shared_ptr<BaseModelBuildDirector> loader);
+    explicit ModelLoadModerator(std::shared_ptr<BaseModelBuildDirector> director);
 
     ~ModelLoadModerator() = default;
 

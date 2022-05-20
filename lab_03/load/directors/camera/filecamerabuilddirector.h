@@ -3,12 +3,13 @@
 
 
 #include "basecamerabuilddirector.h"
+#include "filecarcassmodelreader.h"
 
 class FileCameraBuildDirector : public BaseCameraBuildDirector
 {
 public:
     FileCameraBuildDirector();
-    explicit FileCameraBuildDirector(std::shared_ptr<std::ifstream> &file);
+    explicit FileCameraBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader);
 
     ~FileCameraBuildDirector() override = default;
 
@@ -18,7 +19,7 @@ public:
     std::shared_ptr<Camera> load(std::shared_ptr<BaseCameraBuilder> builder) override;
 
 protected:
-    std::shared_ptr<std::ifstream> _file;
+    std::shared_ptr<FileCarcassModelReader> _reader;
 };
 
 #endif // FILECAMERABUILDDIRECTOR_H

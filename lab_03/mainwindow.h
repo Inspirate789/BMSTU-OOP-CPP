@@ -16,6 +16,13 @@
 #include "drawerfactorysolution.h"
 #include "qtdrawerfactory.h"
 #include "facade.h"
+#include "managersolution.h"
+#include "drawmanagercreator.h"
+#include "scenemanagercreator.h"
+#include "transformmanagercreator.h"
+#include "loadmanagercreator.h"
+#include "moderatorsolution.h"
+#include "modelloadmoderatorcreator.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

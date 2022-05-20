@@ -5,9 +5,9 @@ void CameraBuilder::build()
     _camera = std::make_shared<Camera>();
 }
 
-void CameraBuilder::buildLocation(const double x, const double y, const double z)
+void CameraBuilder::buildLocation(const Vertex &location)
 {
-    _camera = std::make_shared<Camera>(Camera(Vertex(x, y, z)));
+    _camera = std::make_shared<Camera>(Camera(location));
 }
 
 bool CameraBuilder::isBuild() const

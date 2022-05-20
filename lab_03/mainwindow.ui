@@ -413,7 +413,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="oxLbl">
            <property name="text">
-            <string>по x:</string>
+            <string>  Ox:</string>
            </property>
           </widget>
          </item>
@@ -433,7 +433,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="oyLbl">
            <property name="text">
-            <string>по y:</string>
+            <string>  Oy:</string>
            </property>
           </widget>
          </item>
@@ -453,7 +453,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="ozLbl">
            <property name="text">
-            <string>по z:</string>
+            <string>  Oz:</string>
            </property>
           </widget>
          </item>

@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "basedirector.h"
+#include "object.h"
 
 class BaseLoadModerator
 {
@@ -12,10 +12,6 @@ public:
     ~BaseLoadModerator() = default;
 
     virtual std::shared_ptr<Object> load(std::string &fileName) = 0;
-    virtual void setLoader(std::shared_ptr<BaseDirector> director);
-
-protected:
-    std::shared_ptr<BaseDirector> _director;
 };
 
 #endif // BASELOADMODERATOR_H

@@ -12,7 +12,7 @@ public:
     ~BaseCameraBuilder() = default;
 
     virtual void build() override = 0;
-    virtual void buildLocation(const double x, const double y, const double z) = 0;
+    virtual void buildLocation(const Vertex &location) = 0;
     virtual bool isBuild() const override = 0;
 
     virtual std::shared_ptr<Camera> get() = 0;

@@ -4,20 +4,20 @@
 
 std::shared_ptr<Object> LoadManager::load(std::string &name)
 {
-    return _loader->load(name);
+    return _moderator->load(name);
 }
 
 std::shared_ptr<Scene> LoadManager::loadScene(std::string &name)
 {
-    return _sceneLoader->load(name);
+    return _sceneModerator->load(name);
 }
 
-void LoadManager::setLoader(std::shared_ptr<BaseLoadModerator> loader)
+void LoadManager::setModerator(std::shared_ptr<BaseLoadModerator> moderator)
 {
-    _loader = loader;
+    _moderator = moderator;
 }
 
-void LoadManager::setSceneLoader(std::shared_ptr<SceneLoadModerator> loader)
+void LoadManager::setSceneModerator(std::shared_ptr<SceneLoadModerator> moderator)
 {
-    _sceneLoader = loader;
+    _sceneModerator = moderator;
 }

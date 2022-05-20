@@ -10,10 +10,6 @@ void DrawCompositeAdapter::setDrawer(std::shared_ptr<BaseDrawer> drawer)
     _drawer = drawer;
 }
 
-class CarcassModel;
-class Object;
-class BaseModel;
-
 void DrawCompositeAdapter::request()
 {
     if (_adaptee && _camera && _drawer)

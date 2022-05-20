@@ -6,21 +6,19 @@ void ModelBuilder::build()
 }
 
 
-void ModelBuilder::buildVertex(const double x, const double y, const double z)
+void ModelBuilder::buildVertex(const Vertex &vertex)
 {
     if (!isBuild()) {}
 
-    Vertex tmp(x, y, z);
-    _model->addVertex(tmp);
+    _model->addVertex(vertex);
 }
 
 
-void ModelBuilder::buildLink(const std::size_t vertex1Index, const std::size_t vertex2Index)
+void ModelBuilder::buildLink(const Link &link)
 {
     if (!isBuild()) {}
 
-    Link tmp(vertex1Index, vertex2Index);
-    _model->addLink(tmp);
+    _model->addLink(link);
 }
 
 
