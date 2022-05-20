@@ -2,21 +2,18 @@
 
 #include "cameracommand.h"
 
-AddCamera::AddCamera(const ID & id,
-                     const std::shared_ptr<Camera> camera,
-                     const std::shared_ptr<SceneManager> sceneManager) :
-    _id(id), _camera(camera), _sceneManager(sceneManager) {}
+AddCamera::AddCamera(const ID & id, const Vertex &location) :
+    _id(id), _location(location) {}
 
 void AddCamera::execute()
 {
-    _sceneManager->getScene()->addObject(_camera);
-    (*_id) = _camera->getId();
+    auto camera = std::make_shared<Camera>(Camera(_location));
+    _sceneManager->getScene()->addObject(camera);
+    (*_id) = camera->getId();
 };
 
 
-DeleteCamera::DeleteCamera(const std::size_t id,
-                           const std::shared_ptr<SceneManager> sceneManager) :
-    _id(id), _sceneManager(sceneManager) {}
+DeleteCamera::DeleteCamera(const std::size_t id) : _id(id) {}
 
 void DeleteCamera::execute()
 {
@@ -26,12 +23,8 @@ void DeleteCamera::execute()
 }
 
 
-MoveCamera::MoveCamera(const double dx, const double dy, const double dz,
-                       const size_t id,
-                       const std::shared_ptr<SceneManager> sceneManager,
-                       const std::shared_ptr<TransformManager> transformManager) :
-    _dx(dx), _dy(dy), _dz(dz), _id(id),
-    _sceneManager(sceneManager), _transformManager(transformManager) {}
+MoveCamera::MoveCamera(const double dx, const double dy, const double dz, const size_t id) :
+    _dx(dx), _dy(dy), _dz(dz), _id(id) {}
 
 void MoveCamera::execute()
 {
@@ -43,9 +36,7 @@ void MoveCamera::execute()
 }
 
 
-SetCamera::SetCamera(const std::size_t id,
-                     const std::shared_ptr<SceneManager> sceneManager) :
-    _id(id), _sceneManager(sceneManager) {}
+SetCamera::SetCamera(const std::size_t id) : _id(id) {}
 
 void SetCamera::execute()
 {
