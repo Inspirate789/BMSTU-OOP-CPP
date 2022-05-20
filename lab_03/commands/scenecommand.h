@@ -5,7 +5,6 @@
 #include <string>
 
 #include "basecommand.h"
-#include "basedrawer.h"
 #include "drawmanager.h"
 #include "loadmanager.h"
 #include "scenemanager.h"

@@ -1,13 +1,4 @@
 #include "scenecommand.h"
-#include "managersolution.h"
-#include "drawmanager.h"
-#include "loadmanager.h"
-#include "scenemanager.h"
-#include "transformmanager.h"
-#include "moderatorsolution.h"
-#include "cameraloadmoderator.h"
-#include "sceneloadmoderator.h"
-#include "drawcompositeadapter.h"
 
 
 DrawScene::DrawScene(std::shared_ptr<BaseDrawer> drawer,

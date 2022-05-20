@@ -5,9 +5,9 @@
 #include <cstddef>
 
 #include "basecommand.h"
+#include "camera.h"
 #include "scenemanager.h"
 #include "transformmanager.h"
-#include "camera.h"
 
 using ID = std::shared_ptr<std::size_t>;
 

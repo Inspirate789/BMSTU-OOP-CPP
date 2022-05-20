@@ -1,12 +1,6 @@
 #include <QDebug>
 
 #include "modelcommand.h"
-#include "managersolution.h"
-#include "loadmanagercreator.h"
-#include "scenemanagercreator.h"
-#include "transformmanagercreator.h"
-#include "moderatorsolution.h"
-#include "modelloadmoderatorcreator.h"
 
 
 MoveModel::MoveModel(const double dx, const double dy, const double dz, const std::size_t id,
