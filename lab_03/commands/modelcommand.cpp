@@ -63,6 +63,5 @@ LoadModel::LoadModel(const ID &id, std::string &fileName) :
 void LoadModel::execute()
 {
     auto model = _loadManager->load(_fileName);
-    _scene->addObject(model);
-    (*_id) = model->getId();
+    (*_id) = _scene->addObject(model);
 }

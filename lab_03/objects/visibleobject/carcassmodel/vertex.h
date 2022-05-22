@@ -31,8 +31,8 @@ public:
     bool operator!=(const Vertex &vertex) const noexcept;
     bool isNotEqual(const Vertex &vertex) const noexcept;
 
-    Vertex operator+(const Vertex &vertex);
-    Vertex operator-(const Vertex &vertex);
+    Vertex operator+(const Vertex &vertex)  const;
+    Vertex operator-(const Vertex &vertex)  const;
 
     Vertex getAbsVertex(const Vertex &center);
 

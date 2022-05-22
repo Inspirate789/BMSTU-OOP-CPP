@@ -7,17 +7,18 @@
 
 Scene::Scene() : _objects(new Composite) {}
 
-void Scene::addObject(const std::shared_ptr<Object> &object)
+std::size_t Scene::addObject(const std::shared_ptr<Object> &object)
 {
     _objects->add(object);
+
+    return object->getId();
 }
 
 std::size_t Scene::addCamera(const Vertex &location)
 {
     auto camera = std::make_shared<Camera>(Camera(location));
-    addObject(camera);
 
-    return camera->getId();
+    return addObject(camera);
 }
 
 void Scene::deleteObject(Iterator &iter)

@@ -18,15 +18,17 @@ public:
     bool isVisible() override;
     bool isComposite() override;
 
-    virtual void moveElems(std::vector<Vertex> &distances) override;
-    virtual std::vector<Vertex> getElemsDistances(Vertex &center) const override;
     virtual Vertex getCenter() const override;
+    virtual void moveElemsToOrigin() override;
+    virtual void moveElemsToCenter(const Vertex &center) override;
+    virtual void transformElems(const Matrix<double> &mtr) override;
     virtual void transform(const Matrix<double> &mtr) override;
 
     Iterator begin() override;
     Iterator end() override;
 
 private:
+    Vertex _center;
     std::vector<std::shared_ptr<Object>> _elements;
 };
 

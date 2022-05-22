@@ -7,7 +7,6 @@ AddCamera::AddCamera(const ID &id, const Vertex &location) :
 
 void AddCamera::execute()
 {
-    //_scene->addCamera(_location);
     (*_id) = _scene->addCamera(_location);
 };
 

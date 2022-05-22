@@ -86,7 +86,7 @@ bool Vertex::isNotEqual(const Vertex &vertex) const noexcept
     return !(*this == vertex);
 }
 
-Vertex Vertex::operator+(const Vertex &vertex)
+Vertex Vertex::operator+(const Vertex &vertex) const
 {
     Vertex d{*this};
 
@@ -97,7 +97,7 @@ Vertex Vertex::operator+(const Vertex &vertex)
     return d;
 }
 
-Vertex Vertex::operator-(const Vertex &vertex)
+Vertex Vertex::operator-(const Vertex &vertex) const
 {
     Vertex d{*this};
 
