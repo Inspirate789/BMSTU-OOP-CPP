@@ -12,19 +12,31 @@ void Scene::addObject(const std::shared_ptr<Object> &object)
     _objects->add(object);
 }
 
+std::size_t Scene::addCamera(const Vertex &location)
+{
+    auto camera = std::make_shared<Camera>(Camera(location));
+    addObject(camera);
+
+    return camera->getId();
+}
 
 void Scene::deleteObject(Iterator &iter)
 {
     _objects->remove(iter);
 }
 
-Iterator Scene::getObject(const std::size_t id)
+Iterator Scene::getObjectIter(const std::size_t id)
 {
     auto iter = begin();
 
     for (; iter != end() && (*iter)->getId() != id; ++iter);
 
     return iter;
+}
+
+std::shared_ptr<Object> Scene::getObject(const std::size_t id)
+{
+    return *getObjectIter(id);
 }
 
 Iterator Scene::begin()
