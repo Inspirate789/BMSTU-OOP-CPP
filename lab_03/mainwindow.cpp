@@ -340,6 +340,33 @@ void MainWindow::on_moveBtn_clicked()
     updateScene();
 }
 
+void MainWindow::on_moveAllBtn_clicked()
+{
+    try
+    {
+        checkCamExist();
+        checkModelsExist();
+    }
+    catch (const CameraException &error)
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Нет камер!");
+        return;
+    }
+    catch (const ModelException &error)
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Нет моделей!");
+        return;
+    }
+
+    MoveModels cmd(
+            ui->dxDSB->value(),
+            ui->dyDSB->value(),
+            ui->dzDSB->value());
+
+    _facade->execute(cmd);
+    updateScene();
+}
+
 void MainWindow::on_scaleBtn_clicked()
 {
     try
@@ -368,6 +395,33 @@ void MainWindow::on_scaleBtn_clicked()
     updateScene();
 }
 
+void MainWindow::on_scaleAllBtn_clicked()
+{
+    try
+    {
+        checkCamExist();
+        checkModelsExist();
+    }
+    catch (const CameraException &error)
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Нет камер!");
+        return;
+    }
+    catch (const ModelException &error)
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Нет моделей!");
+        return;
+    }
+
+    ScaleModels cmd(
+            ui->kxDSB->value(),
+            ui->kyDSB->value(),
+            ui->kzDSB->value());
+
+    _facade->execute(cmd);
+    updateScene();
+}
+
 void MainWindow::on_rotateBtn_clicked()
 {
     try
@@ -391,6 +445,33 @@ void MainWindow::on_rotateBtn_clicked()
             ui->oyDSB->value() * M_PI / 180,
             ui->ozDSB->value() * M_PI / 180,
             _models.at(ui->modelsCB->currentIndex()));
+
+    _facade->execute(cmd);
+    updateScene();
+}
+
+void MainWindow::on_rotateAllBtn_clicked()
+{
+    try
+    {
+        checkCamExist();
+        checkModelsExist();
+    }
+    catch (const CameraException &error)
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Нет камер!");
+        return;
+    }
+    catch (const ModelException &error)
+    {
+        QMessageBox::critical(nullptr, "Ошибка", "Нет моделей!");
+        return;
+    }
+
+    RotateModels cmd(
+            ui->oxDSB->value() * M_PI / 180,
+            ui->oyDSB->value() * M_PI / 180,
+            ui->ozDSB->value() * M_PI / 180);
 
     _facade->execute(cmd);
     updateScene();

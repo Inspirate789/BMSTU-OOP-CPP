@@ -16,6 +16,7 @@ HEADERS = \
     commands/basecommand.h \
     commands/cameracommand.h \
     commands/modelcommand.h \
+    commands/modelscommand.h \
     commands/scenecommand.h \
     drawer/abstractdrawerfactory.h \
     drawer/basedrawer.h \
@@ -86,6 +87,7 @@ SOURCES = \
    commands/basecommand.cpp \
    commands/cameracommand.cpp \
    commands/modelcommand.cpp \
+   commands/modelscommand.cpp \
    commands/scenecommand.cpp \
    drawer/qtdrawer.cpp \
    drawer/qtdrawerfactory.cpp \

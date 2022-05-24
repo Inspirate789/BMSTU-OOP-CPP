@@ -52,6 +52,7 @@ void ModelStructure::updateCenter()
 
 void ModelStructure::transform(const Matrix<double> &mtr)
 {
+    updateCenter();
     _center.transform(mtr);
 
     for (auto &vertex : _vertexes)

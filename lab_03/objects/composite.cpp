@@ -88,6 +88,8 @@ void Composite::moveElemsToCenter(const Vertex &center)
 
 void Composite::transformElems(const Matrix<double> &mtr)
 {
+    updateCenter();
+
     for (const auto &element : _elements)
     {
         element->transform(mtr);
@@ -98,6 +100,7 @@ void Composite::transformElems(const Matrix<double> &mtr)
 
 void Composite::transform(const Matrix<double> &mtr)
 {
+    updateCenter();
     _center.transform(mtr);
     Vertex new_center = _center;
     moveElemsToOrigin();

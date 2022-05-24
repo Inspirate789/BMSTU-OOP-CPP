@@ -10,6 +10,7 @@
 #include "basecommand.h"
 #include "cameracommand.h"
 #include "modelcommand.h"
+#include "modelscommand.h"
 #include "scenecommand.h"
 #include "exceptions.h"
 #include "basedrawer.h"
@@ -55,6 +56,12 @@ private slots:
     void on_scaleBtn_clicked();
 
     void on_rotateBtn_clicked();
+
+    void on_moveAllBtn_clicked();
+
+    void on_scaleAllBtn_clicked();
+
+    void on_rotateAllBtn_clicked();
 
 protected:
     void setupScene();
