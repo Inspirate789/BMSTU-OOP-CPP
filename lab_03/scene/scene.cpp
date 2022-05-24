@@ -5,7 +5,7 @@
 
 #include <QDebug>
 
-Scene::Scene() : _objects(new Composite) {}
+Scene::Scene() : _objects(new Composite) { }
 
 std::size_t Scene::addObject(const std::shared_ptr<Object> &object)
 {

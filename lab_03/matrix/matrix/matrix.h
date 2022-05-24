@@ -88,7 +88,7 @@ public:
     void adjoint();
     void inverse();
 
-    void resize(size_t new_rows, size_t new_cols, const Type &filler = {});
+    void resize(size_t new_rows, size_t new_cols, const Type &filler = { });
 
     void insert_row(size_t pos, const Type &filler);
     void insert_col(size_t pos, const Type &filler);
@@ -112,8 +112,8 @@ public:
         size_t size;
 
     public:
-        MatrixRow(Type *row, const size_t size): row(row), size(size) {}
-        MatrixRow(): row(nullptr), size(0) {}
+        MatrixRow(Type *row, const size_t size): row(row), size(size) { }
+        MatrixRow(): row(nullptr), size(0) { }
 
         Type &operator[](size_t index);
         const Type &operator[](size_t index) const;

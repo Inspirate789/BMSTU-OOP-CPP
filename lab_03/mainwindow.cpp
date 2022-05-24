@@ -35,8 +35,11 @@ void MainWindow::setupScene()
 
 void MainWindow::updateScene()
 {
-    DrawScene cmd(_drawer);
-    _facade->execute(cmd);
+    ClearScene clear_cmd(_drawer);
+    _facade->execute(clear_cmd);
+
+    DrawScene draw_cmd(_drawer);
+    _facade->execute(draw_cmd);
 }
 
 void MainWindow::checkCamExist()

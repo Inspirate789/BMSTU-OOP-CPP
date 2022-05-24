@@ -1,12 +1,12 @@
 #include "modelstructure.h"
 
 ModelStructure::ModelStructure(std::vector<Vertex> &vertexes, std::vector<Link> &links) :
-    _center{}, _vertexes(vertexes), _links(links) {}
+    _center{ }, _vertexes(vertexes), _links(links) { }
 
 
 ModelStructure::ModelStructure(std::vector<Vertex> &vertexes, std::vector<Link> &links,
                                Vertex &center):
-    _center(center), _vertexes(vertexes), _links(links) {}
+    _center(center), _vertexes(vertexes), _links(links) { }
 
 const std::vector<Vertex> &ModelStructure::getVertexes() const
 {

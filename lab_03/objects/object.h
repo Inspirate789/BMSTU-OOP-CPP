@@ -25,9 +25,9 @@ public:
     virtual bool isComposite() { return  false; };
 
     virtual Vertex getCenter() const = 0;
-    virtual void moveElemsToOrigin() {}
-    virtual void moveElemsToCenter(const Vertex &) {}
-    virtual void transformElems(const Matrix<double> &) {}
+    virtual void moveElemsToOrigin() { }
+    virtual void moveElemsToCenter(const Vertex &) { }
+    virtual void transformElems(const Matrix<double> &) { }
     virtual void transform(const Matrix<double> &mtr) = 0;
 
     virtual Iterator begin() { return Iterator(); };

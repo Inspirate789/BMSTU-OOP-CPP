@@ -53,7 +53,9 @@ Vertex Composite::getCenter() const
         count++;
     }
 
-    center = Vertex(center.getX() / count, center.getY() / count, center.getZ() / count);
+    center = Vertex(center.getX() / count,
+                    center.getY() / count,
+                    center.getZ() / count);
 
     return center;
 }

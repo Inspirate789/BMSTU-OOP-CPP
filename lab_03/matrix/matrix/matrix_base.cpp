@@ -16,4 +16,4 @@ MatrixBase::operator bool() const noexcept
 {
     return cols && rows;
 }
-MatrixBase::~MatrixBase() {}
+MatrixBase::~MatrixBase() { }
