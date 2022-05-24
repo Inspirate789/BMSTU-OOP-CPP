@@ -387,9 +387,9 @@ void MainWindow::on_rotateBtn_clicked()
     }
 
     RotateModel cmd(
-            ui->oxDSB->value(),
-            ui->oyDSB->value(),
-            ui->ozDSB->value(),
+            ui->oxDSB->value() * M_PI / 180,
+            ui->oyDSB->value() * M_PI / 180,
+            ui->ozDSB->value() * M_PI / 180,
             _models.at(ui->modelsCB->currentIndex()));
 
     _facade->execute(cmd);
