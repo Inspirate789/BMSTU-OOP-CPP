@@ -43,8 +43,8 @@ void Composite::updateCenter()
     }
 
     _center = Vertex(_center.getX() / count,
-                    _center.getY() / count,
-                    _center.getZ() / count);
+                     _center.getY() / count,
+                     _center.getZ() / count);
 }
 
 bool Composite::isVisible()
@@ -64,12 +64,12 @@ Vertex Composite::getCenter() const
 
 void Composite::moveElemsToOrigin()
 {
-    Vertex diff = _center - Vertex(0, 0, 0);
+    Vertex diff = Vertex(0, 0, 0) - _center;
 
-    Matrix<double> mtr = {{1,  0,  0,  diff.getX()},
-                          {0,  1,  0,  diff.getY()},
-                          {0,  0,  1,  diff.getZ()},
-                          {0,  0,  0,      1      }};
+    Matrix<double> mtr = {{    1,            0,            0,             0      },
+                          {    0,            1,            0,             0      },
+                          {    0,            0,            1,             0      },
+                          {diff.getX(),  diff.getY(),  diff.getZ(),       1      }};
 
     transformElems(mtr);
 }
@@ -78,10 +78,10 @@ void Composite::moveElemsToCenter(const Vertex &center)
 {
     Vertex diff = center - _center;
 
-    Matrix<double> mtr = {{1,  0,  0,  diff.getX()},
-                          {0,  1,  0,  diff.getY()},
-                          {0,  0,  1,  diff.getZ()},
-                          {0,  0,  0,      1      }};
+    Matrix<double> mtr = {{    1,            0,            0,             0      },
+                          {    0,            1,            0,             0      },
+                          {    0,            0,            1,             0      },
+                          {diff.getX(),  diff.getY(),  diff.getZ(),       1      }};
 
     transformElems(mtr);
 }
@@ -101,8 +101,10 @@ void Composite::transformElems(const Matrix<double> &mtr)
 void Composite::transform(const Matrix<double> &mtr)
 {
     updateCenter();
-    _center.transform(mtr);
+
     Vertex new_center = _center;
+    new_center.transform(mtr);
+
     moveElemsToOrigin();
 
     for (const auto &element : _elements)

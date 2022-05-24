@@ -111,12 +111,12 @@ Vertex Vertex::operator-(const Vertex &vertex) const
 
 void Vertex::transform(const Matrix<double> &mtr)
 {
-    Matrix<double> cur_location = {{_x}, {_y}, {_z}, {1}};
-    Matrix<double> new_location = mtr * cur_location;
+    Matrix<double> cur_location = {{_x, _y, _z, 1}};
+    Matrix<double> new_location = cur_location * mtr;
 
     _x = new_location[0][0];
-    _y = new_location[1][0];
-    _z = new_location[2][0];
+    _y = new_location[0][1];
+    _z = new_location[0][2];
 }
 
 Vertex Vertex::getCenter() const
