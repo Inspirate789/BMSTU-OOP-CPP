@@ -20,6 +20,7 @@ public:
 
     virtual bool add(const std::shared_ptr<Object> &) { return false; };
     virtual bool remove(const Iterator &) { return false; };
+    virtual void updateCenter() {};
 
     virtual bool isVisible() { return false; };
     virtual bool isComposite() { return  false; };

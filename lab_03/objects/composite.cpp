@@ -17,7 +17,7 @@ Composite::Composite(const std::vector<std::shared_ptr<Object>> &vector)
 bool Composite::add(const std::shared_ptr<Object> &element)
 {
     _elements.push_back(element);
-    _center = this->getCenter();
+    updateCenter();
 
     return true;
 }
@@ -26,11 +26,26 @@ bool Composite::add(const std::shared_ptr<Object> &element)
 bool Composite::remove(const Iterator &iter)
 {
     _elements.erase(iter);
-    _center = this->getCenter();
+    updateCenter();
 
     return true;
 }
 
+void Composite::updateCenter()
+{
+    _center = Vertex(0, 0, 0);
+    size_t count = 0;
+
+    for (const auto &element : _elements)
+    {
+        _center = _center + element->getCenter();
+        count++;
+    }
+
+    _center = Vertex(_center.getX() / count,
+                    _center.getY() / count,
+                    _center.getZ() / count);
+}
 
 bool Composite::isVisible()
 {
@@ -44,20 +59,7 @@ bool Composite::isComposite()
 
 Vertex Composite::getCenter() const
 {
-    Vertex center = Vertex(0, 0, 0);
-    size_t count = 0;
-
-    for (const auto &element : _elements)
-    {
-        center = center + element->getCenter();
-        count++;
-    }
-
-    center = Vertex(center.getX() / count,
-                    center.getY() / count,
-                    center.getZ() / count);
-
-    return center;
+    return _center;
 }
 
 void Composite::moveElemsToOrigin()

@@ -21,6 +21,7 @@ public:
 
     void addVertex(const Vertex &vertex);
     void addLink(const Link &link);
+    void updateCenter();
 
     void transform(const Matrix<double> &mtr);
 
