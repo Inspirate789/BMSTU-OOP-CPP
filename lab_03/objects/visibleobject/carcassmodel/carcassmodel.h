@@ -16,9 +16,9 @@ class CarcassModel : public BaseModel
     friend class DrawCarcassModelAdapter;
 
 public:
-    CarcassModel() : _modelStructure(new ModelStructure) {}
+    CarcassModel() : _modelStructure(new ModelStructure) { }
     explicit CarcassModel(const std::shared_ptr<ModelStructure> &modelStructure) :
-        _modelStructure(modelStructure) {}
+        _modelStructure(modelStructure) { }
     CarcassModel(const CarcassModel &model);
 
     ~CarcassModel() override = default;

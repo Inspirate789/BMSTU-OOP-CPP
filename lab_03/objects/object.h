@@ -20,13 +20,15 @@ public:
 
     virtual bool add(const std::shared_ptr<Object> &) { return false; };
     virtual bool remove(const Iterator &) { return false; };
+    virtual void updateCenter() {};
 
     virtual bool isVisible() { return false; };
     virtual bool isComposite() { return  false; };
 
-    virtual void moveElems(std::vector<Vertex> &) { };
-    virtual std::vector<Vertex> getElemsDistances(Vertex &) const { return std::vector<Vertex>(); };
     virtual Vertex getCenter() const = 0;
+    virtual void moveElemsToOrigin() { }
+    virtual void moveElemsToCenter(const Vertex &) { }
+    virtual void transformElems(const Matrix<double> &) { }
     virtual void transform(const Matrix<double> &mtr) = 0;
 
     virtual Iterator begin() { return Iterator(); };

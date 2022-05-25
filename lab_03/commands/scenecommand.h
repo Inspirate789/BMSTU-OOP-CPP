@@ -8,6 +8,19 @@
 
 class SceneCommand : public BaseCommand { };
 
+class ClearScene : public SceneCommand
+{
+public:
+    ClearScene(std::shared_ptr<BaseDrawer> drawer);
+
+    virtual void execute() override;
+
+private:
+    std::shared_ptr<BaseDrawer> _drawer;
+};
+
+
+
 class DrawScene : public SceneCommand
 {
 public:
@@ -18,6 +31,7 @@ public:
 private:
     std::shared_ptr<BaseDrawer> _drawer;
 };
+
 
 
 class LoadScene : public SceneCommand

@@ -23,6 +23,7 @@ private:
 };
 
 
+
 class ScaleModel : public ModelCommand
 {
 public:
@@ -34,6 +35,7 @@ private:
     double _kx, _ky, _kz;
     std::size_t _id;
 };
+
 
 
 class RotateModel : public ModelCommand
@@ -48,6 +50,8 @@ private:
     std::size_t _id;
 };
 
+
+
 class TransformModel : public ModelCommand
 {
 public:
@@ -61,6 +65,7 @@ private:
 };
 
 
+
 class DeleteModel : public ModelCommand
 {
 public:
@@ -71,6 +76,7 @@ public:
 private:
     std::size_t _id;
 };
+
 
 
 class LoadModel : public ModelCommand

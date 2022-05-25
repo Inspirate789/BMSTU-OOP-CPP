@@ -8,7 +8,7 @@ void ModelBuilder::build()
 
 void ModelBuilder::buildVertex(const Vertex &vertex)
 {
-    if (!isBuild()) {}
+    if (!isBuild()) { }
 
     _model->addVertex(vertex);
 }
@@ -16,7 +16,7 @@ void ModelBuilder::buildVertex(const Vertex &vertex)
 
 void ModelBuilder::buildLink(const Link &link)
 {
-    if (!isBuild()) {}
+    if (!isBuild()) { }
 
     _model->addLink(link);
 }

@@ -316,6 +316,13 @@
            </property>
           </widget>
          </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QPushButton" name="moveAllBtn">
+           <property name="text">
+            <string>Перенести всё</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -401,6 +408,13 @@
            </property>
           </widget>
          </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QPushButton" name="scaleAllBtn">
+           <property name="text">
+            <string>Масштабирвать всё</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -474,6 +488,13 @@
           <widget class="QPushButton" name="rotateBtn">
            <property name="text">
             <string>Повернуть</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QPushButton" name="rotateAllBtn">
+           <property name="text">
+            <string>Повернуть всё</string>
            </property>
           </widget>
          </item>

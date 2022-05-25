@@ -19,7 +19,7 @@ void DrawCompositeAdapter::request()
             if (elem->isComposite())
             {
                 auto adapter = std::make_shared<DrawCompositeAdapter>(DrawCompositeAdapter());
-                std::shared_ptr<Composite> com_sh_ptr = std::dynamic_pointer_cast<Composite>(elem);
+                auto com_sh_ptr = std::dynamic_pointer_cast<Composite>(elem);
                 adapter->setAdaptee(com_sh_ptr);
                 adapter->setCamera(_camera);
                 adapter->setDrawer(_drawer);
@@ -27,8 +27,8 @@ void DrawCompositeAdapter::request()
             }
             else
             {
-                std::shared_ptr<DrawCarcassModelAdapter> adapter = std::make_shared<DrawCarcassModelAdapter>(DrawCarcassModelAdapter());
-                std::shared_ptr<CarcassModel> model_sh_ptr = std::dynamic_pointer_cast<CarcassModel>(elem);
+                auto adapter = std::make_shared<DrawCarcassModelAdapter>(DrawCarcassModelAdapter());
+                auto model_sh_ptr = std::dynamic_pointer_cast<CarcassModel>(elem);
                 adapter->setAdaptee(model_sh_ptr);
                 adapter->setCamera(_camera);
                 adapter->setDrawer(_drawer);

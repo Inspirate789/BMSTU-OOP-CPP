@@ -9,6 +9,6 @@ void DrawManager::setAdapter(std::shared_ptr<DrawCompositeAdapter> adapter)
 
 void DrawManager::drawScene(std::shared_ptr<Scene> scene)
 {
-    _adapter->setAdaptee(scene->_objects);
+    _adapter->setAdaptee(scene->getVisibleObjects());
     _adapter->request();
 }

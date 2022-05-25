@@ -28,5 +28,5 @@ void SceneManager::setScene(std::shared_ptr<Scene> scene)
 
 void SceneManager::setCamera(const std::size_t id)
 {
-    _camera = std::dynamic_pointer_cast<Camera>(*_scene->getObject(id));
+    _camera = std::dynamic_pointer_cast<Camera>(*_scene->getObjectIter(id));
 }

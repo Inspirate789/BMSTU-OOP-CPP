@@ -5,34 +5,79 @@
 
 #include <QDebug>
 
-Scene::Scene() : _objects(new Composite) {}
+Scene::Scene() : _visibleObjects(new Composite), _invisibleObjects(new Composite) { }
 
-void Scene::addObject(const std::shared_ptr<Object> &object)
+std::size_t Scene::addObject(const std::shared_ptr<Object> &object)
 {
-    _objects->add(object);
+    if (object->isVisible())
+        _visibleObjects->add(object);
+    else
+        _invisibleObjects->add(object);
+
+    return object->getId();
 }
 
+std::size_t Scene::addCamera(const Vertex &location)
+{
+    auto camera = std::make_shared<Camera>(Camera(location));
+    _invisibleObjects->add(camera);
+
+    return camera->getId();
+}
 
 void Scene::deleteObject(Iterator &iter)
 {
-    _objects->remove(iter);
+    if ((*iter)->isVisible())
+        _visibleObjects->remove(iter);
+    else
+        _invisibleObjects->remove(iter);
 }
 
-Iterator Scene::getObject(const std::size_t id)
+Iterator Scene::getObjectIter(const std::size_t id)
 {
-    auto iter = begin();
+    auto iter = vbegin();
+    for (; iter != vend() && (*iter)->getId() != id; ++iter);
 
-    for (; iter != end() && (*iter)->getId() != id; ++iter);
+    if (iter == vend())
+    {
+        iter = ibegin();
+        for (; iter != iend() && (*iter)->getId() != id; ++iter);
+    }
 
     return iter;
 }
 
-Iterator Scene::begin()
+std::shared_ptr<Object> Scene::getObject(const std::size_t id)
 {
-    return _objects->begin();
+    return *getObjectIter(id);
 }
 
-Iterator Scene::end()
+std::shared_ptr<Composite> Scene::getVisibleObjects()
 {
-    return _objects->end();
+    return _visibleObjects;
+}
+
+std::shared_ptr<Composite> Scene::getInvisibleObjects()
+{
+    return _invisibleObjects;
+}
+
+Iterator Scene::vbegin()
+{
+    return _visibleObjects->begin();
+}
+
+Iterator Scene::vend()
+{
+    return _visibleObjects->end();
+}
+
+Iterator Scene::ibegin()
+{
+    return _invisibleObjects->begin();
+}
+
+Iterator Scene::iend()
+{
+    return _invisibleObjects->end();
 }

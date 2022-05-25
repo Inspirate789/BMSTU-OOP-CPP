@@ -3,18 +3,21 @@
 Composite::Composite(std::shared_ptr<Object> &element)
 {
     _elements.push_back(element);
+    updateCenter();
 }
 
 
 Composite::Composite(const std::vector<std::shared_ptr<Object>> &vector)
 {
     _elements = vector;
+    updateCenter();
 }
 
 
 bool Composite::add(const std::shared_ptr<Object> &element)
 {
     _elements.push_back(element);
+    updateCenter();
 
     return true;
 }
@@ -23,10 +26,26 @@ bool Composite::add(const std::shared_ptr<Object> &element)
 bool Composite::remove(const Iterator &iter)
 {
     _elements.erase(iter);
+    updateCenter();
 
     return true;
 }
 
+void Composite::updateCenter()
+{
+    _center = Vertex(0, 0, 0);
+    size_t count = 0;
+
+    for (const auto &element : _elements)
+    {
+        _center = _center + element->getCenter();
+        count++;
+    }
+
+    _center = Vertex(_center.getX() / count,
+                     _center.getY() / count,
+                     _center.getZ() / count);
+}
 
 bool Composite::isVisible()
 {
@@ -38,67 +57,63 @@ bool Composite::isComposite()
     return true;
 }
 
-
-std::vector<Vertex> Composite::getElemsDistances(Vertex &center) const
+Vertex Composite::getCenter() const
 {
-    std::vector<Vertex> distances;
-
-    for (const auto &element : _elements)
-    {
-        distances.push_back(element->getCenter() - center);
-    }
-
-    return distances;
+    return _center;
 }
 
-
-void Composite::moveElems(std::vector<Vertex> &distances)
+void Composite::moveElemsToOrigin()
 {
-    size_t i = 0;
-    for (const auto &element : _elements)
-    {
-        Matrix<double> move_mtr = {{            1,                   0,                   0,                   0},
-                                   {            0,                   1,                   0,                   0},
-                                   {            0,                   0,                   1,                   0},
-                                   {distances[i].getX(), distances[i].getY(), distances[i].getZ(),             1}};
-        element->transform(move_mtr);
-        i++;
-    }
+    Vertex diff = Vertex(0, 0, 0) - _center;
+
+    Matrix<double> mtr = {{    1,            0,            0,             0      },
+                          {    0,            1,            0,             0      },
+                          {    0,            0,            1,             0      },
+                          {diff.getX(),  diff.getY(),  diff.getZ(),       1      }};
+
+    transformElems(mtr);
 }
 
-
-void Composite::transform(const Matrix<double> &mtr)
+void Composite::moveElemsToCenter(const Vertex &center)
 {
-    Vertex center = this->getCenter();
+    Vertex diff = center - _center;
 
-    std::vector<Vertex> distances = getElemsDistances(center);
+    Matrix<double> mtr = {{    1,            0,            0,             0      },
+                          {    0,            1,            0,             0      },
+                          {    0,            0,            1,             0      },
+                          {diff.getX(),  diff.getY(),  diff.getZ(),       1      }};
 
-    center.transform(mtr);
+    transformElems(mtr);
+}
 
-    moveElems(distances);
+void Composite::transformElems(const Matrix<double> &mtr)
+{
+    updateCenter();
 
     for (const auto &element : _elements)
     {
         element->transform(mtr);
     }
+
+    _center.transform(mtr);
 }
 
-Vertex Composite::getCenter() const
+void Composite::transform(const Matrix<double> &mtr)
 {
-    Vertex center = Vertex(0, 0, 0);
-    size_t count = 0;
+    updateCenter();
+
+    Vertex new_center = _center;
+    new_center.transform(mtr);
+
+    moveElemsToOrigin();
 
     for (const auto &element : _elements)
     {
-        center = center + element->getCenter();
-        count++;
+        element->transform(mtr);
     }
 
-    center = Vertex(center.getX() / count, center.getY() / count, center.getZ() / count);
-
-    return center;
+    moveElemsToCenter(new_center);
 }
-
 
 Iterator Composite::begin()
 {
