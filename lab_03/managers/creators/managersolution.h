@@ -14,7 +14,7 @@ template<typename Tcreator>
 decltype(auto) ManagerSolution<Tcreator>::create()
 {
     auto creator = Tcreator();
-    decltype(creator.createManager()) manager = creator.createManager();
+    auto manager = creator.createManager();
 
     return manager;
 }

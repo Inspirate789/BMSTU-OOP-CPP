@@ -14,7 +14,7 @@ template<typename Tcreator>
 decltype(auto) ModeratorSolution<Tcreator>::create()
 {
     auto creator = Tcreator();
-    decltype(creator.createModerator()) moderator = creator.createModerator();
+    auto moderator = creator.createModerator();
 
     return moderator;
 }
