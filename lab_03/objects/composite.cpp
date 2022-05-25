@@ -3,14 +3,14 @@
 Composite::Composite(std::shared_ptr<Object> &element)
 {
     _elements.push_back(element);
-    _center = this->getCenter();
+    updateCenter();
 }
 
 
 Composite::Composite(const std::vector<std::shared_ptr<Object>> &vector)
 {
     _elements = vector;
-    _center = this->getCenter();
+    updateCenter();
 }
 
 
