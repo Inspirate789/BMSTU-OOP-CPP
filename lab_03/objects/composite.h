@@ -20,10 +20,10 @@ public:
     virtual bool isComposite() override;
 
     virtual Vertex getCenter() const override;
-    virtual void moveElemsToOrigin() override;
+    virtual void moveElemsToOrigin(const Vertex &center) override;
     virtual void moveElemsToCenter(const Vertex &center) override;
     virtual void transformElems(const Matrix<double> &mtr) override;
-    virtual void transform(const Matrix<double> &mtr) override;
+    virtual void transform(const Matrix<double> &mtr, const Vertex &center) override;
 
     virtual Iterator begin() override;
     virtual Iterator end() override;

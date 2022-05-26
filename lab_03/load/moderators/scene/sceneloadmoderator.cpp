@@ -10,29 +10,22 @@ SceneLoadModerator::SceneLoadModerator(std::shared_ptr<BaseSceneBuildDirector> d
 
 std::shared_ptr<Scene> SceneLoadModerator::load(std::string &fileName)
 {
+    std::shared_ptr<Scene> scene;
+
     try
     {
-        _director->open(fileName);
+        scene = _director->load(_builder, fileName);
     }
     catch (SourceException &error)
     {
         std::string msg = "Error : Open file";
         throw SourceException(msg);
     }
-
-    std::shared_ptr<Scene> scene;
-
-    try
-    {
-        scene = _director->load(_builder);
-    }
     catch (std::exception &error)
     {
         std::string msg = "Error : Read model";
         throw SourceException(msg);
     }
-
-    _director->close();
 
     return scene;
 }

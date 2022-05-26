@@ -50,11 +50,43 @@ void ModelStructure::updateCenter()
                      _center.getZ() / count);
 }
 
-void ModelStructure::transform(const Matrix<double> &mtr)
+void ModelStructure::moveVertexesToOrigin(const Vertex &center)
 {
-    updateCenter();
-    _center.transform(mtr);
+    Vertex diff = Vertex(0, 0, 0) - center;
 
+    Matrix<double> mtr = {{    1,            0,            0,             0      },
+                          {    0,            1,            0,             0      },
+                          {    0,            0,            1,             0      },
+                          {diff.getX(),  diff.getY(),  diff.getZ(),       1      }};
+
+    transformVertexes(mtr);
+    updateCenter();
+}
+
+void ModelStructure::moveVertexesToCenter(const Vertex &center)
+{
+    Vertex diff = center - Vertex(0, 0, 0);
+
+    Matrix<double> mtr = {{    1,            0,            0,             0      },
+                          {    0,            1,            0,             0      },
+                          {    0,            0,            1,             0      },
+                          {diff.getX(),  diff.getY(),  diff.getZ(),       1      }};
+
+    transformVertexes(mtr);
+    updateCenter();
+}
+
+void ModelStructure::transformVertexes(const Matrix<double> &mtr)
+{
     for (auto &vertex : _vertexes)
         vertex.transform(mtr);
+}
+
+void ModelStructure::transform(const Matrix<double> &mtr, const Vertex &center)
+{
+    updateCenter();
+
+    moveVertexesToOrigin(center);
+    transformVertexes(mtr);
+    moveVertexesToCenter(center);
 }

@@ -13,10 +13,8 @@ public:
 
     ~FileModelBuildDirector() override = default;
 
-    void open(std::string &fileName) override;
-    void close() override;
-
-    std::shared_ptr<CarcassModel> load(std::shared_ptr<BaseModelBuilder> builder) override;
+    std::shared_ptr<CarcassModel> load(std::shared_ptr<BaseModelBuilder> builder,
+                                       std::string &fileName) override;
 
 protected:
     std::shared_ptr<FileCarcassModelReader> _reader;

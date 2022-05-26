@@ -12,14 +12,14 @@ public:
     explicit FileSceneBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader);
     ~FileSceneBuildDirector() = default;
 
-    void open(std::string &fileName) override;
-    void close() override;
-
-    std::shared_ptr<Scene> load(std::shared_ptr<SceneBuilder> builder) override;
+    std::shared_ptr<Scene> load(std::shared_ptr<SceneBuilder> builder,
+                                std::string &fileName) override;
 
 protected:
-    void loadModels(std::shared_ptr<SceneBuilder> builder) override;
-    void loadCameras(std::shared_ptr<SceneBuilder> builder) override;
+    virtual void loadModels(std::shared_ptr<SceneBuilder> builder,
+                    std::string &fileName) override;
+    virtual void loadCameras(std::shared_ptr<SceneBuilder> builder,
+                     std::string &fileName) override;
 
     std::shared_ptr<FileCarcassModelReader> _reader;
 };

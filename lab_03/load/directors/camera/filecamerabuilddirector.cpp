@@ -11,23 +11,16 @@ FileCameraBuildDirector::FileCameraBuildDirector(std::shared_ptr<FileCarcassMode
     _reader = reader;
 }
 
-void FileCameraBuildDirector::open(std::string &fileName)
+std::shared_ptr<Camera> FileCameraBuildDirector::load(std::shared_ptr<BaseCameraBuilder> builder,
+                                                      std::string &fileName)
 {
     _reader->open(fileName);
-}
 
-void FileCameraBuildDirector::close()
-{
-    _reader->close();
-}
-
-std::shared_ptr<Camera> FileCameraBuildDirector::load(std::shared_ptr<BaseCameraBuilder> builder)
-{
     builder->build();
-
     Vertex location = _reader->readVertex();
-
     builder->buildLocation(location);
+
+    _reader->close();
 
     return builder->get();
 }

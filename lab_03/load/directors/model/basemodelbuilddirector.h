@@ -8,7 +8,8 @@
 class BaseModelBuildDirector : public BaseDirector
 {
 public:
-    virtual std::shared_ptr<CarcassModel> load(std::shared_ptr<BaseModelBuilder> builder) = 0;
+    virtual std::shared_ptr<CarcassModel> load(std::shared_ptr<BaseModelBuilder> builder,
+                                               std::string &fileName) = 0;
 };
 
 #endif // BASEMODELBUILDDIRECTOR_H

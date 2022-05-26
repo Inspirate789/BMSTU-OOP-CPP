@@ -12,32 +12,24 @@ ModelLoadModerator::ModelLoadModerator(std::shared_ptr<BaseModelBuildDirector> d
 }
 
 
-std::shared_ptr<Object> ModelLoadModerator::load(std::string &file_name)
+std::shared_ptr<Object> ModelLoadModerator::load(std::string &fileName)
 {
+    std::shared_ptr<CarcassModel> model_sh_ptr;
+
     try
     {
-        _director->open(file_name);
+        model_sh_ptr = _director->load(_builder, fileName);
     }
     catch (SourceException &error)
     {
         std::string msg = "Error : Open file";
         throw SourceException(msg);
     }
-
-    std::shared_ptr<CarcassModel> model_sh_ptr;
-
-    try
-    {
-        model_sh_ptr = _director->load(_builder);
-    }
     catch (std::exception &error)
     {
-        _director->close();
         std::string msg = "Error : Read model";
         throw SourceException(msg);
     }
-
-    _director->close();
 
     return std::shared_ptr<Object>(model_sh_ptr);
 }

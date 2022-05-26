@@ -11,7 +11,6 @@ void AddCamera::execute()
 };
 
 
-
 DeleteCamera::DeleteCamera(const std::size_t id) : _id(id) {}
 
 void DeleteCamera::execute()

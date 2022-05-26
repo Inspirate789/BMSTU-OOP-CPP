@@ -24,7 +24,7 @@ public:
     ~CarcassModel() override = default;
 
     virtual Vertex getCenter() const override;
-    void transform(const Matrix<double> &mtr) override;
+    virtual void transform(const Matrix<double> &mtr, const Vertex &center) override;
 
 protected:
     std::shared_ptr<ModelStructure> _modelStructure;

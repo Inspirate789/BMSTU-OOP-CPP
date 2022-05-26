@@ -11,30 +11,22 @@ CameraLoadModerator::CameraLoadModerator(std::shared_ptr<BaseCameraBuildDirector
 
 std::shared_ptr<Object> CameraLoadModerator::load(std::string &fileName)
 {
+    std::shared_ptr<Camera> camera_sh_ptr;
+
     try
     {
-        _director->open(fileName);
+        camera_sh_ptr = _director->load(_builder, fileName);
     }
     catch (SourceException &error)
     {
         std::string msg = "Error : Open file";
         throw SourceException(msg);
     }
-
-    std::shared_ptr<Camera> camera_sh_ptr;
-
-    try
-    {
-        camera_sh_ptr = _director->load(_builder);
-    }
     catch (std::exception &error)
     {
-        _director->close();
         std::string msg = "Error : Read model";
         throw SourceException(msg);
     }
-
-    _director->close();
 
     return std::shared_ptr<Object>(camera_sh_ptr);
 }

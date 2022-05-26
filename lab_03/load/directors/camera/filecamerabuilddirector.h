@@ -13,10 +13,8 @@ public:
 
     ~FileCameraBuildDirector() override = default;
 
-    void open(std::string &fileName) override;
-    void close() override;
-
-    std::shared_ptr<Camera> load(std::shared_ptr<BaseCameraBuilder> builder) override;
+    std::shared_ptr<Camera> load(std::shared_ptr<BaseCameraBuilder> builder,
+                                 std::string &fileName) override;
 
 protected:
     std::shared_ptr<FileCarcassModelReader> _reader;

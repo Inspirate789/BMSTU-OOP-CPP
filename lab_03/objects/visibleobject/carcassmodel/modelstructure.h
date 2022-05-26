@@ -23,7 +23,10 @@ public:
     void addLink(const Link &link);
     void updateCenter();
 
-    void transform(const Matrix<double> &mtr);
+    void moveVertexesToOrigin(const Vertex &center);
+    void moveVertexesToCenter(const Vertex &center);
+    void transformVertexes(const Matrix<double> &mtr);
+    void transform(const Matrix<double> &mtr, const Vertex &center);
 
 private:
     Vertex _center;

@@ -8,27 +8,16 @@ FileModelBuildDirector::FileModelBuildDirector()
     _reader = std::make_shared<FileCarcassModelReader>();
 }
 
-
 FileModelBuildDirector::FileModelBuildDirector(std::shared_ptr<FileCarcassModelReader> &reader)
 {
     _reader = reader;
 }
 
-
-void FileModelBuildDirector::open(std::string &fileName)
+std::shared_ptr<CarcassModel> FileModelBuildDirector::load(std::shared_ptr<BaseModelBuilder> builder,
+                                                           std::string &fileName)
 {
     _reader->open(fileName);
-}
 
-
-void FileModelBuildDirector::close()
-{
-    _reader->close();
-}
-
-
-std::shared_ptr<CarcassModel> FileModelBuildDirector::load(std::shared_ptr<BaseModelBuilder> builder)
-{
     builder->build();
 
     vector<Vertex> vertexes = _reader->readVertexes();
@@ -43,7 +32,7 @@ std::shared_ptr<CarcassModel> FileModelBuildDirector::load(std::shared_ptr<BaseM
     for (int i = 0; i < linksNum; i++)
         builder->buildLink(links[i]);
 
-    std::shared_ptr<CarcassModel> model = builder->get();
+    _reader->close();
 
-    return model;
+    return builder->get();
 }

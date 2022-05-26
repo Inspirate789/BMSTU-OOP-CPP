@@ -12,7 +12,8 @@ void TransformManager::moveObject(const std::shared_ptr <Object> &object,
                           { 0,  0,  1, 0},
                           {dx, dy, dz, 1}};
 
-    object->transform(mtr);
+    object->updateCenter();
+    object->transform(mtr, object->getCenter());
 }
 
 
@@ -26,7 +27,8 @@ void TransformManager::scaleObject(const std::shared_ptr <Object> &object,
                           { 0,  0, kz, 0},
                           { 0,  0,  0, 1}};
 
-    object->transform(mtr);
+    object->updateCenter();
+    object->transform(mtr, object->getCenter());
 }
 
 
@@ -50,11 +52,13 @@ void TransformManager::rotateObject(const std::shared_ptr <Object> &object,
                              {    0,        0,        1,        0},
                              {    0,        0,        0,        1}};
 
-    object->transform(mtr_ox * mtr_oy * mtr_oz);
+    object->updateCenter();
+    object->transform(mtr_ox * mtr_oy * mtr_oz, object->getCenter());
 }
 
 void TransformManager::transformObject(const std::shared_ptr<Object> &object,
                                        const Matrix<double> &mtr)
 {
-    object->transform(mtr);
+    object->updateCenter();
+    object->transform(mtr, object->getCenter());
 }
