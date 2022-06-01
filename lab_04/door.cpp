@@ -18,12 +18,15 @@ void Door::openingSlot()
     if (_status == CLOSED || _status == CLOSING)
     {
         qDebug() << "Двери открываются.";
-        _status = OPENING;
 
         if (_status == CLOSED)
+        {
+            _status = OPENING;
             _openingTimer.start(DOORS_TIME);
+        }
         else
         {
+            _status = OPENING;
             auto timer = _closingTimer.remainingTime();
             _closingTimer.stop();
             _openingTimer.start(DOORS_TIME - timer);

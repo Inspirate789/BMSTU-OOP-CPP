@@ -11,7 +11,7 @@
 
 #define FLOOR_COUNT 9
 #define DOORS_TIME  600
-#define MOVING_TIME 3200
+#define MOVING_TIME 5000
 
 enum Direction
 {
@@ -27,6 +27,7 @@ class Controller : public QWidget
     enum ControllerStatus
     {
         FREE,
+        GET_TARGET,
         BUSY
     };
 
@@ -54,7 +55,7 @@ private:
 signals:
     void _controllerStoppedSignal();
     void _cabinStoppedSignal(bool, ssize_t, ssize_t = 1);
-    void _startMovingSignal(ssize_t &neededFloor, ssize_t &_currentFloor, Direction &Direction);
+    void _getTargetSignal(ssize_t &neededFloor, ssize_t &_currentFloor);
     void _floorPassedSignal(ssize_t floor, Direction direction);
 };
 

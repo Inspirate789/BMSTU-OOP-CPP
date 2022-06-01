@@ -7,8 +7,8 @@ Elevator::Elevator(QObject *parent) : QObject(parent)
 
     QObject::connect(&_cabin, SIGNAL(_floorPassedSignal(ssize_t,Direction)),
                      &_controller, SLOT(floorPassedSlot(ssize_t,Direction)));
-    QObject::connect(&_controller, SIGNAL(_startMovingSignal(ssize_t&,ssize_t&,Direction&)),
-                     &_cabin, SLOT(startMovingSlot(ssize_t&,ssize_t&,Direction&)));
+    QObject::connect(&_controller, SIGNAL(_getTargetSignal(ssize_t&,ssize_t&)),
+                     &_cabin, SLOT(getTargetSlot(ssize_t&,ssize_t&)));
     QObject::connect(&_controller, SIGNAL(_cabinStoppedSignal(bool,ssize_t,ssize_t)),
                      &_cabin, SLOT(stoppedSlot(bool,ssize_t,ssize_t)));
 }

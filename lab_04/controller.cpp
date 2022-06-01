@@ -33,18 +33,21 @@ Controller::Controller(QWidget *parent) : QWidget(parent)
 
 void Controller::newTargetSlot(ssize_t floor)
 {
-    _status = BUSY;
     _visitedFloors[floor - 1] = false;
-
     _targetExist(floor);
     _neededFloor = floor;
 
-    if (_currentFloor == _neededFloor)
-        emit _floorPassedSignal(_currentFloor, _direction);
-    else
+    if (_status != GET_TARGET)
     {
-        _direction = _neededFloor > _currentFloor ? UP : DOWN;
-        emit _startMovingSignal(_neededFloor, _currentFloor, _direction);
+        _status = GET_TARGET;
+
+        if (_currentFloor == _neededFloor)
+            emit _floorPassedSignal(_currentFloor, _direction);
+        else
+        {
+            _direction = _neededFloor > _currentFloor ? UP : DOWN;
+            emit _getTargetSignal(_neededFloor, _currentFloor);
+        }
     }
 }
 
@@ -59,14 +62,14 @@ void Controller::controllerStoppedSlot()
 
 void Controller::floorPassedSlot(ssize_t floor, Direction direction)
 {
-    if (_status == BUSY)
+    if (_status == GET_TARGET || _status == BUSY)
     {
+        _status = BUSY;
         _currentFloor = floor;
         _direction = direction;
 
         if (_currentFloor == _neededFloor)
         {
-            qDebug() << "Лифт остановился на этаже: " << _currentFloor;
             emit _buttons[floor - 1]->unpressedSignal();
             _visitedFloors[floor - 1] = true;
 
@@ -78,12 +81,11 @@ void Controller::floorPassedSlot(ssize_t floor, Direction direction)
     }
 }
 
-
 bool Controller::_targetExist(ssize_t &newFloor)
 {
-    int Direction = _direction != STOP ? _direction : DOWN;
+    int direction = _direction != STOP ? _direction : DOWN;
 
-    for (int i = _currentFloor - 1; i >= 0 && i < FLOOR_COUNT; i += Direction)
+    for (int i = _currentFloor - 1; i >= 0 && i < FLOOR_COUNT; i += direction)
     {
         if (!_visitedFloors[i])
         {
@@ -92,7 +94,7 @@ bool Controller::_targetExist(ssize_t &newFloor)
         }
     }
 
-    for (int i = _currentFloor - 1; i >= 0 && i < FLOOR_COUNT; i += -Direction)
+    for (int i = _currentFloor - 1; i >= 0 && i < FLOOR_COUNT; i += -direction)
     {
         if (!_visitedFloors[i])
         {
