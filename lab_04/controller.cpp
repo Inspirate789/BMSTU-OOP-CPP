@@ -34,12 +34,12 @@ Controller::Controller(QWidget *parent) : QWidget(parent)
 void Controller::newTargetSlot(ssize_t floor)
 {
     _visitedFloors[floor - 1] = false;
-    _targetExist(floor);
-    _neededFloor = floor;
 
     if (_status != GET_TARGET)
     {
         _status = GET_TARGET;
+        _targetExist(floor);
+        _neededFloor = floor;
 
         if (_currentFloor == _neededFloor)
             emit _floorPassedSignal(_currentFloor, _direction);

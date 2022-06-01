@@ -21,10 +21,11 @@ void Cabin::_moveSlot()
 {
     if (_targetExist)
     {
-        if (_status == GET_TARGET || _status == GET_TARGET)
+        if (_status == GET_TARGET || _status == STANDING)
             _status = MOVING;
+        else
+            _currentFloor += _direction;
 
-        _currentFloor += _direction;
         qDebug() << "Лифт на" << _currentFloor << "этаже";
 
         if (_currentFloor != _neededFloor)
@@ -42,7 +43,7 @@ void Cabin::getTargetSlot(ssize_t &neededFloor, ssize_t &currentFloor)
         _targetExist = true;
         _saveState(neededFloor, currentFloor);
         qDebug() << "Лифт на" << _currentFloor << "этаже";
-        _moveTimer.start(MOVING_TIME);
+        emit _movingSignal();
     }
 }
 
@@ -51,12 +52,11 @@ void Cabin::stoppedSlot(bool isLast, ssize_t currentFloor, ssize_t neededFloor)
     if (_status == MOVING || _status == STANDING)
     {
         _status = STANDING;
+        _saveState(neededFloor, currentFloor);
         qDebug() << "Лифт остановился на этаже: " << _currentFloor;
 
         if (isLast)
             _targetExist = false;
-        else
-            _saveState(neededFloor, currentFloor);
 
         _moveTimer.stop();
         emit _openDoorsSignal();
