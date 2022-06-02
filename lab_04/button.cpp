@@ -6,7 +6,7 @@ Button::Button(QWidget *parent) : QPushButton(parent)
     QObject::connect(this, SIGNAL(clicked()),
                      this, SLOT(_pressedSlot()));
     QObject::connect(this, SIGNAL(unpressedSignal()),
-                     this, SLOT(_unpressedSlot()));
+                     this, SLOT(unpressed()));
 
     _status = NOT_ACTIVE;
     _buttonFloor = 1;
@@ -43,7 +43,7 @@ void Button::_pressedSlot()
     }
 }
 
-void Button::_unpressedSlot()
+void Button::unpressed()
 {
     if (_status == ACTIVE)
     {

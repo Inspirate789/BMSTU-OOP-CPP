@@ -70,7 +70,7 @@ void Controller::floorPassedSlot(ssize_t floor, Direction direction)
 
         if (_currentFloor == _neededFloor)
         {
-            emit _buttons[floor - 1]->unpressedSignal();
+            _buttons[floor - 1]->unpressed();
             _visitedFloors[floor - 1] = true;
 
             if (_targetExist(_neededFloor))

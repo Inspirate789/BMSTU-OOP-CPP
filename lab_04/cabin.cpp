@@ -42,7 +42,6 @@ void Cabin::getTargetSlot(ssize_t &neededFloor, ssize_t &currentFloor)
         _status = GET_TARGET;
         _targetExist = true;
         _saveState(neededFloor, currentFloor);
-        qDebug() << "Лифт на" << _currentFloor << "этаже";
         emit _movingSignal();
     }
 }

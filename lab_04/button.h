@@ -20,6 +20,9 @@ public:
 
     void setFloor(const ssize_t &floor);
 
+public slots:
+    void unpressed();
+
 signals:
     void pressedSignal(ssize_t floor);
     void unpressedSignal();
@@ -30,7 +33,6 @@ private:
 
 private slots:
     void _pressedSlot();
-    void _unpressedSlot();
 };
 
 #endif
