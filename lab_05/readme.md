@@ -3,6 +3,6 @@
 
 #### Вдохновлено [@LDK28](https://github.com/LDK28).
 
-#### Балл: (забыл спросить)/10
+#### Балл: 8/10
 
 #### Замечания и основные ошибки: [Lab 05 check](https://github.com/Inspirate789/BMSTU-OOP-CPP/pull/14)
