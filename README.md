@@ -10,4 +10,4 @@
 - 2 - :white_check_mark: :keycap_ten:/:keycap_ten: 
 - 3 - :white_check_mark: (:keycap_ten::heavy_plus_sign::keycap_ten:)/(:keycap_ten::heavy_plus_sign::keycap_ten:)
 - 4 - :white_check_mark: :eight:/:keycap_ten: 
-- 5 - :white_check_mark: (забыл спросить)/:keycap_ten: 
+- 5 - :white_check_mark: :eight:/:keycap_ten: 
