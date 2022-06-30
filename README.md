@@ -11,3 +11,5 @@
 - 3 - :white_check_mark: (:keycap_ten::heavy_plus_sign::keycap_ten:)/(:keycap_ten::heavy_plus_sign::keycap_ten:)
 - 4 - :white_check_mark: :eight:/:keycap_ten: 
 - 5 - :white_check_mark: :eight:/:keycap_ten: 
+
+### [Экзамен](https://www.notion.so/2022-f5bfed56daa54facb85ef8691e2138bc) (special thnx for [@p1xelse](https://github.com/p1xelse) :muscle:)
