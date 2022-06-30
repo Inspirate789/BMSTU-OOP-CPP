@@ -12,4 +12,4 @@
 - 4 - :white_check_mark: :eight:/:keycap_ten: 
 - 5 - :white_check_mark: :eight:/:keycap_ten: 
 
-### [Экзамен](https://www.notion.so/2022-f5bfed56daa54facb85ef8691e2138bc) (special thnx for [@p1xelse](https://github.com/p1xelse) :muscle:)
+### [Экзамен](https://www.notion.so/2022-d4734163215d440fad4da44e8426c4e4) (special thnx for [@p1xelse](https://github.com/p1xelse) :muscle:)
