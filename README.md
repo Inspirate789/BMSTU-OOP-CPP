@@ -12,4 +12,4 @@
 - 4 - :white_check_mark: :eight:/:keycap_ten: 
 - 5 - :white_check_mark: :eight:/:keycap_ten: 
 
-### [Экзамен]([https://www.notion.so/2022-d4734163215d440fad4da44e8426c4e4](https://super-fascinator-305.notion.site/2022-d4734163215d440fad4da44e8426c4e4?pvs=4)) (special thnx for [@p1xelse](https://github.com/p1xelse) :muscle:)
+### [Экзамен](https://super-fascinator-305.notion.site/2022-d4734163215d440fad4da44e8426c4e4?pvs=4) (special thnx for [@p1xelse](https://github.com/p1xelse) :muscle:)
